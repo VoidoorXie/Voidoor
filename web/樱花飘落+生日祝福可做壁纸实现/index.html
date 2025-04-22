@@ -1,0 +1,1733 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>樱花飘落</title>
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+				height: 100vh;
+                width: 100vw;
+                font-family: 'Microsoft Yahei', sans-serif;
+                background: url('https://pic.616pic.com/bg_w1180/00/11/90/R4ygG1Iqk3.jpg') no-repeat center center fixed;
+                background-size: cover;
+                position: relative;
+			}
+			canvas {
+				padding: 0;
+				margin: 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1;
+			}
+			/* 添加一个半透明遮罩，使背景和樱花更加协调 */
+			body::after {
+				content: '';
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(255, 245, 250, 0.2);
+				pointer-events: none;
+				z-index: 0;
+			}
+			div.btnbg {
+				position: fixed;
+				left: 0;
+				top: 0;
+			}
+            /* 弹窗样式 */
+            .popup {
+                display: none;
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 230, 242, 0.8);
+                padding: 35px;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                border: 2px solid rgba(255, 153, 204, 0.6);
+                width: 400px;
+                text-align: center;
+                backdrop-filter: blur(10px);
+                animation: fadeIn 0.5s ease;
+            }
+
+            /* 按钮样式 */
+            #showPopupBtn {
+                background: linear-gradient(135deg, rgba(255, 102, 128, 0.8), rgba(255, 153, 204, 0.8));
+                color: white;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-size: 20px;
+                font-family: 'Microsoft Yahei', sans-serif;
+                position: fixed;
+                bottom: 40px;
+                right: 40px;
+                z-index: 100;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+            }
+
+            #showPopupBtn:hover {
+                background: linear-gradient(135deg, rgba(255, 77, 106, 0.9), rgba(255, 128, 191, 0.9));
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            #showPopupBtn:active {
+                transform: translateY(0) scale(1);
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 文字样式 */
+            .popup-text {
+                color: rgba(230, 0, 92, 0.9);
+                margin: 15px 0;
+                font-family: 'Microsoft Yahei', sans-serif;
+                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+                letter-spacing: 1px;
+            }
+
+            /* 遮罩层 */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 999;
+                backdrop-filter: blur(3px);
+                animation: fadeIn 0.3s ease;
+            }
+
+            /* 关闭按钮 */
+            .close-btn {
+                background: linear-gradient(135deg, rgba(255, 153, 187, 0.8), rgba(255, 102, 128, 0.8));
+                color: white;
+                border: none;
+                padding: 12px 28px;
+                border-radius: 30px;
+                margin-top: 25px;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-size: 16px;
+                font-family: 'Microsoft Yahei', sans-serif;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            .close-btn:hover {
+                background: linear-gradient(135deg, rgba(255, 128, 168, 0.9), rgba(255, 77, 106, 0.9));
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .close-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 时钟容器 */
+            .clock-container {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 10;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.9);
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+                pointer-events: none;
+            }
+
+            .time {
+                font-size: 80px;
+                font-weight: 200;
+                margin-bottom: 5px;
+            }
+
+            .date {
+                font-size: 24px;
+                font-weight: 300;
+                opacity: 0.8;
+            }
+
+            /* 音乐控制 */
+            .music-controls {
+                position: fixed;
+                bottom: 40px;
+                left: 40px;
+                z-index: 100;
+                display: flex;
+                align-items: center;
+            }
+
+            .music-btn {
+                background: linear-gradient(135deg, rgba(255, 102, 128, 0.8), rgba(255, 153, 204, 0.8));
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: all 0.3s;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+            }
+
+            .music-btn:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .music-btn:active {
+                transform: scale(0.95);
+            }
+
+            .music-btn i {
+                font-size: 20px;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            /* 适配移动设备 */
+            @media (max-width: 768px) {
+                #showPopupBtn {
+                    bottom: 20px;
+                    right: 20px;
+                    padding: 12px 25px;
+                    font-size: 18px;
+                }
+                
+                .popup {
+                    width: 85%;
+                    padding: 25px;
+                }
+
+                .time {
+                    font-size: 60px;
+                }
+
+                .date {
+                    font-size: 18px;
+                }
+
+                .music-controls {
+                    bottom: 20px;
+                    left: 20px;
+                }
+            }
+
+            /* 圆环动画效果 */
+            .circle {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                height: 300px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                z-index: 5;
+                pointer-events: none;
+                transition: transform 0.2s ease;
+            }
+
+            .circle::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                border: 1px dashed rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                animation: rotate 60s linear infinite;
+            }
+            
+            /* 添加闪电波动效果 */
+            .circle::after {
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                right: -4px;
+                bottom: -4px;
+                border-radius: 50%;
+                background: transparent;
+                z-index: 4;
+                box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.7);
+                opacity: 0;
+                animation: pulse 2s ease-in-out infinite;
+                transition: all 0.1s ease;
+            }
+            
+            /* 音频可视化相关样式 */
+            .circle-visualizer {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                z-index: 7;
+                pointer-events: none;
+            }
+            
+            .frequency-bar {
+                position: absolute;
+                bottom: 50%;
+                left: 50%;
+                width: 2px;
+                background: linear-gradient(to top, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.8));
+                transform-origin: bottom center;
+                opacity: 0.6;
+                transition: height 0.05s ease;
+            }
+            
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            @keyframes pulse {
+                0% { opacity: 0; }
+                50% { opacity: 0.7; }
+                100% { opacity: 0; }
+            }
+            
+            @keyframes dash {
+                to { stroke-dashoffset: 1000; }
+            }
+		</style>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	</head>
+	
+	<body>
+        <!-- 音乐控制 - 页面右上角的音乐播放按钮 -->
+        <div class="music-controls">
+            <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+                <i class="fas fa-play" id="musicIcon"></i>
+            </button>
+        </div>
+
+        <!-- 时钟显示区域 - 包含圆环和音频可视化效果 -->
+        <div class="clock-container">
+            <!-- 主圆环 - 用于显示粒子特效的基础圆形 -->
+            <div class="circle"></div>
+            <!-- 音频可视化容器 - 用于显示音频频谱的圆形容器 -->
+            <div class="circle-visualizer" id="circleVisualizer"></div>
+            <!-- 时间显示 - 显示当前时间 -->
+            <div class="time" id="time">00:00:00</div>
+            <!-- 日期显示 - 显示当前日期和星期 -->
+            <div class="date" id="date">2023/01/01 星期一</div>
+        </div>
+
+        <!-- 祝福按钮 - 点击显示生日祝福弹窗 -->
+        <button id="showPopupBtn" onclick="showPopup()">点击祝福✨</button>
+
+        <!-- 弹窗结构 - 包含遮罩层和弹窗内容 -->
+        <div class="overlay" id="overlay" onclick="closePopup()"></div>
+        <div class="popup" id="popup">
+            <div class="popup-text" style="font-size: 28px; font-weight: bold;">FOR FU：</div>
+            <div class="popup-text" style="font-size: 22px;">成长不期而遇，生日如期而至，生日快乐。</div>
+            <div class="popup-text" style="font-size: 20px;">HAPPY EVERYDAY</div>
+            <button class="close-btn" onclick="closePopup()">关闭</button>
+        </div>
+
+        <!-- 背景音乐 - 使用网易云音乐苡慧的生日快乐歌曲 -->
+        <audio id="bgMusic" loop preload="auto" src="./生日快乐.mp3" crossorigin="anonymous">
+            <!-- 主音源 - 网易云音乐苡慧的生日快乐歌曲 -->
+            <source src="./生日快乐.mp3" type="audio/mpeg">
+        </audio>
+        
+		<canvas id="sakura"></canvas>
+		<div class="btnbg"></div>
+		
+        <!-- sakura shader -->
+		<script id="sakura_point_vsh" type="x-shader/x_vertex">
+		uniform mat4 uProjection;
+		uniform mat4 uModelview;
+		uniform vec3 uResolution;
+		uniform vec3 uOffset;
+		uniform vec3 uDOF;  //x:focus distance, y:focus radius, z:max radius
+		uniform vec3 uFade; //x:start distance, y:half distance, z:near fade start
+		
+		attribute vec3 aPosition;
+		attribute vec3 aEuler;
+		attribute vec2 aMisc; //x:size, y:fade
+		
+		varying vec3 pposition;
+		varying float psize;
+		varying float palpha;
+		varying float pdist;
+		
+		//varying mat3 rotMat;
+		varying vec3 normX;
+		varying vec3 normY;
+		varying vec3 normZ;
+		varying vec3 normal;
+		
+		varying float diffuse;
+		varying float specular;
+		varying float rstop;
+		varying float distancefade;
+		
+		void main(void) {
+		    // Projection is based on vertical angle
+		    vec4 pos = uModelview * vec4(aPosition + uOffset, 1.0);
+		    gl_Position = uProjection * pos;
+		    gl_PointSize = aMisc.x * uProjection[1][1] / -pos.z * uResolution.y * 0.5;
+		    
+		    pposition = pos.xyz;
+		    psize = aMisc.x;
+		    pdist = length(pos.xyz);
+		    palpha = smoothstep(0.0, 1.0, (pdist - 0.1) / uFade.z);
+		    
+		    vec3 elrsn = sin(aEuler);
+		    vec3 elrcs = cos(aEuler);
+		    mat3 rotx = mat3(
+		        1.0, 0.0, 0.0,
+		        0.0, elrcs.x, elrsn.x,
+		        0.0, -elrsn.x, elrcs.x
+		    );
+		    mat3 roty = mat3(
+		        elrcs.y, 0.0, -elrsn.y,
+		        0.0, 1.0, 0.0,
+		        elrsn.y, 0.0, elrcs.y
+		    );
+		    mat3 rotz = mat3(
+		        elrcs.z, elrsn.z, 0.0, 
+		        -elrsn.z, elrcs.z, 0.0,
+		        0.0, 0.0, 1.0
+		    );
+		    mat3 rotmat = rotx * roty * rotz;
+		    normal = rotmat[2];
+		    
+		    mat3 trrotm = mat3(
+		        rotmat[0][0], rotmat[1][0], rotmat[2][0],
+		        rotmat[0][1], rotmat[1][1], rotmat[2][1],
+		        rotmat[0][2], rotmat[1][2], rotmat[2][2]
+		    );
+		    normX = trrotm[0];
+		    normY = trrotm[1];
+		    normZ = trrotm[2];
+		    
+		    const vec3 lit = vec3(0.6917144638660746, 0.6917144638660746, -0.20751433915982237);
+		    
+		    float tmpdfs = dot(lit, normal);
+		    if(tmpdfs < 0.0) {
+		        normal = -normal;
+		        tmpdfs = dot(lit, normal);
+		    }
+		    diffuse = 0.4 + tmpdfs;
+		    
+		    vec3 eyev = normalize(-pos.xyz);
+		    if(dot(eyev, normal) > 0.0) {
+		        vec3 hv = normalize(eyev + lit);
+		        specular = pow(max(dot(hv, normal), 0.0), 20.0);
+		    }
+		    else {
+		        specular = 0.0;
+		    }
+		    
+		    rstop = clamp((abs(pdist - uDOF.x) - uDOF.y) / uDOF.z, 0.0, 1.0);
+		    rstop = pow(rstop, 0.5);
+		    //-0.69315 = ln(0.5)
+		    distancefade = min(1.0, exp((uFade.x - pdist) * 0.69315 / uFade.y));
+		}
+		</script>
+		<script id="sakura_point_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		
+		uniform vec3 uDOF;  //x:focus distance, y:focus radius, z:max radius
+		uniform vec3 uFade; //x:start distance, y:half distance, z:near fade start
+		
+		const vec3 fadeCol = vec3(0.08, 0.03, 0.06);
+		
+		varying vec3 pposition;
+		varying float psize;
+		varying float palpha;
+		varying float pdist;
+		
+		//varying mat3 rotMat;
+		varying vec3 normX;
+		varying vec3 normY;
+		varying vec3 normZ;
+		varying vec3 normal;
+		
+		varying float diffuse;
+		varying float specular;
+		varying float rstop;
+		varying float distancefade;
+		
+		float ellipse(vec2 p, vec2 o, vec2 r) {
+		    vec2 lp = (p - o) / r;
+		    return length(lp) - 1.0;
+		}
+		
+		void main(void) {
+		    vec3 p = vec3(gl_PointCoord - vec2(0.5, 0.5), 0.0) * 2.0;
+		    vec3 d = vec3(0.0, 0.0, -1.0);
+		    float nd = normZ.z; //dot(-normZ, d);
+		    if(abs(nd) < 0.0001) discard;
+		    
+		    float np = dot(normZ, p);
+		    vec3 tp = p + d * np / nd;
+		    vec2 coord = vec2(dot(normX, tp), dot(normY, tp));
+		    
+		    //angle = 15 degree
+		    const float flwrsn = 0.258819045102521;
+		    const float flwrcs = 0.965925826289068;
+		    mat2 flwrm = mat2(flwrcs, -flwrsn, flwrsn, flwrcs);
+		    vec2 flwrp = vec2(abs(coord.x), coord.y) * flwrm;
+		    
+		    float r;
+		    if(flwrp.x < 0.0) {
+		        r = ellipse(flwrp, vec2(0.065, 0.024) * 0.5, vec2(0.36, 0.96) * 0.5);
+		    }
+		    else {
+		        r = ellipse(flwrp, vec2(0.065, 0.024) * 0.5, vec2(0.58, 0.96) * 0.5);
+		    }
+		    
+		    if(r > rstop) discard;
+		    
+		    vec3 col = mix(vec3(1.0, 0.8, 0.75), vec3(1.0, 0.9, 0.87), r);
+		    float grady = mix(0.0, 1.0, pow(coord.y * 0.5 + 0.5, 0.35));
+		    col *= vec3(1.0, grady, grady);
+		    col *= mix(0.8, 1.0, pow(abs(coord.x), 0.3));
+		    col = col * diffuse + specular;
+		    
+		    col = mix(fadeCol, col, distancefade);
+		    
+		    float alpha = (rstop > 0.001)? (0.5 - r / (rstop * 2.0)) : 1.0;
+		    alpha = smoothstep(0.0, 1.0, alpha) * palpha;
+		    
+		    gl_FragColor = vec4(col * 0.5, alpha);
+		}
+		</script>
+		<!-- effects -->
+		<script id="fx_common_vsh" type="x-shader/x_vertex">
+		uniform vec3 uResolution;
+		attribute vec2 aPosition;
+		
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		
+		void main(void) {
+		    gl_Position = vec4(aPosition, 0.0, 1.0);
+		    texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
+		    screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
+		}
+		</script>
+		<script id="bg_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		
+		uniform vec2 uTimes;
+		
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		
+		void main(void) {
+		    vec3 col;
+		    float c;
+		    // 保持光源位置在视野外
+		    vec2 tmpv = texCoord * vec2(0.6, 0.8) - vec2(2.3, 1.2);
+		    // 减小衰减率，让光线向边缘扩散更多
+		    c = exp(-pow(length(tmpv) * 0.95, 1.4));
+		    
+		    // 提高基础色亮度，强化边缘光效果
+		    col = mix(vec3(0.28, 0.15, 0.22), vec3(0.92, 0.80, 0.85) * 1.45, c);
+		    
+		    // 保持整体亮度，添加最小亮度阈值确保边缘有足够光
+		    vec3 finalCol = max(col * 1.0, vec3(0.15, 0.08, 0.12));
+		    gl_FragColor = vec4(finalCol, 1.0);
+		}
+		</script>
+		<script id="fx_brightbuf_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		uniform sampler2D uSrc;
+		uniform vec2 uDelta;
+		
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		
+		void main(void) {
+		    vec4 col = texture2D(uSrc, texCoord);
+		    gl_FragColor = vec4(col.rgb * 2.0 - vec3(0.5), 1.0);
+		}
+		</script>
+		<script id="fx_dirblur_r4_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		uniform sampler2D uSrc;
+		uniform vec2 uDelta;
+		uniform vec4 uBlurDir; //dir(x, y), stride(z, w)
+		
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		
+		void main(void) {
+		    vec4 col = texture2D(uSrc, texCoord);
+		    col = col + texture2D(uSrc, texCoord + uBlurDir.xy * uDelta);
+		    col = col + texture2D(uSrc, texCoord - uBlurDir.xy * uDelta);
+		    col = col + texture2D(uSrc, texCoord + (uBlurDir.xy + uBlurDir.zw) * uDelta);
+		    col = col + texture2D(uSrc, texCoord - (uBlurDir.xy + uBlurDir.zw) * uDelta);
+		    gl_FragColor = col / 5.0;
+		}
+		</script>
+		<!-- effect fragment shader template -->
+		<script id="fx_common_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		uniform sampler2D uSrc;
+		uniform vec2 uDelta;
+		
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		
+		void main(void) {
+		    gl_FragColor = texture2D(uSrc, texCoord);
+		}
+		</script>
+		<!-- post processing -->
+		<script id="pp_final_vsh" type="x-shader/x_vertex">
+		uniform vec3 uResolution;
+		attribute vec2 aPosition;
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		void main(void) {
+		    gl_Position = vec4(aPosition, 0.0, 1.0);
+		    texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
+		    screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
+		}
+		</script>
+		<script id="pp_final_fsh" type="x-shader/x_fragment">
+		#ifdef GL_ES
+		//precision mediump float;
+		precision highp float;
+		#endif
+		uniform sampler2D uSrc;
+		uniform sampler2D uBloom;
+		uniform vec2 uDelta;
+		varying vec2 texCoord;
+		varying vec2 screenCoord;
+		void main(void) {
+		    vec4 srccol = texture2D(uSrc, texCoord) * 2.0;
+		    vec4 bloomcol = texture2D(uBloom, texCoord);
+		    vec4 col;
+		    col = srccol + bloomcol * (vec4(1.0) + srccol);
+		    col *= smoothstep(1.0, 0.0, pow(length((texCoord - vec2(0.5)) * 2.0), 1.2) * 0.5);
+		    col = pow(col, vec4(0.45454545454545)); //(1.0 / 2.2)
+		    
+		    gl_FragColor = vec4(col.rgb, 1.0);
+		    gl_FragColor.a = 1.0;
+		}
+		</script>
+		  <script>
+		  // Utilities
+		var Vector3 = {};
+		var Matrix44 = {};
+		Vector3.create = function(x, y, z) {
+		    return {'x':x, 'y':y, 'z':z};
+		};
+		Vector3.dot = function (v0, v1) {
+		    return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
+		};
+		Vector3.cross = function (v, v0, v1) {
+		    v.x = v0.y * v1.z - v0.z * v1.y;
+		    v.y = v0.z * v1.x - v0.x * v1.z;
+		    v.z = v0.x * v1.y - v0.y * v1.x;
+		};
+		Vector3.normalize = function (v) {
+		    var l = v.x * v.x + v.y * v.y + v.z * v.z;
+		    if(l > 0.00001) {
+		        l = 1.0 / Math.sqrt(l);
+		        v.x *= l;
+		        v.y *= l;
+		        v.z *= l;
+		    }
+		};
+		Vector3.arrayForm = function(v) {
+		    if(v.array) {
+		        v.array[0] = v.x;
+		        v.array[1] = v.y;
+		        v.array[2] = v.z;
+		    }
+		    else {
+		        v.array = new Float32Array([v.x, v.y, v.z]);
+		    }
+		    return v.array;
+		};
+		Matrix44.createIdentity = function () {
+		    return new Float32Array([1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]);
+		};
+		Matrix44.loadProjection = function (m, aspect, vdeg, near, far) {
+		    var h = near * Math.tan(vdeg * Math.PI / 180.0 * 0.5) * 2.0;
+		    var w = h * aspect;
+		    
+		    m[0] = 2.0 * near / w;
+		    m[1] = 0.0;
+		    m[2] = 0.0;
+		    m[3] = 0.0;
+		    
+		    m[4] = 0.0;
+		    m[5] = 2.0 * near / h;
+		    m[6] = 0.0;
+		    m[7] = 0.0;
+		    
+		    m[8] = 0.0;
+		    m[9] = 0.0;
+		    m[10] = -(far + near) / (far - near);
+		    m[11] = -1.0;
+		    
+		    m[12] = 0.0;
+		    m[13] = 0.0;
+		    m[14] = -2.0 * far * near / (far - near);
+		    m[15] = 0.0;
+		};
+		Matrix44.loadLookAt = function (m, vpos, vlook, vup) {
+		    var frontv = Vector3.create(vpos.x - vlook.x, vpos.y - vlook.y, vpos.z - vlook.z);
+		    Vector3.normalize(frontv);
+		    var sidev = Vector3.create(1.0, 0.0, 0.0);
+		    Vector3.cross(sidev, vup, frontv);
+		    Vector3.normalize(sidev);
+		    var topv = Vector3.create(1.0, 0.0, 0.0);
+		    Vector3.cross(topv, frontv, sidev);
+		    Vector3.normalize(topv);
+		    
+		    m[0] = sidev.x;
+		    m[1] = topv.x;
+		    m[2] = frontv.x;
+		    m[3] = 0.0;
+		    
+		    m[4] = sidev.y;
+		    m[5] = topv.y;
+		    m[6] = frontv.y;
+		    m[7] = 0.0;
+		    
+		    m[8] = sidev.z;
+		    m[9] = topv.z;
+		    m[10] = frontv.z;
+		    m[11] = 0.0;
+		    
+		    m[12] = -(vpos.x * m[0] + vpos.y * m[4] + vpos.z * m[8]);
+		    m[13] = -(vpos.x * m[1] + vpos.y * m[5] + vpos.z * m[9]);
+		    m[14] = -(vpos.x * m[2] + vpos.y * m[6] + vpos.z * m[10]);
+		    m[15] = 1.0;
+		};
+		
+		//
+		var timeInfo = {
+		    'start':0, 'prev':0, // Date
+		    'delta':0, 'elapsed':0 // Number(sec)
+		};
+		
+		//
+		var gl;
+		var renderSpec = {
+		    'width':0,
+		    'height':0,
+		    'aspect':1,
+		    'array':new Float32Array(3),
+		    'halfWidth':0,
+		    'halfHeight':0,
+		    'halfArray':new Float32Array(3)
+		    // and some render targets. see setViewport()
+		};
+		renderSpec.setSize = function(w, h) {
+		    renderSpec.width = w;
+		    renderSpec.height = h;
+		    renderSpec.aspect = renderSpec.width / renderSpec.height;
+		    renderSpec.array[0] = renderSpec.width;
+		    renderSpec.array[1] = renderSpec.height;
+		    renderSpec.array[2] = renderSpec.aspect;
+		    
+		    renderSpec.halfWidth = Math.floor(w / 2);
+		    renderSpec.halfHeight = Math.floor(h / 2);
+		    renderSpec.halfArray[0] = renderSpec.halfWidth;
+		    renderSpec.halfArray[1] = renderSpec.halfHeight;
+		    renderSpec.halfArray[2] = renderSpec.halfWidth / renderSpec.halfHeight;
+		};
+		
+		function deleteRenderTarget(rt) {
+		    gl.deleteFramebuffer(rt.frameBuffer);
+		    gl.deleteRenderbuffer(rt.renderBuffer);
+		    gl.deleteTexture(rt.texture);
+		}
+		
+		function createRenderTarget(w, h) {
+		    var ret = {
+		        'width':w,
+		        'height':h,
+		        'sizeArray':new Float32Array([w, h, w / h]),
+		        'dtxArray':new Float32Array([1.0 / w, 1.0 / h])
+		    };
+		    ret.frameBuffer = gl.createFramebuffer();
+		    ret.renderBuffer = gl.createRenderbuffer();
+		    ret.texture = gl.createTexture();
+		    
+		    gl.bindTexture(gl.TEXTURE_2D, ret.texture);
+		    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+		    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		    
+		    gl.bindFramebuffer(gl.FRAMEBUFFER, ret.frameBuffer);
+		    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, ret.texture, 0);
+		    
+		    gl.bindRenderbuffer(gl.RENDERBUFFER, ret.renderBuffer);
+		    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, w, h);
+		    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, ret.renderBuffer);
+		    
+		    gl.bindTexture(gl.TEXTURE_2D, null);
+		    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+		    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+		    
+		    return ret;
+		}
+		
+		function compileShader(shtype, shsrc) {
+			var retsh = gl.createShader(shtype);
+			
+			gl.shaderSource(retsh, shsrc);
+			gl.compileShader(retsh);
+			
+			if(!gl.getShaderParameter(retsh, gl.COMPILE_STATUS)) {
+				var errlog = gl.getShaderInfoLog(retsh);
+				gl.deleteShader(retsh);
+				console.error(errlog);
+				return null;
+			}
+			return retsh;
+		}
+		
+		function createShader(vtxsrc, frgsrc, uniformlist, attrlist) {
+		    var vsh = compileShader(gl.VERTEX_SHADER, vtxsrc);
+		    var fsh = compileShader(gl.FRAGMENT_SHADER, frgsrc);
+		    
+		    if(vsh == null || fsh == null) {
+		        return null;
+		    }
+		    
+		    var prog = gl.createProgram();
+		    gl.attachShader(prog, vsh);
+		    gl.attachShader(prog, fsh);
+		    
+		    gl.deleteShader(vsh);
+		    gl.deleteShader(fsh);
+		    
+		    gl.linkProgram(prog);
+		    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+		        var errlog = gl.getProgramInfoLog(prog);
+		        console.error(errlog);
+		        return null;
+		    }
+		    
+		    if(uniformlist) {
+		        prog.uniforms = {};
+		        for(var i = 0; i < uniformlist.length; i++) {
+		            prog.uniforms[uniformlist[i]] = gl.getUniformLocation(prog, uniformlist[i]);
+		        }
+		    }
+		    
+		    if(attrlist) {
+		        prog.attributes = {};
+		        for(var i = 0; i < attrlist.length; i++) {
+		            var attr = attrlist[i];
+		            prog.attributes[attr] = gl.getAttribLocation(prog, attr);
+		        }
+		    }
+		    
+		    return prog;
+		}
+		
+		function useShader(prog) {
+		    gl.useProgram(prog);
+		    for(var attr in prog.attributes) {
+		        gl.enableVertexAttribArray(prog.attributes[attr]);;
+		    }
+		}
+		
+		function unuseShader(prog) {
+		    for(var attr in prog.attributes) {
+		        gl.disableVertexAttribArray(prog.attributes[attr]);;
+		    }
+		    gl.useProgram(null);
+		}
+		
+		var projection = {
+		    'angle':60,
+		    'nearfar':new Float32Array([0.1, 100.0]),
+		    'matrix':Matrix44.createIdentity()
+		};
+		var camera = {
+		    'position':Vector3.create(0, 0, 100),
+		    'lookat':Vector3.create(0, 0, 0),
+		    'up':Vector3.create(0, 1, 0),
+		    'dof':Vector3.create(10.0, 4.0, 8.0),
+		    'matrix':Matrix44.createIdentity()
+		};
+		
+		var pointFlower = {};
+		var meshFlower = {};
+		var sceneStandBy = false;
+		
+		var BlossomParticle = function () {
+		    this.velocity = new Array(3);
+		    this.rotation = new Array(3);
+		    this.position = new Array(3);
+		    this.euler = new Array(3);
+		    this.size = 1.0;
+		    this.alpha = 1.0;
+		    this.zkey = 0.0;
+		};
+		
+		BlossomParticle.prototype.setVelocity = function (vx, vy, vz) {
+		    this.velocity[0] = vx;
+		    this.velocity[1] = vy;
+		    this.velocity[2] = vz;
+		};
+		
+		BlossomParticle.prototype.setRotation = function (rx, ry, rz) {
+		    this.rotation[0] = rx;
+		    this.rotation[1] = ry;
+		    this.rotation[2] = rz;
+		};
+		
+		BlossomParticle.prototype.setPosition = function (nx, ny, nz) {
+		    this.position[0] = nx;
+		    this.position[1] = ny;
+		    this.position[2] = nz;
+		};
+		
+		BlossomParticle.prototype.setEulerAngles = function (rx, ry, rz) {
+		    this.euler[0] = rx;
+		    this.euler[1] = ry;
+		    this.euler[2] = rz;
+		};
+		
+		BlossomParticle.prototype.setSize = function (s) {
+		    this.size = s;
+		};
+		
+		BlossomParticle.prototype.update = function (dt, et) {
+		    this.position[0] += this.velocity[0] * dt;
+		    this.position[1] += this.velocity[1] * dt;
+		    this.position[2] += this.velocity[2] * dt;
+		    
+		    this.euler[0] += this.rotation[0] * dt;
+		    this.euler[1] += this.rotation[1] * dt;
+		    this.euler[2] += this.rotation[2] * dt;
+		};
+		
+		function createPointFlowers() {
+		    // get point sizes
+		    var prm = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE);
+		    renderSpec.pointSize = {'min':prm[0], 'max':prm[1]};
+		    
+		    var vtxsrc = document.getElementById("sakura_point_vsh").textContent;
+		    var frgsrc = document.getElementById("sakura_point_fsh").textContent;
+		    
+		    pointFlower.program = createShader(
+		        vtxsrc, frgsrc,
+		        ['uProjection', 'uModelview', 'uResolution', 'uOffset', 'uDOF', 'uFade'],
+		        ['aPosition', 'aEuler', 'aMisc']
+		    );
+		    
+		    useShader(pointFlower.program);
+		    pointFlower.offset = new Float32Array([0.0, 0.0, 0.0]);
+		    pointFlower.fader = Vector3.create(0.0, 10.0, 0.0);
+		    
+		    // paramerters: velocity[3], rotate[3]
+		    pointFlower.numFlowers = 1600;
+		    pointFlower.particles = new Array(pointFlower.numFlowers);
+		    // vertex attributes {position[3], euler_xyz[3], size[1]}
+		    pointFlower.dataArray = new Float32Array(pointFlower.numFlowers * (3 + 3 + 2));
+		    pointFlower.positionArrayOffset = 0;
+		    pointFlower.eulerArrayOffset = pointFlower.numFlowers * 3;
+		    pointFlower.miscArrayOffset = pointFlower.numFlowers * 6;
+		    
+		    pointFlower.buffer = gl.createBuffer();
+		    gl.bindBuffer(gl.ARRAY_BUFFER, pointFlower.buffer);
+		    gl.bufferData(gl.ARRAY_BUFFER, pointFlower.dataArray, gl.DYNAMIC_DRAW);
+		    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+		    
+		    unuseShader(pointFlower.program);
+		    
+		    for(var i = 0; i < pointFlower.numFlowers; i++) {
+		        pointFlower.particles[i] = new BlossomParticle();
+		    }
+		}
+		
+		function initPointFlowers() {
+		    //area
+		    pointFlower.area = Vector3.create(20.0, 20.0, 20.0);
+		    pointFlower.area.x = pointFlower.area.y * renderSpec.aspect;
+		    
+		    pointFlower.fader.x = 10.0; //env fade start
+		    pointFlower.fader.y = pointFlower.area.z; //env fade half
+		    pointFlower.fader.z = 0.1;  //near fade start
+		    
+		    //particles
+		    var PI2 = Math.PI * 2.0;
+		    var tmpv3 = Vector3.create(0, 0, 0);
+		    var tmpv = 0;
+		    var symmetryrand = function() {return (Math.random() * 2.0 - 1.0);};
+		    for(var i = 0; i < pointFlower.numFlowers; i++) {
+		        var tmpprtcl = pointFlower.particles[i];
+		        
+		        //velocity
+		        tmpv3.x = symmetryrand() * 0.3 + 0.8;
+		        tmpv3.y = symmetryrand() * 0.2 - 1.0;
+		        tmpv3.z = symmetryrand() * 0.3 + 0.5;
+		        Vector3.normalize(tmpv3);
+		        tmpv = 2.0 + Math.random() * 1.0;
+		        tmpprtcl.setVelocity(tmpv3.x * tmpv, tmpv3.y * tmpv, tmpv3.z * tmpv);
+		        
+		        //rotation
+		        tmpprtcl.setRotation(
+		            symmetryrand() * PI2 * 0.5,
+		            symmetryrand() * PI2 * 0.5,
+		            symmetryrand() * PI2 * 0.5
+		        );
+		        
+		        //position
+		        tmpprtcl.setPosition(
+		            symmetryrand() * pointFlower.area.x,
+		            symmetryrand() * pointFlower.area.y,
+		            symmetryrand() * pointFlower.area.z
+		        );
+		        
+		        //euler
+		        tmpprtcl.setEulerAngles(
+		            Math.random() * Math.PI * 2.0,
+		            Math.random() * Math.PI * 2.0,
+		            Math.random() * Math.PI * 2.0
+		        );
+		        
+		        //size
+		        tmpprtcl.setSize(0.9 + Math.random() * 0.1);
+		    }
+		}
+		
+		function renderPointFlowers() {
+		    //update
+		    var PI2 = Math.PI * 2.0;
+		    var limit = [pointFlower.area.x, pointFlower.area.y, pointFlower.area.z];
+		    var repeatPos = function (prt, cmp, limit) {
+		        if(Math.abs(prt.position[cmp]) - prt.size * 0.5 > limit) {
+		            //out of area
+		            if(prt.position[cmp] > 0) {
+		                prt.position[cmp] -= limit * 2.0;
+		            }
+		            else {
+		                prt.position[cmp] += limit * 2.0;
+		            }
+		        }
+		    };
+		    var repeatEuler = function (prt, cmp) {
+		        prt.euler[cmp] = prt.euler[cmp] % PI2;
+		        if(prt.euler[cmp] < 0.0) {
+		            prt.euler[cmp] += PI2;
+		        }
+		    };
+		    
+		    for(var i = 0; i < pointFlower.numFlowers; i++) {
+		        var prtcl = pointFlower.particles[i];
+		        prtcl.update(timeInfo.delta, timeInfo.elapsed);
+		        repeatPos(prtcl, 0, pointFlower.area.x);
+		        repeatPos(prtcl, 1, pointFlower.area.y);
+		        repeatPos(prtcl, 2, pointFlower.area.z);
+		        repeatEuler(prtcl, 0);
+		        repeatEuler(prtcl, 1);
+		        repeatEuler(prtcl, 2);
+		        
+		        prtcl.alpha = 1.0;//(pointFlower.area.z - prtcl.position[2]) * 0.5;
+		        
+		        prtcl.zkey = (camera.matrix[2] * prtcl.position[0]
+		                    + camera.matrix[6] * prtcl.position[1]
+		                    + camera.matrix[10] * prtcl.position[2]
+		                    + camera.matrix[14]);
+		    }
+		    
+		    // sort
+		    pointFlower.particles.sort(function(p0, p1){return p0.zkey - p1.zkey;});
+		    
+		    // update data
+		    var ipos = pointFlower.positionArrayOffset;
+		    var ieuler = pointFlower.eulerArrayOffset;
+		    var imisc = pointFlower.miscArrayOffset;
+		    for(var i = 0; i < pointFlower.numFlowers; i++) {
+		        var prtcl = pointFlower.particles[i];
+		        pointFlower.dataArray[ipos] = prtcl.position[0];
+		        pointFlower.dataArray[ipos + 1] = prtcl.position[1];
+		        pointFlower.dataArray[ipos + 2] = prtcl.position[2];
+		        ipos += 3;
+		        pointFlower.dataArray[ieuler] = prtcl.euler[0];
+		        pointFlower.dataArray[ieuler + 1] = prtcl.euler[1];
+		        pointFlower.dataArray[ieuler + 2] = prtcl.euler[2];
+		        ieuler += 3;
+		        pointFlower.dataArray[imisc] = prtcl.size;
+		        pointFlower.dataArray[imisc + 1] = prtcl.alpha;
+		        imisc += 2;
+		    }
+		    
+		    //draw
+		    gl.enable(gl.BLEND);
+		    //gl.disable(gl.DEPTH_TEST);
+		    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+		    
+		    var prog = pointFlower.program;
+		    useShader(prog);
+		    
+		    gl.uniformMatrix4fv(prog.uniforms.uProjection, false, projection.matrix);
+		    gl.uniformMatrix4fv(prog.uniforms.uModelview, false, camera.matrix);
+		    gl.uniform3fv(prog.uniforms.uResolution, renderSpec.array);
+		    gl.uniform3fv(prog.uniforms.uDOF, Vector3.arrayForm(camera.dof));
+		    gl.uniform3fv(prog.uniforms.uFade, Vector3.arrayForm(pointFlower.fader));
+		    
+		    gl.bindBuffer(gl.ARRAY_BUFFER, pointFlower.buffer);
+		    gl.bufferData(gl.ARRAY_BUFFER, pointFlower.dataArray, gl.DYNAMIC_DRAW);
+		    
+		    gl.vertexAttribPointer(prog.attributes.aPosition, 3, gl.FLOAT, false, 0, pointFlower.positionArrayOffset * Float32Array.BYTES_PER_ELEMENT);
+		    gl.vertexAttribPointer(prog.attributes.aEuler, 3, gl.FLOAT, false, 0, pointFlower.eulerArrayOffset * Float32Array.BYTES_PER_ELEMENT);
+		    gl.vertexAttribPointer(prog.attributes.aMisc, 2, gl.FLOAT, false, 0, pointFlower.miscArrayOffset * Float32Array.BYTES_PER_ELEMENT);
+		    
+		    // doubler
+		    for(var i = 1; i < 2; i++) {
+		        var zpos = i * -2.0;
+		        pointFlower.offset[0] = pointFlower.area.x * -1.0;
+		        pointFlower.offset[1] = pointFlower.area.y * -1.0;
+		        pointFlower.offset[2] = pointFlower.area.z * zpos;
+		        gl.uniform3fv(prog.uniforms.uOffset, pointFlower.offset);
+		        gl.drawArrays(gl.POINT, 0, pointFlower.numFlowers);
+		        
+		        pointFlower.offset[0] = pointFlower.area.x * -1.0;
+		        pointFlower.offset[1] = pointFlower.area.y *  1.0;
+		        pointFlower.offset[2] = pointFlower.area.z * zpos;
+		        gl.uniform3fv(prog.uniforms.uOffset, pointFlower.offset);
+		        gl.drawArrays(gl.POINT, 0, pointFlower.numFlowers);
+		        
+		        pointFlower.offset[0] = pointFlower.area.x *  1.0;
+		        pointFlower.offset[1] = pointFlower.area.y * -1.0;
+		        pointFlower.offset[2] = pointFlower.area.z * zpos;
+		        gl.uniform3fv(prog.uniforms.uOffset, pointFlower.offset);
+		        gl.drawArrays(gl.POINT, 0, pointFlower.numFlowers);
+		        
+		        pointFlower.offset[0] = pointFlower.area.x *  1.0;
+		        pointFlower.offset[1] = pointFlower.area.y *  1.0;
+		        pointFlower.offset[2] = pointFlower.area.z * zpos;
+		        gl.uniform3fv(prog.uniforms.uOffset, pointFlower.offset);
+		        gl.drawArrays(gl.POINT, 0, pointFlower.numFlowers);
+		    }
+		    
+		    //main
+		    pointFlower.offset[0] = 0.0;
+		    pointFlower.offset[1] = 0.0;
+		    pointFlower.offset[2] = 0.0;
+		    gl.uniform3fv(prog.uniforms.uOffset, pointFlower.offset);
+		    gl.drawArrays(gl.POINT, 0, pointFlower.numFlowers);
+		    
+		    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+		    unuseShader(prog);
+		    
+		    gl.enable(gl.DEPTH_TEST);
+		    gl.disable(gl.BLEND);
+		}
+		
+		// effects
+		//common util
+		function createEffectProgram(vtxsrc, frgsrc, exunifs, exattrs) {
+		    var ret = {};
+		    var unifs = ['uResolution', 'uSrc', 'uDelta'];
+		    if(exunifs) {
+		        unifs = unifs.concat(exunifs);
+		    }
+		    var attrs = ['aPosition'];
+		    if(exattrs) {
+		        attrs = attrs.concat(exattrs);
+		    }
+		    
+		    ret.program = createShader(vtxsrc, frgsrc, unifs, attrs);
+		    useShader(ret.program);
+		    
+		    ret.dataArray = new Float32Array([
+		        -1.0, -1.0,
+		         1.0, -1.0,
+		        -1.0,  1.0,
+		         1.0,  1.0
+		    ]);
+		    ret.buffer = gl.createBuffer();
+		    gl.bindBuffer(gl.ARRAY_BUFFER, ret.buffer);
+		    gl.bufferData(gl.ARRAY_BUFFER, ret.dataArray, gl.STATIC_DRAW);
+		    
+		    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+		    unuseShader(ret.program);
+		    
+		    return ret;
+		}
+		
+		// basic usage
+		// useEffect(prog, srctex({'texture':texid, 'dtxArray':(f32)[dtx, dty]})); //basic initialize
+		// gl.uniform**(...); //additional uniforms
+		// drawEffect()
+		// unuseEffect(prog)
+		// TEXTURE0 makes src
+		function useEffect(fxobj, srctex) {
+		    var prog = fxobj.program;
+		    useShader(prog);
+		    gl.uniform3fv(prog.uniforms.uResolution, renderSpec.array);
+		    
+		    if(srctex != null) {
+		        gl.uniform2fv(prog.uniforms.uDelta, srctex.dtxArray);
+		        gl.uniform1i(prog.uniforms.uSrc, 0);
+		        
+		        gl.activeTexture(gl.TEXTURE0);
+		        gl.bindTexture(gl.TEXTURE_2D, srctex.texture);
+		    }
+		}
+		function drawEffect(fxobj) {
+		    gl.bindBuffer(gl.ARRAY_BUFFER, fxobj.buffer);
+		    gl.vertexAttribPointer(fxobj.program.attributes.aPosition, 2, gl.FLOAT, false, 0, 0);
+		    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+		}
+		function unuseEffect(fxobj) {
+		    unuseShader(fxobj.program);
+		}
+		
+		var effectLib = {};
+		function createEffectLib() {
+		    
+		    var vtxsrc, frgsrc;
+		    //common
+		    var cmnvtxsrc = document.getElementById("fx_common_vsh").textContent;
+		    
+		    //background
+		    frgsrc = document.getElementById("bg_fsh").textContent;
+		    effectLib.sceneBg = createEffectProgram(cmnvtxsrc, frgsrc, ['uTimes'], null);
+		    
+		    // make brightpixels buffer
+		    frgsrc = document.getElementById("fx_brightbuf_fsh").textContent;
+		    effectLib.mkBrightBuf = createEffectProgram(cmnvtxsrc, frgsrc, null, null);
+		    
+		    // direction blur
+		    frgsrc = document.getElementById("fx_dirblur_r4_fsh").textContent;
+		    effectLib.dirBlur = createEffectProgram(cmnvtxsrc, frgsrc, ['uBlurDir'], null);
+		    
+		    //final composite
+		    vtxsrc = document.getElementById("pp_final_vsh").textContent;
+		    frgsrc = document.getElementById("pp_final_fsh").textContent;
+		    effectLib.finalComp = createEffectProgram(vtxsrc, frgsrc, ['uBloom'], null);
+		}
+		
+		// background
+		function createBackground() {
+		    //console.log("create background");
+		}
+		function initBackground() {
+		    //console.log("init background");
+		}
+		function renderBackground() {
+		    gl.disable(gl.DEPTH_TEST);
+		    
+		    useEffect(effectLib.sceneBg, null);
+		    gl.uniform2f(effectLib.sceneBg.program.uniforms.uTimes, timeInfo.elapsed, timeInfo.delta);
+		    drawEffect(effectLib.sceneBg);
+		    unuseEffect(effectLib.sceneBg);
+		    
+		    gl.enable(gl.DEPTH_TEST);
+		}
+		
+		// post process
+		var postProcess = {};
+		function createPostProcess() {
+		    //console.log("create post process");
+		}
+		function initPostProcess() {
+		    //console.log("init post process");
+		}
+		
+		function renderPostProcess() {
+		    gl.enable(gl.TEXTURE_2D);
+		    gl.disable(gl.DEPTH_TEST);
+		    var bindRT = function (rt, isclear) {
+		        gl.bindFramebuffer(gl.FRAMEBUFFER, rt.frameBuffer);
+		        gl.viewport(0, 0, rt.width, rt.height);
+		        if(isclear) {
+		            gl.clearColor(0, 0, 0, 0);
+		            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		        }
+		    };
+		    
+		    //make bright buff
+		    bindRT(renderSpec.wHalfRT0, true);
+		    useEffect(effectLib.mkBrightBuf, renderSpec.mainRT);
+		    drawEffect(effectLib.mkBrightBuf);
+		    unuseEffect(effectLib.mkBrightBuf);
+		    
+		    // make bloom
+		    for(var i = 0; i < 2; i++) {
+		        var p = 1.5 + 1 * i;
+		        var s = 2.0 + 1 * i;
+		        bindRT(renderSpec.wHalfRT1, true);
+		        useEffect(effectLib.dirBlur, renderSpec.wHalfRT0);
+		        gl.uniform4f(effectLib.dirBlur.program.uniforms.uBlurDir, p, 0.0, s, 0.0);
+		        drawEffect(effectLib.dirBlur);
+		        unuseEffect(effectLib.dirBlur);
+		        
+		        bindRT(renderSpec.wHalfRT0, true);
+		        useEffect(effectLib.dirBlur, renderSpec.wHalfRT1);
+		        gl.uniform4f(effectLib.dirBlur.program.uniforms.uBlurDir, 0.0, p, 0.0, s);
+		        drawEffect(effectLib.dirBlur);
+		        unuseEffect(effectLib.dirBlur);
+		    }
+		    
+		    //display
+		    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+		    gl.viewport(0, 0, renderSpec.width, renderSpec.height);
+		    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		    
+		    useEffect(effectLib.finalComp, renderSpec.mainRT);
+		    gl.uniform1i(effectLib.finalComp.program.uniforms.uBloom, 1);
+		    gl.activeTexture(gl.TEXTURE1);
+		    gl.bindTexture(gl.TEXTURE_2D, renderSpec.wHalfRT0.texture);
+		    drawEffect(effectLib.finalComp);
+		    unuseEffect(effectLib.finalComp);
+		    
+		    gl.enable(gl.DEPTH_TEST);
+		}
+		
+		
+		var SceneEnv = {};
+		function createScene() {
+		    createEffectLib();
+		    createBackground();
+		    createPointFlowers();
+		    createPostProcess();
+		    sceneStandBy = true;
+		}
+		
+		function initScene() {
+		    initBackground();
+		    initPointFlowers();
+		    initPostProcess();
+		    
+		    //camera.position.z = 17.320508;
+		    camera.position.z = pointFlower.area.z + projection.nearfar[0];
+		    projection.angle = Math.atan2(pointFlower.area.y, camera.position.z + pointFlower.area.z) * 180.0 / Math.PI * 2.0;
+		    Matrix44.loadProjection(projection.matrix, renderSpec.aspect, projection.angle, projection.nearfar[0], projection.nearfar[1]);
+		}
+		
+		function renderScene() {
+		    //draw
+		    Matrix44.loadLookAt(camera.matrix, camera.position, camera.lookat, camera.up);
+		    
+		    gl.enable(gl.DEPTH_TEST);
+		    
+		    //gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+		    gl.bindFramebuffer(gl.FRAMEBUFFER, renderSpec.mainRT.frameBuffer);
+		    gl.viewport(0, 0, renderSpec.mainRT.width, renderSpec.mainRT.height);
+		    gl.clearColor(0.005, 0, 0.05, 0);
+		    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		    
+		    renderBackground();
+		    renderPointFlowers();
+		    renderPostProcess();
+		}
+		
+		
+		function onResize(e) {
+		    makeCanvasFullScreen(document.getElementById("sakura"));
+		    setViewports();
+		    if(sceneStandBy) {
+		        initScene();
+		    }
+		}
+		
+		function setViewports() {
+		    renderSpec.setSize(gl.canvas.width, gl.canvas.height);
+		    
+		    gl.clearColor(0.2, 0.2, 0.5, 1.0);
+		    gl.viewport(0, 0, renderSpec.width, renderSpec.height);
+		    
+		    var rtfunc = function (rtname, rtw, rth) {
+		        var rt = renderSpec[rtname];
+		        if(rt) deleteRenderTarget(rt);
+		        renderSpec[rtname] = createRenderTarget(rtw, rth);
+		    };
+		    rtfunc('mainRT', renderSpec.width, renderSpec.height);
+		    rtfunc('wFullRT0', renderSpec.width, renderSpec.height);
+		    rtfunc('wFullRT1', renderSpec.width, renderSpec.height);
+		    rtfunc('wHalfRT0', renderSpec.halfWidth, renderSpec.halfHeight);
+		    rtfunc('wHalfRT1', renderSpec.halfWidth, renderSpec.halfHeight);
+		}
+		
+		function render() {
+		    renderScene();
+		}
+		
+		var animating = true;
+		function toggleAnimation(elm) {
+		    animating ^= true;
+		    if(animating) animate();
+		    if(elm) {
+		        elm.innerHTML = animating? "Stop":"Start";
+		    }
+		}
+		
+		function stepAnimation() {
+		    if(!animating) animate();
+		}
+		
+		function animate() {
+		    var curdate = new Date();
+		    timeInfo.elapsed = (curdate - timeInfo.start) / 1000.0;
+		    timeInfo.delta = (curdate - timeInfo.prev) / 1000.0;
+		    timeInfo.prev = curdate;
+		    
+		    if(animating) requestAnimationFrame(animate);
+		    render();
+		}
+		
+		function makeCanvasFullScreen(canvas) {
+		    var b = document.body;
+			var d = document.documentElement;
+			fullw = Math.max(b.clientWidth , b.scrollWidth, d.scrollWidth, d.clientWidth);
+			fullh = Math.max(b.clientHeight , b.scrollHeight, d.scrollHeight, d.clientHeight);
+			canvas.width = fullw;
+			canvas.height = fullh;
+		}
+		
+		window.addEventListener('load', function(e) {
+		    var canvas = document.getElementById("sakura");
+		    try {
+		        makeCanvasFullScreen(canvas);
+		        gl = canvas.getContext('experimental-webgl');
+		    } catch(e) {
+		        alert("WebGL not supported." + e);
+		        console.error(e);
+		        return;
+		    }
+		    
+		    window.addEventListener('resize', onResize);
+		    
+		    setViewports();
+		    createScene();
+		    initScene();
+		    
+		    timeInfo.start = new Date();
+		    timeInfo.prev = timeInfo.start;
+		    animate();
+		});
+		
+		//set window.requestAnimationFrame
+		(function (w, r) {
+		    w['r'+r] = w['r'+r] || w['webkitR'+r] || w['mozR'+r] || w['msR'+r] || w['oR'+r] || function(c){ w.setTimeout(c, 1000 / 60); };
+		})(window, 'equestAnimationFrame');
+		
+		// 时钟功能
+		function updateClock() {
+		    const now = new Date();
+		    
+		    // 时间格式
+		    const hours = now.getHours().toString().padStart(2, '0');
+		    const minutes = now.getMinutes().toString().padStart(2, '0');
+		    const seconds = now.getSeconds().toString().padStart(2, '0');
+		    document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+		    
+		    // 日期格式
+		    const year = now.getFullYear();
+		    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+		    const day = now.getDate().toString().padStart(2, '0');
+		    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+		    const weekday = weekdays[now.getDay()];
+		    document.getElementById('date').textContent = `${year}/${month}/${day} ${weekday}`;
+		}
+		
+		// 初始化并每秒更新时钟
+		updateClock();
+		setInterval(updateClock, 1000);
+		
+		// 音乐控制
+		const bgMusic = document.getElementById('bgMusic');
+		const musicIcon = document.getElementById('musicIcon');
+		let isPlayingAttempt = false; // 新增标志，跟踪是否正在尝试播放
+		let audioContext;
+		let analyser;
+		let frequencyData;
+		let visualizerBars = [];
+		const BAR_COUNT = 32; // 频率条数量
+		
+		// 监听页面可见性变化，防止切换标签页时中断播放
+		document.addEventListener('visibilitychange', () => {
+		    if (document.visibilityState === 'visible' && !bgMusic.paused) {
+		        // 页面重新变为可见且音乐应该是播放状态
+		        bgMusic.play().catch(err => console.error("页面可见性恢复播放失败:", err));
+		    }
+		});
+		
+		// 页面加载时预加载音频
+		window.addEventListener('load', function() {
+		    // 预加载音频，保证能够快速播放
+		    bgMusic.load();
+		    
+		    // 添加音频就绪事件监听
+		    bgMusic.addEventListener('canplaythrough', function() {
+		        console.log("音频已缓冲完成，可以播放");
+		    });
+		    
+		    // 监听音频错误
+		    bgMusic.addEventListener('error', function(e) {
+		        console.error("音频加载错误:", bgMusic.error);
+		        // 尝试下一个音源
+		        if (bgMusic.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+		            console.log("尝试播放下一个音源");
+		        }
+		    });
+		});
+		
+		// 音乐控制函数 - 处理音乐播放/暂停逻辑
+		function toggleMusic() {
+		    try {
+		        if (isPlayingAttempt) {
+		            console.log("播放请求正在处理中，请稍候...");
+		            return; // 防止重复点击
+		        }
+		        
+		        if (bgMusic.paused) {
+		            // 设置标志，防止重复操作
+		            isPlayingAttempt = true;
+		            musicIcon.className = 'fas fa-spinner fa-spin';
+		            
+		            // 确保音频元素已重新加载
+		            if (bgMusic.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+		                bgMusic.load();
+		            }
+		            
+		            // 用户交互触发播放
+		            const playPromise = bgMusic.play();
+		            
+		            if (playPromise !== undefined) {
+		                playPromise.then(_ => {
+		                    console.log("音乐播放成功！");
+		                    musicIcon.className = 'fas fa-pause';
+		                    // 初始化音频可视化分析器
+		                    if (!audioContext) {
+		                        setupAudioVisualizer();
+		                    }
+		                    isPlayingAttempt = false; // 重置标志
+		                }).catch(error => {
+		                    console.error("音乐播放失败:", error);
+		                    alert("音乐播放失败，正在尝试备用音源。错误信息: " + error.message);
+		                    
+		                    // 尝试切换音源并重新播放
+		                    setTimeout(() => {
+		                        // 重新尝试播放
+		                        bgMusic.currentTime = 0;
+		                        bgMusic.play().then(() => {
+		                            musicIcon.className = 'fas fa-pause';
+		                            // 初始化音频可视化分析器
+		                            if (!audioContext) {
+		                                setupAudioVisualizer();
+		                            }
+		                        }).catch(err => {
+		                            musicIcon.className = 'fas fa-play';
+		                            console.error("备用音源播放失败:", err);
+		                        }).finally(() => {
+		                            isPlayingAttempt = false; // 重置标志
+		                        });
+		                    }, 1000);
+		                });
+		            }
+		        } else {
+		            // 暂停音乐并更新图标
+		            bgMusic.pause();
+		            musicIcon.className = 'fas fa-play';
+		        }
+		    } catch (error) {
+		        console.error("音乐控制发生错误:", error);
+		        alert("音乐控制错误: " + error.message);
+		        musicIcon.className = 'fas fa-play';
+		        isPlayingAttempt = false; // 重置标志
+		    }
+		}
+		
+		// 设置音频可视化器 - 创建音频分析器和连接音频节点
+		function setupAudioVisualizer() {
+		    try {
+		        // 创建音频上下文和分析器
+		        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+		        analyser = audioContext.createAnalyser();
+		        
+		        // 设置分析器参数 - 用于控制频谱分析的精度和平滑度
+		        analyser.fftSize = 128;
+		        analyser.smoothingTimeConstant = 0.7;
+		        
+		        // 连接音频源到分析器，再连接到音频输出设备
+		        const source = audioContext.createMediaElementSource(bgMusic);
+		        source.connect(analyser);
+		        analyser.connect(audioContext.destination);
+		        
+		        // 创建频率数据数组 - 用于存储音频频谱数据
+		        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+		        
+		        // 创建可视化器UI元素
+		        createVisualizer();
+		        
+		        // 开始动画循环 - 持续更新可视化效果
+		        updateVisualizer();
+		    } catch (error) {
+		        console.error("音频可视化设置错误:", error);
+		    }
+		}
+		
+		// 创建可视化器UI - 生成频率条元素
+		function createVisualizer() {
+		    const circleVisualizer = document.getElementById('circleVisualizer');
+		    const circle = document.querySelector('.circle');
+		    
+		    // 清空之前的频率条
+		    circleVisualizer.innerHTML = '';
+		    visualizerBars = [];
+		    
+		    // 创建频率条 - 在圆周上均匀分布的频谱线
+		    for (let i = 0; i < BAR_COUNT; i++) {
+		        const bar = document.createElement('div');
+		        bar.className = 'frequency-bar';
+		        
+		        // 计算旋转角度 - 确保频率条均匀分布在圆周上
+		        const angle = (i / BAR_COUNT) * 360;
+		        bar.style.transform = `rotate(${angle}deg)`;
+		        bar.style.height = '0px';
+		        
+		        circleVisualizer.appendChild(bar);
+		        visualizerBars.push(bar);
+		    }
+		}
+		
+		// 更新可视化器 - 实时更新频率条显示
+		function updateVisualizer() {
+		    // 如果音乐暂停或上下文不存在，不进行更新
+		    if (!audioContext || bgMusic.paused) {
+		        requestAnimationFrame(updateVisualizer);
+		        return;
+		    }
+		    
+		    // 获取频率数据 - 从音频分析器中获取实时频谱数据
+		    analyser.getByteFrequencyData(frequencyData);
+		    
+		    const circle = document.querySelector('.circle');
+		    let averageFrequency = 0;
+		    
+		    // 更新每个频率条的高度 - 根据音频频谱数据
+		    for (let i = 0; i < BAR_COUNT; i++) {
+		        // 选择对应的频率数据点
+		        const index = Math.floor(i * analyser.frequencyBinCount / BAR_COUNT);
+		        const value = frequencyData[index];
+		        
+		        // 规范化值 (0-255 到 0-100)
+		        const normalizedValue = value / 255 * 100;
+		        
+		        // 设置频率条高度 - 视觉表现音频强度
+		        visualizerBars[i].style.height = `${normalizedValue * 0.8}px`;
+		        
+		        // 累计平均频率
+		        averageFrequency += normalizedValue;
+		    }
+		    
+		    // 计算平均频率 - 用于整体圆环效果调整
+		    averageFrequency = averageFrequency / BAR_COUNT;
+		    
+		    // 根据频率调整圆环大小 - 营造脉动效果
+		    const scale = 1 + (averageFrequency / 200);
+		    circle.style.transform = `translate(-50%, -50%) scale(${scale})`;
+		    
+		    // 调整圆环发光效果 - 根据音频强度变化颜色和发光
+		    const circleAfter = document.styleSheets[0].cssRules;
+		    for (let i = 0; i < circleAfter.length; i++) {
+		        if (circleAfter[i].selectorText === '.circle::after') {
+		            // 根据频率调整发光颜色和强度 - 低频为白色，高频为粉红色
+		            const glowColor = averageFrequency > 50 ? 
+		                `rgba(255, ${Math.min(255, 255 - averageFrequency * 2)}, ${Math.min(255, 255 - averageFrequency * 3)}, 0.8)` : 
+		                'rgba(255, 255, 255, 0.7)';
+		            const glowSize = Math.max(5, Math.min(30, averageFrequency / 3));
+		            
+		            // 应用样式变化 - 自定义属性控制发光效果
+		            circle.style.setProperty('--glow-color', glowColor);
+		            circle.style.setProperty('--glow-size', `${glowSize}px`);
+		            break;
+		        }
+		    }
+		    
+		    // 持续更新 - 请求下一帧动画
+		    requestAnimationFrame(updateVisualizer);
+		}
+		
+		// 弹窗显示函数 - 显示生日祝福弹窗
+		function showPopup() {
+		    document.getElementById('overlay').style.display = 'block';
+		    document.getElementById('popup').style.display = 'block';
+		    document.body.style.overflow = 'hidden'; // 防止背景滚动
+		}
+
+		// 弹窗关闭函数 - 关闭生日祝福弹窗
+		function closePopup() {
+		    document.getElementById('overlay').style.display = 'none';
+		    document.getElementById('popup').style.display = 'none';
+		    document.body.style.overflow = 'auto';
+		}
+
+		// 点击ESC键关闭弹窗
+		document.addEventListener('keydown', function(event) {
+		    if (event.key === 'Escape') {
+		        closePopup();
+		    }
+		});
+		  </script>
+		
+		
+	</body>
+	
+</html>
