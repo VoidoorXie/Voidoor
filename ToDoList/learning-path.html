@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗺️ 学习路径 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+    <style>
+        .path-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin: 32px 0;
+        }
+        
+        .path-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+        
+        .path-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .path-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .path-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .path-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .path-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .path-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .path-steps {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+        
+        .path-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .path-step:hover {
+            background: var(--primary-light);
+            transform: translateX(8px);
+        }
+        
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .step-links {
+            margin-top: 8px;
+        }
+        
+        .step-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-right: 12px;
+            font-weight: 500;
+        }
+        
+        .step-link:hover {
+            text-decoration: underline;
+        }
+        
+        .path-duration {
+            background: var(--warning-light);
+            color: var(--warning-color);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 24px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+        
+        .skill-item {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .skill-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .skill-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
+        }
+        
+        .skill-level {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .roadmap-section {
+            background: var(--light-gray);
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            margin: 48px 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+            background: var(--card-background);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--card-background);
+        }
+        
+        .timeline-title {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-duration {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .timeline-description {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1>🗺️ 全栈开发学习路径</h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">
+                从零基础到全栈工程师的完整学习指南
+            </p>
+            <a href="index.html" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">← 返回银河系首页</a>
+        </div>
+
+        <!-- 学习路径选择 -->
+        <div class="path-container">
+            <!-- 初学者路径 -->
+            <div class="path-card">
+                <div class="path-header">
+                    <span class="path-icon">🌱</span>
+                    <div class="path-title">初学者路径</div>
+                    <div class="path-subtitle">零基础入门，循序渐进</div>
+                </div>
+                
+                <ol class="path-steps">
+                    <li class="path-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">HTML 基础</div>
+                            <div class="step-description">学习网页结构的基石，掌握标签、属性、语义化</div>
+                            <div class="step-links">
+                                <a href="frontend/html.html" class="step-link">📖 教程</a>
+                                <a href="frontend/html-guide.html" class="step-link">📚 代码大全</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">CSS 样式</div>
+                            <div class="step-description">美化网页外观，学习布局、动画、响应式设计</div>
+                            <div class="step-links">
+                                <a href="frontend/css.html" class="step-link">🎨 教程</a>
+                                <a href="playground.html" class="step-link">🎮 练习</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">JavaScript 基础</div>
+                            <div class="step-description">添加交互功能，学习变量、函数、DOM操作</div>
+                            <div class="step-links">
+                                <a href="frontend/javascript.html" class="step-link">⚡ 教程</a>
+                                <a href="playground.html" class="step-link">🎮 练习</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">实战项目</div>
+                            <div class="step-description">制作个人网站、待办事项、简单游戏</div>
+                            <div class="step-links">
+                                <a href="playground.html" class="step-link">🎮 开始制作</a>
+                                <a href="demo.html" class="step-link">🎯 查看示例</a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="path-duration">⏱️ 预计学习时间：2-3个月</div>
+            </div>
+
+            <!-- 进阶路径 -->
+            <div class="path-card">
+                <div class="path-header">
+                    <span class="path-icon">🚀</span>
+                    <div class="path-title">进阶路径</div>
+                    <div class="path-subtitle">掌握现代开发技术栈</div>
+                </div>
+                
+                <ol class="path-steps">
+                    <li class="path-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">前端框架</div>
+                            <div class="step-description">学习React、Vue或Angular，掌握组件化开发</div>
+                            <div class="step-links">
+                                <a href="frontend/frameworks.html" class="step-link">🚀 教程</a>
+                                <a href="playground.html" class="step-link">🎮 练习</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">后端开发</div>
+                            <div class="step-description">选择Node.js、Python或Java，学习服务器端编程</div>
+                            <div class="step-links">
+                                <a href="backend/nodejs.html" class="step-link">🟢 Node.js</a>
+                                <a href="backend/python.html" class="step-link">🐍 Python</a>
+                                <a href="backend/java.html" class="step-link">☕ Java</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">数据库</div>
+                            <div class="step-description">学习SQL和NoSQL数据库，掌握数据存储</div>
+                            <div class="step-links">
+                                <a href="database/sql.html" class="step-link">🗃️ SQL</a>
+                                <a href="database/nosql.html" class="step-link">🌌 NoSQL</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">全栈项目</div>
+                            <div class="step-description">开发完整的Web应用，前后端结合</div>
+                            <div class="step-links">
+                                <a href="playground.html" class="step-link">🎮 开始开发</a>
+                                <a href="demo.html" class="step-link">🎯 项目示例</a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="path-duration">⏱️ 预计学习时间：4-6个月</div>
+            </div>
+
+            <!-- 专业路径 -->
+            <div class="path-card">
+                <div class="path-header">
+                    <span class="path-icon">👑</span>
+                    <div class="path-title">专业路径</div>
+                    <div class="path-subtitle">成为资深全栈工程师</div>
+                </div>
+                
+                <ol class="path-steps">
+                    <li class="path-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">DevOps 运维</div>
+                            <div class="step-description">学习Docker、Kubernetes、CI/CD自动化部署</div>
+                            <div class="step-links">
+                                <a href="devops/docker.html" class="step-link">🐳 Docker</a>
+                                <a href="devops/kubernetes.html" class="step-link">⚓ K8s</a>
+                                <a href="devops/ci-cd.html" class="step-link">🔄 CI/CD</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">开发工具</div>
+                            <div class="step-description">精通Git、IDE、测试工具，提高开发效率</div>
+                            <div class="step-links">
+                                <a href="tools/git.html" class="step-link">🌿 Git</a>
+                                <a href="tools/ide.html" class="step-link">💻 IDE</a>
+                                <a href="tools/testing.html" class="step-link">🧪 测试</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">架构设计</div>
+                            <div class="step-description">学习系统架构、微服务、性能优化</div>
+                            <div class="step-links">
+                                <a href="demo.html" class="step-link">🎯 架构示例</a>
+                                <a href="playground.html" class="step-link">🎮 实践</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="path-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">企业项目</div>
+                            <div class="step-description">参与大型项目，积累实战经验</div>
+                            <div class="step-links">
+                                <a href="demo.html" class="step-link">🎯 项目案例</a>
+                                <a href="playground.html" class="step-link">🎮 开始实战</a>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                
+                <div class="path-duration">⏱️ 预计学习时间：6-12个月</div>
+            </div>
+        </div>
+
+        <!-- 技能树 -->
+        <section class="roadmap-section">
+            <h2 style="text-align: center; margin-bottom: 32px;">🌳 全栈技能树</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <span class="skill-icon">🏗️</span>
+                    <div class="skill-name">HTML5</div>
+                    <div class="skill-level">基础必备</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🎨</span>
+                    <div class="skill-name">CSS3</div>
+                    <div class="skill-level">样式设计</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">⚡</span>
+                    <div class="skill-name">JavaScript</div>
+                    <div class="skill-level">核心语言</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🚀</span>
+                    <div class="skill-name">React/Vue</div>
+                    <div class="skill-level">前端框架</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🟢</span>
+                    <div class="skill-name">Node.js</div>
+                    <div class="skill-level">后端运行时</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🐍</span>
+                    <div class="skill-name">Python</div>
+                    <div class="skill-level">后端语言</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🗃️</span>
+                    <div class="skill-name">数据库</div>
+                    <div class="skill-level">数据存储</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🐳</span>
+                    <div class="skill-name">Docker</div>
+                    <div class="skill-level">容器化</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🌿</span>
+                    <div class="skill-name">Git</div>
+                    <div class="skill-level">版本控制</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🧪</span>
+                    <div class="skill-name">测试</div>
+                    <div class="skill-level">质量保证</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">☁️</span>
+                    <div class="skill-name">云服务</div>
+                    <div class="skill-level">部署运维</div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-icon">🔒</span>
+                    <div class="skill-name">安全</div>
+                    <div class="skill-level">系统防护</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学习时间线 -->
+        <section class="roadmap-section">
+            <h2 style="text-align: center; margin-bottom: 32px;">📅 学习时间线</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">第1-2个月：前端基础</div>
+                    <div class="timeline-duration">HTML + CSS + JavaScript 基础</div>
+                    <div class="timeline-description">
+                        掌握网页结构、样式设计和基本交互。能够制作静态网页和简单的动态效果。
+                        重点学习语义化标签、响应式布局、DOM操作和事件处理。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第3-4个月：前端进阶</div>
+                    <div class="timeline-duration">框架学习 + 工程化工具</div>
+                    <div class="timeline-description">
+                        学习React或Vue框架，掌握组件化开发思想。了解Webpack、Vite等构建工具，
+                        学习npm包管理，掌握ES6+新特性。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第5-6个月：后端入门</div>
+                    <div class="timeline-duration">服务器端编程 + 数据库</div>
+                    <div class="timeline-description">
+                        选择Node.js、Python或Java学习后端开发。掌握HTTP协议、RESTful API设计，
+                        学习MySQL或MongoDB数据库操作。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第7-9个月：全栈项目</div>
+                    <div class="timeline-duration">前后端结合 + 项目实战</div>
+                    <div class="timeline-description">
+                        开发完整的Web应用，包括用户认证、数据CRUD、文件上传等功能。
+                        学习状态管理、路由配置、API设计等高级概念。
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第10-12个月：专业提升</div>
+                    <div class="timeline-duration">DevOps + 架构设计</div>
+                    <div class="timeline-description">
+                        学习Docker容器化、CI/CD自动化部署、云服务使用。
+                        了解系统架构设计、性能优化、安全防护等企业级开发技能。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学习建议 -->
+        <section style="background: var(--card-background); padding: 40px; border-radius: var(--border-radius-lg); margin: 48px 0;">
+            <h2 style="text-align: center; margin-bottom: 32px;">💡 学习建议</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                <div style="padding: 24px; background: var(--light-gray); border-radius: var(--border-radius);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 16px;">🎯 制定计划</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>设定明确的学习目标</li>
+                        <li>制定每日学习计划</li>
+                        <li>定期回顾和调整</li>
+                        <li>记录学习进度</li>
+                    </ul>
+                </div>
+                
+                <div style="padding: 24px; background: var(--light-gray); border-radius: var(--border-radius);">
+                    <h3 style="color: var(--success-color); margin-bottom: 16px;">🛠️ 动手实践</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>边学边练，及时应用</li>
+                        <li>完成课后练习</li>
+                        <li>参与开源项目</li>
+                        <li>搭建个人作品集</li>
+                    </ul>
+                </div>
+                
+                <div style="padding: 24px; background: var(--light-gray); border-radius: var(--border-radius);">
+                    <h3 style="color: var(--warning-color); margin-bottom: 16px;">🤝 社区交流</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>加入技术社区</li>
+                        <li>参与讨论和问答</li>
+                        <li>分享学习心得</li>
+                        <li>寻找学习伙伴</li>
+                    </ul>
+                </div>
+                
+                <div style="padding: 24px; background: var(--light-gray); border-radius: var(--border-radius);">
+                    <h3 style="color: var(--error-color); margin-bottom: 16px;">📚 持续学习</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>关注技术发展趋势</li>
+                        <li>阅读官方文档</li>
+                        <li>学习最佳实践</li>
+                        <li>保持学习热情</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div style="text-align: center; margin: 48px 0;">
+            <h3>🚀 开始您的学习之旅</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                选择适合您的学习路径，在全栈开发的银河中探索无限可能！
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="frontend/html.html" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🏗️ 开始学习HTML</a>
+                <a href="playground.html" style="background: linear-gradient(135deg, var(--success-color), var(--success-light)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🎮 进入代码游乐场</a>
+                <a href="demo.html" style="background: linear-gradient(135deg, var(--accent-color), var(--accent-light)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🎯 查看功能演示</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/galaxy-background.js"></script>
+    <script src="js/enhanced-features.js"></script>
+</body>
+</html> 

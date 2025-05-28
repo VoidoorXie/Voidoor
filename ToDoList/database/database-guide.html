@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💾 数据库代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💾</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-header.sql {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+        }
+        
+        .code-header.nosql {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+        }
+        
+        .code-header.redis {
+            background: linear-gradient(135deg, #dc143c, #b91c1c);
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag.sql {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .tag.nosql {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .tag.redis {
+            background: #dc143c;
+            color: white;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .result-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--info-color);
+        }
+        
+        .result-title {
+            color: var(--info-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .schema-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .schema-title {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">💾 数据库代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#sql-basics">SQL 基础</a></li>
+                    <li><a href="#sql-advanced">SQL 高级</a></li>
+                    <li><a href="#mysql">MySQL 专题</a></li>
+                    <li><a href="#postgresql">PostgreSQL</a></li>
+                    <li><a href="#mongodb">MongoDB</a></li>
+                    <li><a href="#redis">Redis 缓存</a></li>
+                    <li><a href="#transactions">事务处理</a></li>
+                    <li><a href="#indexing">索引优化</a></li>
+                    <li><a href="#backup">备份恢复</a></li>
+                    <li><a href="#performance">性能调优</a></li>
+                    <li><a href="#security">安全配置</a></li>
+                    <li><a href="#migration">数据迁移</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索数据库代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>💾 数据库代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    完整的数据库代码示例库，涵盖SQL、NoSQL等主流数据库技术
+                </p>
+
+                <section id="sql-basics">
+                    <h2>🗃️ SQL 基础操作</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header sql">
+                            <span>🏗️ 数据库和表的创建</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag sql">SQL</span>
+                                <span class="tag">DDL</span>
+                                <span class="tag">创建</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>-- 创建数据库
+CREATE DATABASE company_db 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;
+
+-- 使用数据库
+USE company_db;
+
+-- 创建用户表
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    phone VARCHAR(20),
+    birth_date DATE,
+    gender ENUM('M', 'F', 'Other'),
+    status ENUM('active', 'inactive', 'suspended') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- 索引
+    INDEX idx_username (username),
+    INDEX idx_email (email),
+    INDEX idx_status (status),
+    INDEX idx_created_at (created_at)
+);
+
+-- 创建部门表
+CREATE TABLE departments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    manager_id INT,
+    budget DECIMAL(15,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (manager_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- 创建员工表
+CREATE TABLE employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    employee_id VARCHAR(20) NOT NULL UNIQUE,
+    department_id INT,
+    position VARCHAR(100),
+    salary DECIMAL(10,2),
+    hire_date DATE NOT NULL,
+    manager_id INT,
+    
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL,
+    FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL,
+    
+    INDEX idx_employee_id (employee_id),
+    INDEX idx_department (department_id),
+    INDEX idx_hire_date (hire_date)
+);
+
+-- 创建项目表
+CREATE TABLE projects (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    budget DECIMAL(15,2),
+    status ENUM('planning', 'active', 'completed', 'cancelled') DEFAULT 'planning',
+    manager_id INT,
+    
+    FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL,
+    
+    INDEX idx_status (status),
+    INDEX idx_dates (start_date, end_date)
+);
+
+-- 创建项目成员关联表（多对多关系）
+CREATE TABLE project_members (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    project_id INT NOT NULL,
+    employee_id INT NOT NULL,
+    role VARCHAR(50),
+    joined_date DATE DEFAULT (CURRENT_DATE),
+    
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    
+    UNIQUE KEY unique_project_employee (project_id, employee_id),
+    INDEX idx_project (project_id),
+    INDEX idx_employee (employee_id)
+);</pre>
+                                </div>
+                            </div>
+                            <div class="schema-box">
+                                <div class="schema-title">📊 数据库结构说明：</div>
+                                • users: 用户基础信息表<br>
+                                • departments: 部门信息表<br>
+                                • employees: 员工信息表（关联用户和部门）<br>
+                                • projects: 项目信息表<br>
+                                • project_members: 项目成员关联表（多对多）
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header sql">
+                            <span>📝 数据插入操作</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>-- 插入用户数据
+INSERT INTO users (username, email, password_hash, first_name, last_name, phone, birth_date, gender) VALUES
+('zhangsan', 'zhangsan@company.com', 'hashed_password_1', '三', '张', '13800138001', '1990-05-15', 'M'),
+('lisi', 'lisi@company.com', 'hashed_password_2', '四', '李', '13800138002', '1988-08-20', 'F'),
+('wangwu', 'wangwu@company.com', 'hashed_password_3', '五', '王', '13800138003', '1992-12-10', 'M'),
+('zhaoliu', 'zhaoliu@company.com', 'hashed_password_4', '六', '赵', '13800138004', '1985-03-25', 'F'),
+('sunqi', 'sunqi@company.com', 'hashed_password_5', '七', '孙', '13800138005', '1993-07-08', 'M');
+
+-- 插入部门数据
+INSERT INTO departments (name, description, manager_id, budget) VALUES
+('技术部', '负责公司技术研发和产品开发', 1, 1000000.00),
+('市场部', '负责市场推广和销售', 2, 500000.00),
+('人事部', '负责人力资源管理', 3, 300000.00),
+('财务部', '负责财务管理和会计', 4, 200000.00);
+
+-- 插入员工数据
+INSERT INTO employees (user_id, employee_id, department_id, position, salary, hire_date, manager_id) VALUES
+(1, 'EMP001', 1, '技术总监', 25000.00, '2020-01-15', NULL),
+(2, 'EMP002', 2, '市场总监', 22000.00, '2020-02-01', NULL),
+(3, 'EMP003', 3, '人事总监', 20000.00, '2020-03-01', NULL),
+(4, 'EMP004', 4, '财务总监', 23000.00, '2020-04-01', NULL),
+(5, 'EMP005', 1, '高级开发工程师', 18000.00, '2021-06-15', 1);
+
+-- 插入项目数据
+INSERT INTO projects (name, description, start_date, end_date, budget, status, manager_id) VALUES
+('电商平台开发', '开发新一代电商平台系统', '2023-01-01', '2023-12-31', 2000000.00, 'active', 1),
+('移动APP开发', '开发公司官方移动应用', '2023-03-01', '2023-09-30', 800000.00, 'active', 1),
+('数据分析系统', '构建企业数据分析平台', '2023-06-01', '2024-03-31', 1500000.00, 'planning', 1);
+
+-- 插入项目成员关联数据
+INSERT INTO project_members (project_id, employee_id, role, joined_date) VALUES
+(1, 1, '项目经理', '2023-01-01'),
+(1, 5, '开发工程师', '2023-01-15'),
+(2, 1, '技术顾问', '2023-03-01'),
+(2, 5, '主要开发者', '2023-03-01'),
+(3, 1, '项目经理', '2023-06-01');
+
+-- 批量插入示例（使用子查询）
+INSERT INTO project_members (project_id, employee_id, role)
+SELECT 
+    p.id,
+    e.id,
+    '团队成员'
+FROM projects p
+CROSS JOIN employees e
+WHERE p.name = '电商平台开发' 
+  AND e.department_id = 1 
+  AND e.id NOT IN (SELECT employee_id FROM project_members WHERE project_id = p.id);
+
+-- 条件插入（如果不存在则插入）
+INSERT IGNORE INTO users (username, email, password_hash, first_name, last_name)
+VALUES ('admin', 'admin@company.com', 'admin_hash', 'Admin', 'User');
+
+-- 插入或更新（MySQL特有语法）
+INSERT INTO users (username, email, password_hash, first_name, last_name)
+VALUES ('testuser', 'test@company.com', 'test_hash', 'Test', 'User')
+ON DUPLICATE KEY UPDATE
+    password_hash = VALUES(password_hash),
+    updated_at = CURRENT_TIMESTAMP;</pre>
+                                </div>
+                            </div>
+                            <div class="result-output">
+                                <div class="result-title">执行结果：</div>
+                                Query OK, 5 rows affected (0.01 sec)<br>
+                                Records: 5  Duplicates: 0  Warnings: 0
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header sql">
+                            <span>🔍 数据查询操作</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>-- 基础查询
+SELECT * FROM users;
+SELECT username, email, first_name, last_name FROM users;
+
+-- 条件查询
+SELECT * FROM users WHERE status = 'active';
+SELECT * FROM users WHERE birth_date > '1990-01-01';
+SELECT * FROM users WHERE first_name LIKE '张%';
+
+-- 排序和限制
+SELECT * FROM users ORDER BY created_at DESC;
+SELECT * FROM users ORDER BY last_name, first_name;
+SELECT * FROM users ORDER BY birth_date DESC LIMIT 5;
+SELECT * FROM users ORDER BY id LIMIT 10 OFFSET 20; -- 分页
+
+-- 聚合查询
+SELECT COUNT(*) as total_users FROM users;
+SELECT status, COUNT(*) as count FROM users GROUP BY status;
+SELECT department_id, AVG(salary) as avg_salary FROM employees GROUP BY department_id;
+SELECT department_id, MIN(salary), MAX(salary), AVG(salary) FROM employees GROUP BY department_id;
+
+-- 多表连接查询
+-- 内连接：获取用户和员工信息
+SELECT 
+    u.username,
+    u.first_name,
+    u.last_name,
+    e.employee_id,
+    e.position,
+    e.salary,
+    d.name as department_name
+FROM users u
+INNER JOIN employees e ON u.id = e.user_id
+INNER JOIN departments d ON e.department_id = d.id;
+
+-- 左连接：获取所有用户（包括非员工）
+SELECT 
+    u.username,
+    u.first_name,
+    u.last_name,
+    e.employee_id,
+    e.position,
+    COALESCE(d.name, '未分配') as department_name
+FROM users u
+LEFT JOIN employees e ON u.id = e.user_id
+LEFT JOIN departments d ON e.department_id = d.id;
+
+-- 复杂查询：项目成员统计
+SELECT 
+    p.name as project_name,
+    p.status,
+    COUNT(pm.employee_id) as member_count,
+    GROUP_CONCAT(CONCAT(u.first_name, u.last_name) SEPARATOR ', ') as members
+FROM projects p
+LEFT JOIN project_members pm ON p.id = pm.project_id
+LEFT JOIN employees e ON pm.employee_id = e.id
+LEFT JOIN users u ON e.user_id = u.id
+GROUP BY p.id, p.name, p.status
+ORDER BY member_count DESC;
+
+-- 子查询示例
+-- 查找薪资高于平均薪资的员工
+SELECT 
+    u.first_name,
+    u.last_name,
+    e.salary
+FROM users u
+INNER JOIN employees e ON u.id = e.user_id
+WHERE e.salary > (SELECT AVG(salary) FROM employees);
+
+-- 查找参与项目最多的员工
+SELECT 
+    u.first_name,
+    u.last_name,
+    COUNT(pm.project_id) as project_count
+FROM users u
+INNER JOIN employees e ON u.id = e.user_id
+INNER JOIN project_members pm ON e.id = pm.employee_id
+GROUP BY u.id, u.first_name, u.last_name
+HAVING project_count = (
+    SELECT MAX(project_count) 
+    FROM (
+        SELECT COUNT(project_id) as project_count 
+        FROM project_members 
+        GROUP BY employee_id
+    ) as counts
+);
+
+-- 窗口函数（MySQL 8.0+）
+SELECT 
+    u.first_name,
+    u.last_name,
+    e.salary,
+    d.name as department,
+    ROW_NUMBER() OVER (PARTITION BY e.department_id ORDER BY e.salary DESC) as salary_rank,
+    AVG(e.salary) OVER (PARTITION BY e.department_id) as dept_avg_salary,
+    LAG(e.salary) OVER (ORDER BY e.salary) as prev_salary
+FROM users u
+INNER JOIN employees e ON u.id = e.user_id
+INNER JOIN departments d ON e.department_id = d.id;
+
+-- CTE（公共表表达式）示例
+WITH department_stats AS (
+    SELECT 
+        d.id,
+        d.name,
+        COUNT(e.id) as employee_count,
+        AVG(e.salary) as avg_salary,
+        MAX(e.salary) as max_salary
+    FROM departments d
+    LEFT JOIN employees e ON d.id = e.department_id
+    GROUP BY d.id, d.name
+),
+high_salary_depts AS (
+    SELECT * FROM department_stats WHERE avg_salary > 20000
+)
+SELECT 
+    hsd.name,
+    hsd.employee_count,
+    hsd.avg_salary,
+    hsd.max_salary
+FROM high_salary_depts hsd
+ORDER BY hsd.avg_salary DESC;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mongodb">
+                    <h2>🌿 MongoDB 操作</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header nosql">
+                            <span>📄 文档操作基础</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag nosql">MongoDB</span>
+                                <span class="tag">文档</span>
+                                <span class="tag">CRUD</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 连接到MongoDB
+use company_db
+
+// 创建用户集合并插入文档
+db.users.insertOne({
+    username: "zhangsan",
+    email: "zhangsan@company.com",
+    profile: {
+        firstName: "三",
+        lastName: "张",
+        phone: "13800138001",
+        birthDate: new Date("1990-05-15"),
+        gender: "M"
+    },
+    address: {
+        street: "中山路123号",
+        city: "北京",
+        province: "北京市",
+        zipCode: "100000"
+    },
+    preferences: {
+        language: "zh-CN",
+        timezone: "Asia/Shanghai",
+        notifications: {
+            email: true,
+            sms: false,
+            push: true
+        }
+    },
+    tags: ["developer", "senior", "fullstack"],
+    status: "active",
+    createdAt: new Date(),
+    updatedAt: new Date()
+});
+
+// 批量插入文档
+db.users.insertMany([
+    {
+        username: "lisi",
+        email: "lisi@company.com",
+        profile: {
+            firstName: "四",
+            lastName: "李",
+            phone: "13800138002",
+            birthDate: new Date("1988-08-20"),
+            gender: "F"
+        },
+        address: {
+            street: "解放路456号",
+            city: "上海",
+            province: "上海市",
+            zipCode: "200000"
+        },
+        tags: ["designer", "creative"],
+        status: "active",
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        username: "wangwu",
+        email: "wangwu@company.com",
+        profile: {
+            firstName: "五",
+            lastName: "王",
+            phone: "13800138003",
+            birthDate: new Date("1992-12-10"),
+            gender: "M"
+        },
+        address: {
+            street: "人民路789号",
+            city: "广州",
+            province: "广东省",
+            zipCode: "510000"
+        },
+        tags: ["manager", "leadership"],
+        status: "active",
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+]);
+
+// 查询文档
+// 查找所有用户
+db.users.find();
+
+// 条件查询
+db.users.find({ status: "active" });
+db.users.find({ "profile.gender": "M" });
+db.users.find({ tags: "developer" });
+db.users.find({ tags: { $in: ["developer", "designer"] } });
+
+// 复杂查询
+db.users.find({
+    $and: [
+        { status: "active" },
+        { "profile.birthDate": { $gte: new Date("1990-01-01") } },
+        { tags: { $in: ["developer", "manager"] } }
+    ]
+});
+
+// 投影查询（只返回指定字段）
+db.users.find(
+    { status: "active" },
+    { username: 1, email: 1, "profile.firstName": 1, "profile.lastName": 1 }
+);
+
+// 排序和限制
+db.users.find().sort({ createdAt: -1 });
+db.users.find().sort({ "profile.lastName": 1, "profile.firstName": 1 });
+db.users.find().limit(5);
+db.users.find().skip(10).limit(5); // 分页
+
+// 聚合查询
+db.users.aggregate([
+    // 按性别分组统计
+    {
+        $group: {
+            _id: "$profile.gender",
+            count: { $sum: 1 },
+            avgAge: {
+                $avg: {
+                    $divide: [
+                        { $subtract: [new Date(), "$profile.birthDate"] },
+                        365.25 * 24 * 60 * 60 * 1000
+                    ]
+                }
+            }
+        }
+    }
+]);
+
+// 复杂聚合管道
+db.users.aggregate([
+    // 匹配活跃用户
+    { $match: { status: "active" } },
+    
+    // 添加计算字段
+    {
+        $addFields: {
+            age: {
+                $floor: {
+                    $divide: [
+                        { $subtract: [new Date(), "$profile.birthDate"] },
+                        365.25 * 24 * 60 * 60 * 1000
+                    ]
+                }
+            },
+            fullName: {
+                $concat: ["$profile.lastName", "$profile.firstName"]
+            }
+        }
+    },
+    
+    // 按城市分组
+    {
+        $group: {
+            _id: "$address.city",
+            userCount: { $sum: 1 },
+            avgAge: { $avg: "$age" },
+            users: {
+                $push: {
+                    username: "$username",
+                    fullName: "$fullName",
+                    age: "$age"
+                }
+            }
+        }
+    },
+    
+    // 排序
+    { $sort: { userCount: -1 } }
+]);
+
+// 更新文档
+// 更新单个文档
+db.users.updateOne(
+    { username: "zhangsan" },
+    {
+        $set: {
+            "preferences.notifications.email": false,
+            updatedAt: new Date()
+        },
+        $push: { tags: "teamlead" }
+    }
+);
+
+// 更新多个文档
+db.users.updateMany(
+    { status: "active" },
+    {
+        $set: { updatedAt: new Date() },
+        $inc: { loginCount: 1 }
+    }
+);
+
+// 替换文档
+db.users.replaceOne(
+    { username: "lisi" },
+    {
+        username: "lisi",
+        email: "lisi@company.com",
+        profile: {
+            firstName: "四",
+            lastName: "李",
+            phone: "13800138002",
+            birthDate: new Date("1988-08-20"),
+            gender: "F"
+        },
+        status: "active",
+        updatedAt: new Date()
+    }
+);
+
+// 删除文档
+db.users.deleteOne({ username: "testuser" });
+db.users.deleteMany({ status: "inactive" });
+
+// 创建索引
+db.users.createIndex({ username: 1 }, { unique: true });
+db.users.createIndex({ email: 1 }, { unique: true });
+db.users.createIndex({ "profile.lastName": 1, "profile.firstName": 1 });
+db.users.createIndex({ tags: 1 });
+db.users.createIndex({ createdAt: -1 });
+
+// 复合索引
+db.users.createIndex({ 
+    status: 1, 
+    "address.city": 1, 
+    createdAt: -1 
+});
+
+// 文本索引（用于全文搜索）
+db.users.createIndex({
+    username: "text",
+    "profile.firstName": "text",
+    "profile.lastName": "text"
+});
+
+// 使用文本搜索
+db.users.find({ $text: { $search: "张三" } });</pre>
+                                </div>
+                            </div>
+                            <div class="result-output">
+                                <div class="result-title">执行结果示例：</div>
+                                {<br>
+                                &nbsp;&nbsp;"acknowledged": true,<br>
+                                &nbsp;&nbsp;"insertedId": ObjectId("...")
+                                <br>}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="redis">
+                    <h2>🔴 Redis 缓存操作</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header redis">
+                            <span>⚡ Redis 基础操作</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag redis">Redis</span>
+                                <span class="tag">缓存</span>
+                                <span class="tag">键值</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># 连接Redis
+redis-cli
+
+# 字符串操作
+SET user:1001:name "张三"
+GET user:1001:name
+SET user:1001:email "zhangsan@company.com"
+MSET user:1001:phone "13800138001" user:1001:age "33"
+MGET user:1001:name user:1001:email user:1001:phone
+
+# 设置过期时间
+SET session:abc123 "user_data" EX 3600  # 1小时后过期
+SETEX cache:user:1001 300 '{"name":"张三","email":"zhangsan@company.com"}'
+TTL session:abc123  # 查看剩余时间
+
+# 数字操作
+SET counter:page_views 0
+INCR counter:page_views
+INCRBY counter:page_views 10
+DECR counter:page_views
+DECRBY counter:page_views 5
+
+# 哈希操作（适合存储对象）
+HSET user:1001 name "张三" email "zhangsan@company.com" age 33
+HGET user:1001 name
+HMGET user:1001 name email age
+HGETALL user:1001
+HINCRBY user:1001 age 1
+HEXISTS user:1001 phone
+HDEL user:1001 age
+
+# 列表操作（适合队列、栈）
+# 左侧插入（队列头部）
+LPUSH queue:tasks "task1" "task2" "task3"
+# 右侧插入（队列尾部）
+RPUSH queue:tasks "task4" "task5"
+# 获取列表长度
+LLEN queue:tasks
+# 获取范围内的元素
+LRANGE queue:tasks 0 -1  # 获取所有元素
+LRANGE queue:tasks 0 2   # 获取前3个元素
+# 弹出元素
+LPOP queue:tasks  # 从左侧弹出
+RPOP queue:tasks  # 从右侧弹出
+
+# 阻塞式弹出（用于实现消息队列）
+BLPOP queue:tasks 10  # 阻塞10秒等待元素
+
+# 集合操作（无序、唯一）
+SADD tags:user:1001 "developer" "senior" "fullstack"
+SMEMBERS tags:user:1001
+SISMEMBER tags:user:1001 "developer"
+SCARD tags:user:1001  # 获取集合大小
+
+# 集合运算
+SADD tags:user:1002 "designer" "creative" "senior"
+SINTER tags:user:1001 tags:user:1002  # 交集
+SUNION tags:user:1001 tags:user:1002  # 并集
+SDIFF tags:user:1001 tags:user:1002   # 差集
+
+# 有序集合操作（带分数排序）
+ZADD leaderboard 100 "player1" 85 "player2" 92 "player3"
+ZRANGE leaderboard 0 -1 WITHSCORES  # 按分数升序
+ZREVRANGE leaderboard 0 -1 WITHSCORES  # 按分数降序
+ZRANK leaderboard "player2"  # 获取排名
+ZSCORE leaderboard "player1"  # 获取分数
+ZINCRBY leaderboard 5 "player2"  # 增加分数
+
+# 按分数范围查询
+ZRANGEBYSCORE leaderboard 80 95 WITHSCORES
+ZCOUNT leaderboard 80 95  # 统计分数范围内的成员数
+
+# 位图操作（适合统计）
+# 用户签到统计
+SETBIT user:1001:checkin:202312 0 1  # 12月1日签到
+SETBIT user:1001:checkin:202312 1 1  # 12月2日签到
+SETBIT user:1001:checkin:202312 3 1  # 12月4日签到
+GETBIT user:1001:checkin:202312 0    # 查看12月1日是否签到
+BITCOUNT user:1001:checkin:202312    # 统计12月签到天数
+
+# HyperLogLog（基数统计）
+# 统计网站独立访客
+PFADD visitors:20231201 "user1" "user2" "user3"
+PFADD visitors:20231201 "user1" "user4"  # user1重复，不会增加计数
+PFCOUNT visitors:20231201  # 获取独立访客数
+
+# 地理位置操作
+GEOADD locations 116.397128 39.916527 "beijing"
+GEOADD locations 121.473701 31.230416 "shanghai"
+GEOADD locations 113.264385 23.129163 "guangzhou"
+
+# 计算距离
+GEODIST locations beijing shanghai km
+
+# 查找附近的位置
+GEORADIUS locations 116.397128 39.916527 1000 km WITHDIST WITHCOORD
+
+# 发布订阅
+# 发布消息
+PUBLISH news:tech "新技术发布：Redis 7.0"
+PUBLISH news:company "公司新闻：年终聚餐"
+
+# 订阅频道（需要在另一个客户端执行）
+SUBSCRIBE news:tech news:company
+
+# 模式订阅
+PSUBSCRIBE news:*
+
+# 流操作（Redis 5.0+，类似Kafka）
+# 添加消息到流
+XADD events:user_actions * user_id 1001 action "login" timestamp 1640995200
+XADD events:user_actions * user_id 1002 action "purchase" amount 99.99
+
+# 读取流消息
+XREAD STREAMS events:user_actions 0  # 从头开始读取
+XRANGE events:user_actions - +       # 获取所有消息
+
+# 消费者组
+XGROUP CREATE events:user_actions analytics_group 0
+XREADGROUP GROUP analytics_group consumer1 STREAMS events:user_actions >
+
+# 事务操作
+MULTI
+SET account:1001:balance 1000
+SET account:1002:balance 500
+DECRBY account:1001:balance 100
+INCRBY account:1002:balance 100
+EXEC
+
+# 监视键（乐观锁）
+WATCH account:1001:balance
+MULTI
+DECRBY account:1001:balance 100
+EXEC
+
+# Lua脚本（原子操作）
+EVAL "
+local current = redis.call('GET', KEYS[1])
+if current == false then
+    current = 0
+else
+    current = tonumber(current)
+end
+if current < tonumber(ARGV[1]) then
+    return redis.call('INCRBY', KEYS[1], ARGV[2])
+else
+    return current
+end
+" 1 counter:api_calls 100 1
+
+# 管道操作（批量执行，减少网络往返）
+# 在客户端代码中使用pipeline
+# pipeline = redis.pipeline()
+# pipeline.set('key1', 'value1')
+# pipeline.set('key2', 'value2')
+# pipeline.get('key1')
+# results = pipeline.execute()
+
+# 键管理
+KEYS user:*  # 查找匹配的键（生产环境慎用）
+SCAN 0 MATCH user:* COUNT 10  # 安全的键扫描
+EXISTS user:1001:name
+TYPE user:1001:name
+EXPIRE user:1001:name 3600
+PERSIST user:1001:name  # 移除过期时间
+DEL user:1001:name
+
+# 数据库管理
+SELECT 1  # 切换到数据库1
+FLUSHDB  # 清空当前数据库
+FLUSHALL  # 清空所有数据库
+INFO  # 查看Redis信息
+CONFIG GET maxmemory  # 查看配置</pre>
+                                </div>
+                            </div>
+                            <div class="result-output">
+                                <div class="result-title">执行结果示例：</div>
+                                127.0.0.1:6379> SET user:1001:name "张三"<br>
+                                OK<br>
+                                127.0.0.1:6379> GET user:1001:name<br>
+                                "张三"
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="sql.html">🗃️ SQL 教程</a> |
+                        <a href="nosql.html">🌌 NoSQL 教程</a> |
+                        <a href="../backend/backend-guide.html">🛸 后端代码大全</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = 'var(--success-color)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 全面手册</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; font-family: Arial, sans-serif; background: #f4f4f4; }
+        .sidebar { width: 260px; background: #fff; border-right: 1px solid #eee; min-height: 100vh; padding: 24px 0; position: fixed; left: 0; top: 0; overflow-y: auto; z-index: 100; }
+        .sidebar-section { margin-bottom: 32px; }
+        .sidebar-title { font-weight: bold; font-size: 1.1em; margin: 12px 0 8px 24px; color: #222; }
+        .sidebar-list, .sidebar-list ul { list-style: none; padding-left: 24px; margin: 0; }
+        .sidebar-list li { margin: 6px 0; }
+        .sidebar-list a { color: #333; text-decoration: none; transition: color 0.2s; }
+        .sidebar-list a:hover { color: #1976d2; text-decoration: underline; }
+        details summary { cursor: pointer; font-weight: 500; color: #444; outline: none; }
+        @media (max-width: 800px) { .sidebar { position: static; width: 100%; min-height: auto; border-right: none; border-bottom: 1px solid #eee; } body { flex-direction: column; } .main-content { margin-left: 0; padding: 16px; } }
+        .main-content { margin-left: 260px; padding: 32px; flex: 1; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .info-bar { background: #e3f2fd; padding: 12px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 200; }
+        .search-box { padding: 6px 12px; border: 1px solid #bbb; border-radius: 4px; }
+        .code { background: #2d2d2d; color: #fff; padding: 15px; border-radius: 4px; font-family: monospace; overflow-x: auto; margin: 15px 0; }
+        .tip { background: #d4edda; border-left: 4px solid #28a745; padding: 12px; margin: 10px 0; border-radius: 4px; }
+        .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 10px 0; border-radius: 4px; }
+        .footer-resources { background: #f8f9fa; padding: 24px 32px; border-top: 1px solid #eee; margin-top: 40px; }
+        h1 { text-align: center; color: #333; font-size: 2.5em; margin-bottom: 30px; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; }
+        h3 { color: #1976d2; margin-top: 28px; }
+        section { margin-bottom: 48px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Python 全面手册</div>
+            <ul class="sidebar-list">
+                <li><a href="#intro">简介</a></li>
+                <li><details open><summary>基础语法</summary><ul>
+                    <li><a href="#variables">变量与数据类型</a></li>
+                    <li><a href="#control">流程控制</a></li>
+                    <li><a href="#functions">函数</a></li>
+                    <li><a href="#classes">类与对象</a></li>
+                </ul></details></li>
+                <li><details><summary>Flask 框架</summary><ul>
+                    <li><a href="#flask-basic">基础用法</a></li>
+                    <li><a href="#flask-routes">路由与视图</a></li>
+                    <li><a href="#flask-templates">模板</a></li>
+                    <li><a href="#flask-db">数据库</a></li>
+                </ul></details></li>
+                <li><details><summary>Django 框架</summary><ul>
+                    <li><a href="#django-basic">基础用法</a></li>
+                    <li><a href="#django-models">模型</a></li>
+                    <li><a href="#django-views">视图</a></li>
+                    <li><a href="#django-admin">管理后台</a></li>
+                </ul></details></li>
+                <li><details><summary>数据处理</summary><ul>
+                    <li><a href="#pandas">Pandas</a></li>
+                    <li><a href="#numpy">NumPy</a></li>
+                    <li><a href="#matplotlib">数据可视化</a></li>
+                </ul></details></li>
+                <li><details><summary>API 开发</summary><ul>
+                    <li><a href="#fastapi">FastAPI</a></li>
+                    <li><a href="#rest">RESTful API</a></li>
+                    <li><a href="#auth">身份验证</a></li>
+                </ul></details></li>
+                <li><a href="#best-practice">最佳实践</a></li>
+                <li><a href="#faq">常见问题</a></li>
+                <li><a href="#resources">相关资源</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="info-bar">
+            <input type="text" placeholder="搜索内容..." class="search-box">
+            <button onclick="window.scrollTo(0,0)">返回顶部</button>
+            <a href="#resources">相关资源</a>
+            <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+        </div>
+        <div class="container">
+            <div class="nav-breadcrumb">
+                <a href="../index.html">首页</a> &gt; 后端开发 &gt; Python
+            </div>
+            <h1 id="intro">Python 全面手册</h1>
+            <section>
+                <h2 id="variables">变量与数据类型</h2>
+                <p>Python 是动态类型语言，支持多种内置数据类型。</p>
+                <div class="code"><pre># 基本数据类型
+name = "Python"  # 字符串
+age = 30         # 整数
+height = 1.75    # 浮点数
+is_active = True # 布尔值
+
+# 集合类型
+numbers = [1, 2, 3, 4, 5]        # 列表
+coordinates = (10, 20)           # 元组
+unique_items = {1, 2, 3}         # 集合
+person = {"name": "Alice", "age": 25}  # 字典</pre></div>
+                <div class="tip">实际场景：数据处理、配置管理、API 响应。</div>
+                <div class="note">常见错误：混淆可变与不可变类型。</div>
+            </section>
+            <section>
+                <h2 id="flask-basic">Flask 基础用法</h2>
+                <p>Flask 是轻量级的 Python Web 框架，适合快速开发 API 和小型应用。</p>
+                <div class="code"><pre>from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+db = SQLAlchemy(app)
+
+# 模型定义
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+
+# 路由
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    user = User(
+        username=data['username'],
+        email=data['email'],
+        password_hash=generate_password_hash(data['password'])
+    )
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({'message': '用户创建成功'}), 201
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)</pre></div>
+                <div class="tip">实际场景：API 开发、原型设计、微服务。</div>
+                <div class="note">常见错误：忘记处理数据库会话和异常。</div>
+            </section>
+            <section>
+                <h2 id="resources">相关资源</h2>
+                <ul>
+                    <li><a href="https://www.python.org/" target="_blank">Python 官方网站</a></li>
+                    <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask 官方文档</a></li>
+                    <li><a href="https://www.djangoproject.com/" target="_blank">Django 官方网站</a></li>
+                    <li><a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI 官方文档</a></li>
+                </ul>
+            </section>
+        </div>
+        <div class="footer-resources">
+            <strong>推荐工具：</strong> <a href="https://pypi.org/" target="_blank">PyPI</a> | <a href="https://jupyter.org/" target="_blank">Jupyter</a> | <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 CSS 美化星云 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+    <div class="layout">
+    <div class="sidebar">
+        <div class="sidebar-section">
+                <div class="sidebar-title">🎨 CSS 美化</div>
+            <ul class="sidebar-list">
+                    <li><a href="#introduction">CSS 简介</a></li>
+                    <li><a href="#syntax">语法基础</a></li>
+                    <li><a href="#selectors">选择器</a></li>
+                    <li><a href="#properties">常用属性</a></li>
+                    <li><a href="#layout">布局技术</a></li>
+                    <li><a href="#responsive">响应式设计</a></li>
+                    <li><a href="#animations">动画效果</a></li>
+                    <li><a href="#advanced">高级技巧</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索CSS内容...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>🎨 CSS 美化星云</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    在样式的宇宙中创造美丽，用CSS3绘制出令人惊叹的视觉效果
+                </p>
+
+                <section id="introduction">
+                    <h2>🌟 CSS 简介</h2>
+                    <p>CSS（Cascading Style Sheets，层叠样式表）是用来描述HTML文档样式的语言。它控制网页的外观、布局和动画效果。</p>
+                    
+                    <div class="info">
+                        <h3>CSS 的作用</h3>
+                        <ul>
+                            <li><strong>样式控制</strong>：颜色、字体、大小等视觉效果</li>
+                            <li><strong>布局设计</strong>：元素的位置和排列方式</li>
+                            <li><strong>响应式</strong>：适配不同设备和屏幕尺寸</li>
+                            <li><strong>动画交互</strong>：创建动态效果和用户交互</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 学习提示：</strong>
+                        CSS就像是网页的化妆师，它能让普通的HTML变得美丽动人。掌握CSS是前端开发的核心技能！
+                    </div>
+                </section>
+
+                <section id="syntax">
+                    <h2>📝 CSS 语法基础</h2>
+                    <p>CSS规则由选择器和声明块组成。声明块包含一个或多个声明，每个声明由属性和值组成。</p>
+
+                    <div class="code">
+                        <pre>/* CSS 基本语法 */
+选择器 {
+    属性: 值;
+    属性: 值;
+}
+
+/* 示例 */
+h1 {
+    color: blue;
+    font-size: 24px;
+    text-align: center;
+}
+
+.highlight {
+    background-color: yellow;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#header {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+}</pre>
+                    </div>
+
+                    <h3>🔍 语法解析</h3>
+                    <ul>
+                        <li><strong>选择器</strong>：指定要应用样式的HTML元素</li>
+                        <li><strong>属性</strong>：要修改的样式特性</li>
+                        <li><strong>值</strong>：属性的具体设置</li>
+                        <li><strong>声明</strong>：属性和值的组合</li>
+                        <li><strong>注释</strong>：使用 /* */ 包围</li>
+                    </ul>
+                </section>
+
+                <section id="selectors">
+                    <h2>🎯 CSS 选择器</h2>
+                    <p>选择器用于选择要应用样式的HTML元素。CSS提供了多种选择器类型。</p>
+
+                    <h3>🏷️ 基本选择器</h3>
+                    <div class="code">
+                        <pre>/* 元素选择器 */
+p {
+    color: #333;
+}
+
+/* 类选择器 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ID选择器 */
+#navigation {
+    background-color: #f8f9fa;
+}
+
+/* 通配符选择器 */
+* {
+    box-sizing: border-box;
+}
+
+/* 属性选择器 */
+input[type="text"] {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+input[placeholder] {
+    font-style: italic;
+}</pre>
+                    </div>
+
+                    <h3>🔗 组合选择器</h3>
+                    <div class="code">
+                        <pre>/* 后代选择器 */
+.container p {
+    line-height: 1.6;
+}
+
+/* 子元素选择器 */
+.menu > li {
+    display: inline-block;
+}
+
+/* 相邻兄弟选择器 */
+h2 + p {
+    margin-top: 0;
+}
+
+/* 通用兄弟选择器 */
+h2 ~ p {
+    color: #666;
+}
+
+/* 多类选择器 */
+.button.primary {
+    background-color: #007bff;
+    color: white;
+}</pre>
+                    </div>
+
+                    <h3>🎭 伪类和伪元素</h3>
+                    <div class="code">
+                        <pre>/* 伪类选择器 */
+a:hover {
+    color: #ff6b6b;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #6c757d;
+}
+
+input:focus {
+    outline: 2px solid #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+li:first-child {
+    font-weight: bold;
+}
+
+li:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+/* 伪元素选择器 */
+p::first-line {
+    font-weight: bold;
+}
+
+.quote::before {
+    content: """;
+    font-size: 2em;
+    color: #007bff;
+}
+
+.quote::after {
+    content: """;
+    font-size: 2em;
+    color: #007bff;
+}</pre>
+                    </div>
+                </section>
+
+                <section id="properties">
+                    <h2>🎨 常用CSS属性</h2>
+                    
+                    <h3>📝 文本样式</h3>
+                    <div class="code">
+                        <pre>/* 字体属性 */
+.text-style {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+}
+
+/* 文本属性 */
+.text-format {
+    color: #333;
+    text-align: center;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}</pre>
+                    </div>
+
+                    <h3>🎨 背景和边框</h3>
+                    <div class="code">
+                        <pre>/* 背景属性 */
+.background-demo {
+    background-color: #f8f9fa;
+    background-image: url('pattern.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    
+    /* 简写形式 */
+    background: #f8f9fa url('pattern.png') no-repeat center/cover fixed;
+}
+
+/* 渐变背景 */
+.gradient-bg {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: radial-gradient(circle, #ff6b6b, #feca57);
+}
+
+/* 边框属性 */
+.border-demo {
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    border-top: 3px dashed #28a745;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}</pre>
+                    </div>
+
+                    <h3>📦 盒模型</h3>
+                    <div class="code">
+                        <pre>/* 盒模型属性 */
+.box-model {
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    margin: 10px auto;
+    border: 2px solid #ccc;
+    
+    /* 盒模型类型 */
+    box-sizing: border-box; /* 包含padding和border */
+}
+
+/* 内外边距 */
+.spacing {
+    margin: 10px 20px 15px 5px; /* 上 右 下 左 */
+    padding: 10px 20px; /* 上下 左右 */
+    
+    /* 单独设置 */
+    margin-top: 10px;
+    margin-right: 20px;
+    padding-left: 15px;
+}</pre>
+                    </div>
+                </section>
+
+                <section id="layout">
+                    <h2>📐 布局技术</h2>
+                    
+                    <h3>🌊 Flexbox 布局</h3>
+                    <div class="code">
+                        <pre>/* Flex 容器 */
+.flex-container {
+    display: flex;
+    flex-direction: row; /* row, column, row-reverse, column-reverse */
+    justify-content: center; /* flex-start, flex-end, center, space-between, space-around */
+    align-items: center; /* flex-start, flex-end, center, stretch, baseline */
+    flex-wrap: wrap; /* nowrap, wrap, wrap-reverse */
+    gap: 20px;
+}
+
+/* Flex 项目 */
+.flex-item {
+    flex: 1; /* flex-grow flex-shrink flex-basis */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 200px;
+    align-self: flex-start;
+}
+
+/* 实用示例 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1 1 300px; /* 最小宽度300px，可伸缩 */
+}</pre>
+                    </div>
+
+                    <h3>🏗️ Grid 布局</h3>
+                    <div class="code">
+                        <pre>/* Grid 容器 */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列等宽 */
+    grid-template-rows: auto 1fr auto; /* 3行 */
+    grid-gap: 20px;
+    
+    /* 命名网格线 */
+    grid-template-areas: 
+        "header header header"
+        "sidebar main main"
+        "footer footer footer";
+}
+
+/* Grid 项目 */
+.grid-item {
+    grid-column: 1 / 3; /* 从第1列到第3列 */
+    grid-row: 2 / 4; /* 从第2行到第4行 */
+}
+
+/* 使用命名区域 */
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+/* 响应式网格 */
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}</pre>
+                    </div>
+
+                    <h3>📍 定位</h3>
+                    <div class="code">
+                        <pre>/* 定位类型 */
+.static { position: static; } /* 默认值 */
+.relative { 
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
+.absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+/* 层级控制 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0,0,0,0.5);
+}</pre>
+                    </div>
+                </section>
+
+                <section id="responsive">
+                    <h2>📱 响应式设计</h2>
+                    <p>响应式设计让网页在不同设备上都能完美显示。</p>
+
+                    <h3>📏 媒体查询</h3>
+                    <div class="code">
+                        <pre>/* 基本媒体查询 */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 多个断点 */
+/* 手机 */
+@media (max-width: 480px) {
+    .text {
+        font-size: 14px;
+    }
+}
+
+/* 平板 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+/* 桌面 */
+@media (min-width: 769px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+/* 高分辨率屏幕 */
+@media (-webkit-min-device-pixel-ratio: 2) {
+    .logo {
+        background-image: url('logo@2x.png');
+        background-size: 100px 50px;
+    }
+}</pre>
+                    </div>
+
+                    <h3>🔧 响应式技巧</h3>
+                    <div class="code">
+                        <pre>/* 流体布局 */
+.fluid-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 响应式图片 */
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 响应式视频 */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 比例 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 响应式字体 */
+.responsive-text {
+    font-size: clamp(1rem, 2.5vw, 2rem);
+}</pre>
+                    </div>
+            </section>
+
+                <section id="animations">
+                    <h2>🎬 CSS 动画</h2>
+                    
+                    <h3>🔄 过渡动画</h3>
+                    <div class="code">
+                        <pre>/* 基本过渡 */
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* 多属性过渡 */
+.card {
+    transition: 
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    opacity: 0.9;
+}</pre>
+                    </div>
+
+                    <h3>🎭 关键帧动画</h3>
+                    <div class="code">
+                        <pre>/* 定义关键帧 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 应用动画 */
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.bounce-element {
+    animation: bounce 2s infinite;
+}
+
+.loading-spinner {
+    animation: rotate 1s linear infinite;
+}
+
+/* 动画属性详解 */
+.complex-animation {
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    
+    /* 简写形式 */
+    animation: fadeIn 2s ease-in-out 0.5s infinite alternate forwards;
+}</pre>
+                    </div>
+            </section>
+
+                <section id="advanced">
+                    <h2>🚀 高级CSS技巧</h2>
+                    
+                    <h3>🎨 CSS变量</h3>
+                    <div class="code">
+                        <pre>/* 定义CSS变量 */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --font-size-base: 16px;
+    --border-radius: 8px;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 使用变量 */
+.button {
+    background-color: var(--primary-color);
+    font-size: var(--font-size-base);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* 变量回退值 */
+.text {
+    color: var(--text-color, #333);
+}
+
+/* 动态修改变量 */
+.dark-theme {
+    --primary-color: #0d6efd;
+    --background-color: #212529;
+    --text-color: #ffffff;
+}</pre>
+                    </div>
+
+                    <h3>🔧 CSS函数</h3>
+                    <div class="code">
+                        <pre>/* calc() 计算函数 */
+.sidebar {
+    width: calc(100% - 300px);
+    height: calc(100vh - 80px);
+    margin-top: calc(20px + 1rem);
+}
+
+/* min(), max(), clamp() */
+.responsive-width {
+    width: min(90%, 1200px);
+    font-size: max(16px, 1rem);
+    padding: clamp(1rem, 5vw, 3rem);
+}
+
+/* 颜色函数 */
+.color-functions {
+    background: hsl(210, 100%, 50%);
+    border-color: hsla(210, 100%, 50%, 0.5);
+    color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 变换函数 */
+.transform-demo {
+    transform: 
+        translateX(50px)
+        translateY(20px)
+        rotate(45deg)
+        scale(1.2)
+        skew(10deg, 5deg);
+}</pre>
+                    </div>
+
+                    <h3>🎯 现代CSS特性</h3>
+                    <div class="code">
+                        <pre>/* 容器查询 */
+@container (min-width: 400px) {
+    .card {
+        display: flex;
+    }
+}
+
+/* 逻辑属性 */
+.logical-properties {
+    margin-block-start: 1rem;
+    margin-block-end: 1rem;
+    margin-inline-start: 2rem;
+    margin-inline-end: 2rem;
+    border-inline-start: 2px solid #007bff;
+}
+
+/* 滚动捕捉 */
+.scroll-container {
+    scroll-snap-type: x mandatory;
+    overflow-x: scroll;
+}
+
+.scroll-item {
+    scroll-snap-align: start;
+}
+
+/* 自定义属性动画 */
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.animated-gradient {
+    background: conic-gradient(from var(--gradient-angle), red, blue, red);
+    animation: rotate-gradient 3s linear infinite;
+}
+
+@keyframes rotate-gradient {
+    to { --gradient-angle: 360deg; }
+}</pre>
+        </div>
+                </section>
+
+        <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="html.html">🏗️ HTML 基础星球</a> |
+                        <a href="javascript.html">⚡ JavaScript 动力核心</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 

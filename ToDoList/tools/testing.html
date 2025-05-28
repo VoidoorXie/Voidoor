@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试工具全面手册</title>
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">测试工具手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>单元测试</summary><ul>
+          <li><a href="#jest">Jest</a></li>
+          <li><a href="#mocha">Mocha</a></li>
+          <li><a href="#junit">JUnit</a></li>
+          <li><a href="#pytest">PyTest</a></li>
+        </ul></details></li>
+        <li><details><summary>集成测试</summary><ul>
+          <li><a href="#supertest">SuperTest</a></li>
+          <li><a href="#testcontainers">TestContainers</a></li>
+          <li><a href="#spring-test">Spring Test</a></li>
+        </ul></details></li>
+        <li><details><summary>端到端测试</summary><ul>
+          <li><a href="#cypress">Cypress</a></li>
+          <li><a href="#playwright">Playwright</a></li>
+          <li><a href="#selenium">Selenium</a></li>
+          <li><a href="#puppeteer">Puppeteer</a></li>
+        </ul></details></li>
+        <li><details><summary>性能测试</summary><ul>
+          <li><a href="#jmeter">JMeter</a></li>
+          <li><a href="#k6">K6</a></li>
+          <li><a href="#artillery">Artillery</a></li>
+        </ul></details></li>
+        <li><details><summary>API 测试</summary><ul>
+          <li><a href="#postman">Postman</a></li>
+          <li><a href="#insomnia">Insomnia</a></li>
+          <li><a href="#newman">Newman</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; 开发工具 &gt; 测试工具
+      </div>
+      <h1 id="intro">测试工具全面手册</h1>
+      
+      <section>
+        <h2 id="jest">Jest</h2>
+        <p>Jest 是 Facebook 开发的 JavaScript 测试框架。</p>
+        <div class="code"><pre>// jest.config.js
+module.exports = {
+  testEnvironment: 'node',
+  collectCoverageFrom: [
+    'src/**/*.{js,ts}',
+    '!src/**/*.test.{js,ts}',
+    '!src/index.js'
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  },
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,ts}',
+    '<rootDir>/src/**/*.{test,spec}.{js,ts}'
+  ]
+};</pre></div>
+        <div class="tip">实际场景：React/Vue 组件测试、Node.js API 测试、快照测试。</div>
+        <div class="note">常见错误：异步测试处理不当、模拟函数使用错误。</div>
+        <h3>基础测试示例</h3>
+        <div class="code"><pre>// math.test.js
+const { add, multiply } = require('./math');
+
+describe('Math functions', () => {
+  test('adds 1 + 2 to equal 3', () => {
+    expect(add(1, 2)).toBe(3);
+  });
+
+  test('multiplies 3 * 4 to equal 12', () => {
+    expect(multiply(3, 4)).toBe(12);
+  });
+
+  test('handles edge cases', () => {
+    expect(add(0, 0)).toBe(0);
+    expect(multiply(0, 5)).toBe(0);
+  });
+});</pre></div>
+      </section>
+
+      <section>
+        <h2 id="mocha">Mocha</h2>
+        <p>Mocha 是灵活的 JavaScript 测试框架。</p>
+        <div class="code"><pre>// mocha 配置 .mocharc.json
+{
+  "require": ["ts-node/register"],
+  "extensions": ["ts"],
+  "spec": "test/**/*.test.ts",
+  "timeout": 5000,
+  "reporter": "spec",
+  "recursive": true
+}
+
+// 测试示例
+const { expect } = require('chai');
+const request = require('supertest');
+const app = require('../app');
+
+describe('API Tests', () => {
+  before(async () => {
+    // 测试前的设置
+    await setupDatabase();
+  });
+
+  after(async () => {
+    // 测试后的清理
+    await cleanupDatabase();
+  });
+
+  describe('GET /users', () => {
+    it('should return all users', async () => {
+      const response = await request(app)
+        .get('/users')
+        .expect(200);
+      
+      expect(response.body).to.be.an('array');
+      expect(response.body.length).to.be.greaterThan(0);
+    });
+  });
+});</pre></div>
+        <div class="tip">实际场景：API 测试、异步操作测试、自定义断言。</div>
+      </section>
+
+      <section>
+        <h2 id="junit">JUnit</h2>
+        <p>JUnit 是 Java 生态系统中最流行的测试框架。</p>
+        <div class="code"><pre>// JUnit 5 测试示例
+import org.junit.jupiter.api.*;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
+class UserServiceTest {
+
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    void setUp() {
+        // 每个测试前的设置
+    }
+
+    @Test
+    @DisplayName("Should create user successfully")
+    void shouldCreateUserSuccessfully() {
+        // Given
+        UserDto userDto = new UserDto("John", "john@example.com");
+        
+        // When
+        User result = userService.createUser(userDto);
+        
+        // Then
+        assertThat(result.getName()).isEqualTo("John");
+        assertThat(result.getEmail()).isEqualTo("john@example.com");
+        assertThat(result.getId()).isNotNull();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ", "invalid-email"})
+    void shouldThrowExceptionForInvalidEmail(String email) {
+        UserDto userDto = new UserDto("John", email);
+        
+        assertThrows(ValidationException.class, 
+            () -> userService.createUser(userDto));
+    }
+}</pre></div>
+        <div class="tip">实际场景：Spring Boot 应用测试、数据库集成测试、参数化测试。</div>
+      </section>
+
+      <section>
+        <h2 id="pytest">PyTest</h2>
+        <p>PyTest 是 Python 的现代测试框架。</p>
+        <div class="code"><pre># pytest.ini
+[tool:pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts = --strict-markers --disable-warnings -v
+
+# 测试示例
+import pytest
+from unittest.mock import Mock, patch
+from myapp.services import UserService
+from myapp.models import User
+
+class TestUserService:
+    
+    @pytest.fixture
+    def user_service(self):
+        return UserService()
+    
+    @pytest.fixture
+    def sample_user(self):
+        return User(name="John", email="john@example.com")
+    
+    def test_create_user_success(self, user_service, sample_user):
+        # Given
+        user_data = {"name": "John", "email": "john@example.com"}
+        
+        # When
+        result = user_service.create_user(user_data)
+        
+        # Then
+        assert result.name == "John"
+        assert result.email == "john@example.com"
+        assert result.id is not None
+    
+    @pytest.mark.parametrize("email", [
+        "",
+        "invalid-email",
+        "@example.com",
+        "user@"
+    ])
+    def test_create_user_invalid_email(self, user_service, email):
+        user_data = {"name": "John", "email": email}
+        
+        with pytest.raises(ValidationError):
+            user_service.create_user(user_data)</pre></div>
+        <div class="tip">实际场景：Django/Flask 应用测试、数据科学项目测试、API 测试。</div>
+      </section>
+
+      <section>
+        <h2 id="supertest">SuperTest</h2>
+        <p>SuperTest 是用于测试 Node.js HTTP 服务器的库。</p>
+        <div class="code"><pre>// API 集成测试
+const request = require('supertest');
+const app = require('../app');
+
+describe('User API Integration Tests', () => {
+  let authToken;
+  let userId;
+
+  beforeAll(async () => {
+    // 获取认证令牌
+    const loginResponse = await request(app)
+      .post('/auth/login')
+      .send({
+        email: 'admin@example.com',
+        password: 'password123'
+      });
+    
+    authToken = loginResponse.body.token;
+  });
+
+  describe('POST /api/users', () => {
+    it('should create a new user', async () => {
+      const userData = {
+        name: 'John Doe',
+        email: 'john@example.com',
+        password: 'password123'
+      };
+
+      const response = await request(app)
+        .post('/api/users')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(userData)
+        .expect(201);
+
+      expect(response.body).toHaveProperty('id');
+      expect(response.body.name).toBe(userData.name);
+      expect(response.body.email).toBe(userData.email);
+      
+      userId = response.body.id;
+    });
+  });
+
+  describe('GET /api/users/:id', () => {
+    it('should return user by id', async () => {
+      const response = await request(app)
+        .get(`/api/users/${userId}`)
+        .set('Authorization', `Bearer ${authToken}`)
+        .expect(200);
+
+      expect(response.body.id).toBe(userId);
+      expect(response.body.name).toBe('John Doe');
+    });
+  });
+});</pre></div>
+        <div class="tip">实际场景：Express API 测试、认证流程测试、数据库集成测试。</div>
+      </section>
+
+      <section>
+        <h2 id="testcontainers">TestContainers</h2>
+        <p>TestContainers 提供了轻量级的、一次性的数据库和服务实例。</p>
+        <div class="code"><pre>// Java TestContainers 示例
+@SpringBootTest
+@Testcontainers
+class DatabaseIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:13")
+            .withDatabaseName("testdb")
+            .withUsername("test")
+            .withPassword("test");
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void shouldPersistUser() {
+        User user = new User("John", "john@example.com");
+        User saved = userRepository.save(user);
+        
+        assertThat(saved.getId()).isNotNull();
+        assertThat(userRepository.findById(saved.getId())).isPresent();
+    }
+}</pre></div>
+        <div class="tip">实际场景：数据库集成测试、微服务测试、真实环境模拟。</div>
+      </section>
+
+      <section>
+        <h2 id="spring-test">Spring Test</h2>
+        <p>Spring Test 提供了 Spring 应用的测试支持。</p>
+        <div class="code"><pre>// Spring Boot 测试配置
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
+class UserControllerIntegrationTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void shouldCreateAndRetrieveUser() {
+        // Given
+        UserDto userDto = new UserDto("John", "john@example.com");
+
+        // When - Create user
+        ResponseEntity<User> createResponse = restTemplate.postForEntity(
+            "/api/users", userDto, User.class);
+
+        // Then
+        assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        User createdUser = createResponse.getBody();
+        assertThat(createdUser.getName()).isEqualTo("John");
+
+        // When - Retrieve user
+        ResponseEntity<User> getResponse = restTemplate.getForEntity(
+            "/api/users/" + createdUser.getId(), User.class);
+
+        // Then
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody().getName()).isEqualTo("John");
+    }
+
+    @Test
+    @Sql("/test-data.sql")
+    void shouldFindUsersByEmail() {
+        List<User> users = userRepository.findByEmailContaining("@example.com");
+        assertThat(users).hasSize(2);
+    }
+}</pre></div>
+        <div class="tip">实际场景：Spring MVC 测试、数据层测试、安全测试。</div>
+      </section>
+
+      <section>
+        <h2 id="cypress">Cypress</h2>
+        <p>Cypress 是现代的端到端测试框架。</p>
+        <div class="code"><pre>// cypress.config.js
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:3000',
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    video: true,
+    screenshotOnRunFailure: true,
+    setupNodeEvents(on, config) {
+      // 插件配置
+    },
+  },
+})
+
+// 测试示例
+describe('User Management', () => {
+  beforeEach(() => {
+    cy.visit('/login');
+    cy.login('admin@example.com', 'password123');
+  });
+
+  it('should create a new user', () => {
+    cy.visit('/users');
+    cy.get('[data-cy=add-user-btn]').click();
+    
+    cy.get('[data-cy=name-input]').type('John Doe');
+    cy.get('[data-cy=email-input]').type('john@example.com');
+    cy.get('[data-cy=submit-btn]').click();
+    
+    cy.get('[data-cy=success-message]').should('be.visible');
+    cy.get('[data-cy=user-list]').should('contain', 'John Doe');
+  });
+
+  it('should validate form inputs', () => {
+    cy.visit('/users/new');
+    
+    cy.get('[data-cy=submit-btn]').click();
+    cy.get('[data-cy=name-error]').should('contain', 'Name is required');
+    
+    cy.get('[data-cy=email-input]').type('invalid-email');
+    cy.get('[data-cy=submit-btn]').click();
+    cy.get('[data-cy=email-error]').should('contain', 'Invalid email format');
+  });
+});</pre></div>
+        <div class="tip">实际场景：Web 应用端到端测试、用户流程测试、回归测试。</div>
+      </section>
+
+      <section>
+        <h2 id="playwright">Playwright</h2>
+        <p>Playwright 是微软开发的跨浏览器自动化工具。</p>
+        <div class="code"><pre>// playwright.config.js
+module.exports = {
+  testDir: './tests',
+  timeout: 30000,
+  use: {
+    baseURL: 'http://localhost:3000',
+    headless: true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
+};
+
+// 测试示例
+const { test, expect } = require('@playwright/test');
+
+test.describe('E-commerce App', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('should add product to cart', async ({ page }) => {
+    // 搜索产品
+    await page.fill('[data-testid=search-input]', 'laptop');
+    await page.click('[data-testid=search-button]');
+    
+    // 选择产品
+    await page.click('[data-testid=product-card]:first-child');
+    
+    // 添加到购物车
+    await page.click('[data-testid=add-to-cart]');
+    
+    // 验证购物车
+    await expect(page.locator('[data-testid=cart-count]')).toHaveText('1');
+    
+    // 检查购物车页面
+    await page.click('[data-testid=cart-icon]');
+    await expect(page.locator('[data-testid=cart-item]')).toBeVisible();
+  });
+
+  test('should complete checkout process', async ({ page }) => {
+    // 添加产品到购物车
+    await page.click('[data-testid=featured-product]');
+    await page.click('[data-testid=add-to-cart]');
+    
+    // 进入结账
+    await page.click('[data-testid=checkout-button]');
+    
+    // 填写配送信息
+    await page.fill('[data-testid=name-input]', 'John Doe');
+    await page.fill('[data-testid=address-input]', '123 Main St');
+    await page.fill('[data-testid=city-input]', 'New York');
+    
+    // 完成订单
+    await page.click('[data-testid=place-order]');
+    
+    // 验证成功页面
+    await expect(page.locator('[data-testid=order-success]')).toBeVisible();
+  });
+});</pre></div>
+        <div class="tip">实际场景：跨浏览器测试、移动端测试、API 测试。</div>
+      </section>
+
+      <section>
+        <h2 id="selenium">Selenium</h2>
+        <p>Selenium 是经典的 Web 自动化测试工具。</p>
+        <div class="code"><pre>// Java Selenium 示例
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class SeleniumIntegrationTest {
+
+    @LocalServerPort
+    private int port;
+
+    private WebDriver driver;
+
+    @BeforeEach
+    void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        
+        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    void shouldLoginSuccessfully() {
+        driver.get("http://localhost:" + port + "/login");
+        
+        WebElement emailInput = driver.findElement(By.id("email"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.id("login-btn"));
+        
+        emailInput.sendKeys("admin@example.com");
+        passwordInput.sendKeys("password123");
+        loginButton.click();
+        
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement dashboard = wait.until(
+            ExpectedConditions.presenceOfElementLocated(By.id("dashboard"))
+        );
+        
+        assertThat(dashboard.isDisplayed()).isTrue();
+        assertThat(driver.getCurrentUrl()).contains("/dashboard");
+    }
+}</pre></div>
+        <div class="tip">实际场景：传统 Web 应用测试、复杂交互测试、多浏览器支持。</div>
+      </section>
+
+      <section>
+        <h2 id="puppeteer">Puppeteer</h2>
+        <p>Puppeteer 是 Google 开发的 Chrome 自动化库。</p>
+        <div class="code"><pre>// Puppeteer 测试示例
+const puppeteer = require('puppeteer');
+
+describe('Performance Tests', () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  beforeEach(async () => {
+    page = await browser.newPage();
+    await page.setViewport({ width: 1280, height: 720 });
+  });
+
+  afterEach(async () => {
+    await page.close();
+  });
+
+  test('should load homepage within 3 seconds', async () => {
+    const startTime = Date.now();
+    
+    await page.goto('http://localhost:3000', {
+      waitUntil: 'networkidle2'
+    });
+    
+    const loadTime = Date.now() - startTime;
+    expect(loadTime).toBeLessThan(3000);
+  });
+
+  test('should generate PDF report', async () => {
+    await page.goto('http://localhost:3000/report');
+    
+    const pdf = await page.pdf({
+      format: 'A4',
+      printBackground: true
+    });
+    
+    expect(pdf).toBeDefined();
+    expect(pdf.length).toBeGreaterThan(0);
+  });
+
+  test('should capture screenshot on error', async () => {
+    try {
+      await page.goto('http://localhost:3000/nonexistent');
+    } catch (error) {
+      await page.screenshot({
+        path: 'error-screenshot.png',
+        fullPage: true
+      });
+      throw error;
+    }
+  });
+});</pre></div>
+        <div class="tip">实际场景：性能测试、PDF 生成测试、截图对比测试。</div>
+      </section>
+
+      <section>
+        <h2 id="jmeter">JMeter</h2>
+        <p>Apache JMeter 是开源的性能测试工具。</p>
+        <div class="code"><pre><!-- JMeter 测试计划 XML 配置 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="API Performance Test">
+      <elementProp name="TestPlan.arguments" elementType="Arguments" guiclass="ArgumentsPanel">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="User Load">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">10</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="API Request">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">3000</stringProp>
+          <stringProp name="HTTPSampler.path">/api/users</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan></pre></div>
+        <div class="tip">实际场景：负载测试、压力测试、性能基准测试。</div>
+      </section>
+
+      <section>
+        <h2 id="k6">K6</h2>
+        <p>K6 是现代的性能测试工具，使用 JavaScript 编写测试脚本。</p>
+        <div class="code"><pre>// k6 性能测试脚本
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+import { Rate } from 'k6/metrics';
+
+// 自定义指标
+const errorRate = new Rate('errors');
+
+export let options = {
+  stages: [
+    { duration: '2m', target: 100 }, // 2分钟内增加到100用户
+    { duration: '5m', target: 100 }, // 保持100用户5分钟
+    { duration: '2m', target: 200 }, // 2分钟内增加到200用户
+    { duration: '5m', target: 200 }, // 保持200用户5分钟
+    { duration: '2m', target: 0 },   // 2分钟内减少到0用户
+  ],
+  thresholds: {
+    http_req_duration: ['p(99)<1500'], // 99%的请求在1.5秒内完成
+    http_req_failed: ['rate<0.1'],     // 错误率小于10%
+    errors: ['rate<0.1'],              // 自定义错误率小于10%
+  },
+};
+
+export default function () {
+  // 登录
+  let loginResponse = http.post('http://localhost:3000/auth/login', {
+    email: 'test@example.com',
+    password: 'password123'
+  });
+
+  let loginCheck = check(loginResponse, {
+    'login status is 200': (r) => r.status === 200,
+    'login has token': (r) => r.json('token') !== '',
+  });
+
+  errorRate.add(!loginCheck);
+
+  if (loginCheck) {
+    let token = loginResponse.json('token');
+    
+    // 获取用户列表
+    let usersResponse = http.get('http://localhost:3000/api/users', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    let usersCheck = check(usersResponse, {
+      'users status is 200': (r) => r.status === 200,
+      'users response time < 500ms': (r) => r.timings.duration < 500,
+    });
+
+    errorRate.add(!usersCheck);
+  }
+
+  sleep(1);
+}</pre></div>
+        <div class="tip">实际场景：API 性能测试、负载测试、CI/CD 集成。</div>
+      </section>
+
+      <section>
+        <h2 id="artillery">Artillery</h2>
+        <p>Artillery 是轻量级的性能测试工具。</p>
+        <div class="code"><pre># artillery.yml 配置文件
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+    - duration: 120
+      arrivalRate: 20
+    - duration: 60
+      arrivalRate: 5
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+
+scenarios:
+  - name: "User Journey"
+    weight: 70
+    flow:
+      - post:
+          url: "/auth/login"
+          json:
+            email: "test@example.com"
+            password: "password123"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - get:
+          url: "/api/users"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - post:
+          url: "/api/users"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "Test User"
+            email: "user{{ $randomString() }}@example.com"
+
+  - name: "Health Check"
+    weight: 30
+    flow:
+      - get:
+          url: "/health"</pre></div>
+        <div class="tip">实际场景：快速性能测试、微服务测试、监控集成。</div>
+      </section>
+
+      <section>
+        <h2 id="postman">Postman</h2>
+        <p>Postman 是流行的 API 开发和测试工具。</p>
+        <div class="code"><pre>// Postman 测试脚本
+// Pre-request Script
+pm.environment.set("baseUrl", "http://localhost:3000");
+pm.environment.set("timestamp", Date.now());
+
+// Test Script
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response time is less than 200ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(200);
+});
+
+pm.test("Response has required fields", function () {
+    const jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('id');
+    pm.expect(jsonData).to.have.property('name');
+    pm.expect(jsonData).to.have.property('email');
+});
+
+pm.test("Email format is valid", function () {
+    const jsonData = pm.response.json();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    pm.expect(jsonData.email).to.match(emailRegex);
+});
+
+// 设置环境变量
+if (pm.response.code === 200) {
+    const responseJson = pm.response.json();
+    pm.environment.set("userId", responseJson.id);
+    pm.environment.set("authToken", responseJson.token);
+}</pre></div>
+        <div class="tip">实际场景：API 文档、手动测试、团队协作、自动化测试。</div>
+      </section>
+
+      <section>
+        <h2 id="insomnia">Insomnia</h2>
+        <p>Insomnia 是简洁的 REST API 客户端。</p>
+        <div class="code"><pre>// Insomnia 环境配置
+{
+  "base_url": "http://localhost:3000",
+  "auth_token": "{% response 'body', 'req_login', 'b64::JC50b2tlbg==::46b', 'never', 60 %}",
+  "user_id": "{% response 'body', 'req_create_user', 'b64::JC5pZA==::46b', 'never', 60 %}"
+}
+
+// 请求模板
+{
+  "name": "Get Users",
+  "method": "GET",
+  "url": "{{ base_url }}/api/users",
+  "headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer {{ auth_token }}"
+    }
+  ],
+  "tests": [
+    {
+      "name": "Status is 200",
+      "code": "expect(response.status).to.equal(200);"
+    },
+    {
+      "name": "Response is array",
+      "code": "expect(response.data).to.be.an('array');"
+    }
+  ]
+}</pre></div>
+        <div class="tip">实际场景：API 开发、快速测试、GraphQL 支持。</div>
+      </section>
+
+      <section>
+        <h2 id="newman">Newman</h2>
+        <p>Newman 是 Postman 的命令行工具，用于自动化测试。</p>
+        <div class="code"><pre># Newman 命令行使用
+# 运行 Postman 集合
+newman run collection.json -e environment.json
+
+# 生成 HTML 报告
+newman run collection.json -e environment.json -r html --reporter-html-export report.html
+
+# CI/CD 集成
+newman run collection.json \
+  -e environment.json \
+  --reporters cli,json \
+  --reporter-json-export results.json \
+  --bail \
+  --timeout-request 30000
+
+# package.json 脚本
+{
+  "scripts": {
+    "test:api": "newman run tests/api-collection.json -e tests/environment.json",
+    "test:api:ci": "newman run tests/api-collection.json -e tests/ci-environment.json --reporters cli,junit --reporter-junit-export test-results.xml"
+  }
+}</pre></div>
+        <div class="tip">实际场景：CI/CD 集成、自动化 API 测试、批量测试执行。</div>
+      </section>
+
+      <section>
+        <h2 id="best-practice">最佳实践</h2>
+        <ul>
+          <li>遵循测试金字塔：单元测试 > 集成测试 > 端到端测试</li>
+          <li>编写可维护的测试代码，避免重复</li>
+          <li>使用 Page Object 模式组织 UI 测试</li>
+          <li>实施测试数据管理策略</li>
+          <li>集成到 CI/CD 流水线</li>
+          <li>监控测试执行时间和稳定性</li>
+          <li>定期审查和更新测试用例</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="faq">常见问题</h2>
+        <ul>
+          <li>Q: 如何处理测试中的异步操作？<br>A: 使用 async/await、Promise、或测试框架提供的异步支持。</li>
+          <li>Q: 测试数据如何管理？<br>A: 使用 fixtures、工厂模式、数据库种子文件。</li>
+          <li>Q: 如何提高测试执行速度？<br>A: 并行执行、优化测试数据、使用内存数据库。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://jestjs.io/" target="_blank">Jest 官方文档</a></li>
+          <li><a href="https://www.cypress.io/" target="_blank">Cypress 官方网站</a></li>
+          <li><a href="https://playwright.dev/" target="_blank">Playwright 官方文档</a></li>
+          <li><a href="https://k6.io/" target="_blank">K6 官方网站</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://www.postman.com/" target="_blank">Postman</a> | <a href="https://insomnia.rest/" target="_blank">Insomnia</a> | <a href="https://jmeter.apache.org/" target="_blank">JMeter</a>
+    </div>
+  </div>
+  <script src="../js/navigation.js"></script>
+</body>
+</html> 

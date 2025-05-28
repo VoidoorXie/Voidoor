@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes 全面手册</title>
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Kubernetes 全面手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>核心概念</summary><ul>
+          <li><a href="#pods">Pod</a></li>
+          <li><a href="#deployments">Deployment</a></li>
+          <li><a href="#services">Service</a></li>
+          <li><a href="#configmaps">ConfigMap</a></li>
+          <li><a href="#secrets">Secret</a></li>
+        </ul></details></li>
+        <li><details><summary>网络与存储</summary><ul>
+          <li><a href="#networking">网络</a></li>
+          <li><a href="#ingress">Ingress</a></li>
+          <li><a href="#volumes">存储卷</a></li>
+          <li><a href="#pv-pvc">PV/PVC</a></li>
+        </ul></details></li>
+        <li><details><summary>工作负载</summary><ul>
+          <li><a href="#replicasets">ReplicaSet</a></li>
+          <li><a href="#daemonsets">DaemonSet</a></li>
+          <li><a href="#statefulsets">StatefulSet</a></li>
+          <li><a href="#jobs">Job/CronJob</a></li>
+        </ul></details></li>
+        <li><details><summary>集群管理</summary><ul>
+          <li><a href="#kubectl">kubectl 命令</a></li>
+          <li><a href="#namespaces">命名空间</a></li>
+          <li><a href="#rbac">RBAC</a></li>
+          <li><a href="#monitoring">监控</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; DevOps &gt; Kubernetes
+      </div>
+      <h1 id="intro">Kubernetes 全面手册</h1>
+      
+      <section>
+        <h2 id="pods">Pod</h2>
+        <p>Pod 是 Kubernetes 中最小的部署单元，包含一个或多个容器。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    app: my-app
+spec:
+  containers:
+  - name: web
+    image: nginx:1.20
+    ports:
+    - containerPort: 80
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"</pre></div>
+        <div class="tip">实际场景：应用部署、容器编排、资源管理。</div>
+        <div class="note">常见错误：忘记设置资源限制导致资源争用。</div>
+      </section>
+
+      <section>
+        <h2 id="deployments">Deployment</h2>
+        <p>Deployment 管理 Pod 的副本数量和更新策略。</p>
+        <div class="code"><pre>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.20
+        ports:
+        - containerPort: 80
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1</pre></div>
+        <div class="tip">实际场景：应用部署、滚动更新、高可用。</div>
+      </section>
+
+      <section>
+        <h2 id="services">Service</h2>
+        <p>Service 为 Pod 提供稳定的网络访问入口。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+---
+# LoadBalancer 类型
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-lb
+spec:
+  selector:
+    app: web
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer</pre></div>
+        <div class="tip">实际场景：服务发现、负载均衡、外部访问。</div>
+      </section>
+
+      <section>
+        <h2 id="configmaps">ConfigMap</h2>
+        <p>ConfigMap 用于存储非敏感的配置数据。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  database_url: "mongodb://db:27017/myapp"
+  log_level: "info"
+  config.yaml: |
+    server:
+      port: 8080
+      host: 0.0.0.0
+    database:
+      driver: mysql
+      host: db-server</pre></div>
+        <div class="tip">实际场景：应用配置、环境变量、配置文件。</div>
+      </section>
+
+      <section>
+        <h2 id="secrets">Secret</h2>
+        <p>Secret 用于存储敏感数据，如密码、令牌等。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  username: YWRtaW4=  # base64 encoded
+  password: MWYyZDFlMmU2N2Rm  # base64 encoded
+
+---
+# 在 Pod 中使用 Secret
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-pod
+spec:
+  containers:
+  - name: app
+    image: my-app:latest
+    env:
+    - name: DB_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: username</pre></div>
+        <div class="tip">实际场景：数据库密码、API 密钥、证书。</div>
+      </section>
+
+      <section>
+        <h2 id="networking">网络</h2>
+        <p>Kubernetes 网络模型确保 Pod 间的通信。</p>
+        <div class="code"><pre># 网络策略示例
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+---
+# 允许特定流量
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-web
+spec:
+  podSelector:
+    matchLabels:
+      app: web
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend
+    ports:
+    - protocol: TCP
+      port: 80</pre></div>
+        <div class="tip">实际场景：网络隔离、安全策略、微服务通信。</div>
+      </section>
+
+      <section>
+        <h2 id="ingress">Ingress</h2>
+        <p>Ingress 管理外部访问集群内服务的 HTTP 和 HTTPS 路由。</p>
+        <div class="code"><pre>apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-service
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - myapp.example.com
+    secretName: tls-secret</pre></div>
+        <div class="tip">实际场景：域名路由、SSL 终止、负载均衡。</div>
+      </section>
+
+      <section>
+        <h2 id="volumes">存储卷</h2>
+        <p>Volume 为容器提供持久化存储。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-pod
+spec:
+  containers:
+  - name: app
+    image: my-app:latest
+    volumeMounts:
+    - name: data-volume
+      mountPath: /data
+    - name: config-volume
+      mountPath: /config
+  volumes:
+  - name: data-volume
+    persistentVolumeClaim:
+      claimName: data-pvc
+  - name: config-volume
+    configMap:
+      name: app-config</pre></div>
+        <div class="tip">实际场景：数据持久化、配置挂载、日志存储。</div>
+      </section>
+
+      <section>
+        <h2 id="pv-pvc">PV/PVC</h2>
+        <p>PersistentVolume 和 PersistentVolumeClaim 管理存储资源。</p>
+        <div class="code"><pre># PersistentVolume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-storage
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast-ssd
+  hostPath:
+    path: /data/pv
+
+---
+# PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: fast-ssd</pre></div>
+        <div class="tip">实际场景：数据库存储、文件系统、备份。</div>
+      </section>
+
+      <section>
+        <h2 id="kubectl">kubectl 命令</h2>
+        <p>kubectl 是 Kubernetes 的命令行工具。</p>
+        <div class="code"><pre># 基础命令
+kubectl get pods
+kubectl get services
+kubectl get deployments
+
+# 详细信息
+kubectl describe pod my-pod
+kubectl logs my-pod
+kubectl exec -it my-pod -- /bin/bash
+
+# 应用配置
+kubectl apply -f deployment.yaml
+kubectl delete -f deployment.yaml
+
+# 扩缩容
+kubectl scale deployment web-deployment --replicas=5
+
+# 滚动更新
+kubectl set image deployment/web-deployment web=nginx:1.21
+kubectl rollout status deployment/web-deployment
+kubectl rollout undo deployment/web-deployment</pre></div>
+        <div class="tip">实际场景：集群管理、故障排查、应用部署。</div>
+      </section>
+
+      <section>
+        <h2 id="namespaces">命名空间</h2>
+        <p>Namespace 提供资源隔离和多租户支持。</p>
+        <div class="code"><pre>apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+
+---
+# 在特定命名空间创建资源
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: development
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app
+        image: my-app:dev</pre></div>
+        <div class="tip">实际场景：环境隔离、团队协作、资源配额。</div>
+      </section>
+
+      <section>
+        <h2 id="rbac">RBAC</h2>
+        <p>基于角色的访问控制确保集群安全。</p>
+        <div class="code"><pre># Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: development
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: development
+subjects:
+- kind: User
+  name: jane
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io</pre></div>
+        <div class="tip">实际场景：权限管理、安全控制、用户授权。</div>
+      </section>
+
+      <section>
+        <h2 id="monitoring">监控</h2>
+        <p>监控集群和应用的健康状态。</p>
+        <div class="code"><pre># 健康检查
+apiVersion: v1
+kind: Pod
+metadata:
+  name: health-check-pod
+spec:
+  containers:
+  - name: app
+    image: my-app:latest
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5</pre></div>
+        <div class="tip">实际场景：健康检查、性能监控、告警。</div>
+      </section>
+
+      <section>
+        <h2 id="best-practice">最佳实践</h2>
+        <ul>
+          <li>为所有容器设置资源请求和限制</li>
+          <li>使用命名空间进行环境隔离</li>
+          <li>配置健康检查和就绪检查</li>
+          <li>使用 ConfigMap 和 Secret 管理配置</li>
+          <li>实施 RBAC 安全策略</li>
+          <li>定期备份 etcd 数据</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="faq">常见问题</h2>
+        <ul>
+          <li>Q: Pod 一直处于 Pending 状态？<br>A: 检查资源配额、节点容量、调度策略。</li>
+          <li>Q: Service 无法访问？<br>A: 检查标签选择器、端口配置、网络策略。</li>
+          <li>Q: 如何调试网络问题？<br>A: 使用 kubectl exec、网络工具、日志分析。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://kubernetes.io/" target="_blank">Kubernetes 官方网站</a></li>
+          <li><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes 官方文档</a></li>
+          <li><a href="https://helm.sh/" target="_blank">Helm 包管理器</a></li>
+          <li><a href="https://istio.io/" target="_blank">Istio 服务网格</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://k9scli.io/" target="_blank">K9s</a> | <a href="https://github.com/derailed/k9s" target="_blank">kubectl</a> | <a href="https://lens.app/" target="_blank">Lens</a>
+    </div>
+  </div>
+  <script src="../js/navigation.js"></script>
+</body>
+</html> 

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 框架宇宙飞船 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+    <div class="layout">
+    <div class="sidebar">
+        <div class="sidebar-section">
+                <div class="sidebar-title">🚀 框架宇宙</div>
+            <ul class="sidebar-list">
+                    <li><a href="#introduction">框架简介</a></li>
+                    <li><a href="#react">React 星球</a></li>
+                    <li><a href="#vue">Vue 星系</a></li>
+                    <li><a href="#angular">Angular 帝国</a></li>
+                    <li><a href="#comparison">框架对比</a></li>
+                    <li><a href="#ecosystem">生态系统</a></li>
+                    <li><a href="#best-practices">最佳实践</a></li>
+                    <li><a href="#projects">实战项目</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索框架内容...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>🚀 框架宇宙飞船</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    乘坐React、Vue、Angular的高速飞船，在现代前端开发中遨游
+                </p>
+
+                <section id="introduction">
+                    <h2>🌟 前端框架简介</h2>
+                    <p>前端框架是现代Web开发的核心工具，它们提供了组件化、状态管理、路由等功能，让开发大型应用变得更加高效。</p>
+                    
+                    <div class="info">
+                        <h3>为什么需要前端框架？</h3>
+                        <ul>
+                            <li><strong>组件化开发</strong>：将UI拆分为可复用的组件</li>
+                            <li><strong>状态管理</strong>：统一管理应用的数据状态</li>
+                            <li><strong>虚拟DOM</strong>：提高页面渲染性能</li>
+                            <li><strong>生态丰富</strong>：大量的第三方库和工具</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 学习提示：</strong>
+                        选择框架时要考虑项目需求、团队技能、生态系统等因素。每个框架都有其独特的优势和适用场景。
+                    </div>
+                </section>
+
+                <section id="react">
+                    <h2>⚛️ React 星球</h2>
+                    <p>React是由Facebook开发的用户界面库，以其组件化思想和虚拟DOM而闻名。</p>
+
+                    <h3>🏗️ React 基础</h3>
+                    <div class="code">
+                        <pre>// 函数组件
+import React from 'react';
+
+function Welcome(props) {
+    return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+}
+
+// 类组件
+class Welcome extends React.Component {
+    render() {
+        return &lt;h1&gt;Hello, {this.props.name}!&lt;/h1&gt;;
+    }
+}
+
+// 使用组件
+function App() {
+    return (
+        &lt;div&gt;
+            &lt;Welcome name="张三" /&gt;
+            &lt;Welcome name="李四" /&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+                    </div>
+
+                    <h3>🎣 React Hooks</h3>
+                    <div class="code">
+                        <pre>import React, { useState, useEffect } from 'react';
+
+function Counter() {
+    const [count, setCount] = useState(0);
+    const [name, setName] = useState('');
+
+    // useEffect 处理副作用
+    useEffect(() => {
+        document.title = `点击了 ${count} 次`;
+    }, [count]);
+
+    // 自定义Hook
+    function useLocalStorage(key, initialValue) {
+        const [value, setValue] = useState(() => {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        });
+
+        const setStoredValue = (newValue) => {
+            setValue(newValue);
+            localStorage.setItem(key, JSON.stringify(newValue));
+        };
+
+        return [value, setStoredValue];
+    }
+
+    return (
+        &lt;div&gt;
+            &lt;p&gt;你点击了 {count} 次&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+                点击我
+            &lt;/button&gt;
+            &lt;input 
+                value={name}
+                onChange={(e) =&gt; setName(e.target.value)}
+                placeholder="输入姓名"
+            /&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+                    </div>
+
+                    <h3>🛣️ React Router</h3>
+                    <div class="code">
+                        <pre>import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+function App() {
+    return (
+        &lt;Router&gt;
+            &lt;nav&gt;
+                &lt;Link to="/"&gt;首页&lt;/Link&gt;
+                &lt;Link to="/about"&gt;关于&lt;/Link&gt;
+                &lt;Link to="/contact"&gt;联系&lt;/Link&gt;
+            &lt;/nav&gt;
+
+            &lt;Routes&gt;
+                &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+                &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+                &lt;Route path="/contact" element={&lt;Contact /&gt;} /&gt;
+                &lt;Route path="/user/:id" element={&lt;User /&gt;} /&gt;
+            &lt;/Routes&gt;
+        &lt;/Router&gt;
+    );
+}
+
+function User() {
+    const { id } = useParams();
+    return &lt;h2&gt;用户ID: {id}&lt;/h2&gt;;
+}</pre>
+                    </div>
+
+                    <h3>🗃️ 状态管理 (Redux)</h3>
+                    <div class="code">
+                        <pre>// store.js
+import { createStore } from 'redux';
+
+const initialState = {
+    count: 0,
+    todos: []
+};
+
+function reducer(state = initialState, action) {
+    switch (action.type) {
+        case 'INCREMENT':
+            return { ...state, count: state.count + 1 };
+        case 'DECREMENT':
+            return { ...state, count: state.count - 1 };
+        case 'ADD_TODO':
+            return {
+                ...state,
+                todos: [...state.todos, action.payload]
+            };
+        default:
+            return state;
+    }
+}
+
+const store = createStore(reducer);
+
+// 组件中使用
+import { useSelector, useDispatch } from 'react-redux';
+
+function Counter() {
+    const count = useSelector(state =&gt; state.count);
+    const dispatch = useDispatch();
+
+    return (
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: 'INCREMENT' })}&gt;
+                +1
+            &lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: 'DECREMENT' })}&gt;
+                -1
+            &lt;/button&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+                    </div>
+                </section>
+
+                <section id="vue">
+                    <h2>💚 Vue 星系</h2>
+                    <p>Vue.js是一个渐进式JavaScript框架，以其简洁的语法和灵活性而受到开发者喜爱。</p>
+
+                    <h3>🏗️ Vue 基础</h3>
+                    <div class="code">
+                        <pre>&lt;!-- Vue 3 Composition API --&gt;
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;h1&gt;{{ message }}&lt;/h1&gt;
+        &lt;p&gt;计数: {{ count }}&lt;/p&gt;
+        &lt;button @click="increment"&gt;增加&lt;/button&gt;
+        &lt;input v-model="inputValue" placeholder="输入内容"&gt;
+        &lt;p&gt;输入的内容: {{ inputValue }}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { ref, computed, onMounted } from 'vue';
+
+export default {
+    name: 'MyComponent',
+    setup() {
+        const message = ref('Hello Vue!');
+        const count = ref(0);
+        const inputValue = ref('');
+
+        // 计算属性
+        const doubleCount = computed(() =&gt; count.value * 2);
+
+        // 方法
+        const increment = () =&gt; {
+            count.value++;
+        };
+
+        // 生命周期
+        onMounted(() =&gt; {
+            console.log('组件已挂载');
+        });
+
+        return {
+            message,
+            count,
+            inputValue,
+            doubleCount,
+            increment
+        };
+    }
+};
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h1 {
+    color: #42b883;
+}
+&lt;/style&gt;</pre>
+                    </div>
+
+                    <h3>🛣️ Vue Router</h3>
+                    <div class="code">
+                        <pre>// router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/Home.vue';
+import About from '../views/About.vue';
+
+const routes = [
+    {
+        path: '/',
+        name: 'Home',
+        component: Home
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: About
+    },
+    {
+        path: '/user/:id',
+        name: 'User',
+        component: () =&gt; import('../views/User.vue'),
+        props: true
+    }
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes
+});
+
+export default router;
+
+// main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+
+createApp(App).use(router).mount('#app');</pre>
+                    </div>
+
+                    <h3>🗃️ Vuex 状态管理</h3>
+                    <div class="code">
+                        <pre>// store/index.js
+import { createStore } from 'vuex';
+
+export default createStore({
+    state: {
+        count: 0,
+        todos: []
+    },
+    mutations: {
+        INCREMENT(state) {
+            state.count++;
+        },
+        DECREMENT(state) {
+            state.count--;
+        },
+        ADD_TODO(state, todo) {
+            state.todos.push(todo);
+        }
+    },
+    actions: {
+        increment({ commit }) {
+            commit('INCREMENT');
+        },
+        addTodo({ commit }, todo) {
+            commit('ADD_TODO', todo);
+        }
+    },
+    getters: {
+        doubleCount: state =&gt; state.count * 2,
+        completedTodos: state =&gt; state.todos.filter(todo =&gt; todo.completed)
+    }
+});
+
+// 组件中使用
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;p&gt;计数: {{ count }}&lt;/p&gt;
+        &lt;p&gt;双倍计数: {{ doubleCount }}&lt;/p&gt;
+        &lt;button @click="increment"&gt;增加&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { mapState, mapGetters, mapActions } from 'vuex';
+
+export default {
+    computed: {
+        ...mapState(['count']),
+        ...mapGetters(['doubleCount'])
+    },
+    methods: {
+        ...mapActions(['increment'])
+    }
+};
+&lt;/script&gt;</pre>
+                    </div>
+                </section>
+
+                <section id="angular">
+                    <h2>🅰️ Angular 帝国</h2>
+                    <p>Angular是Google开发的全功能框架，提供了完整的企业级应用开发解决方案。</p>
+
+                    <h3>🏗️ Angular 基础</h3>
+                    <div class="code">
+                        <pre>// app.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    template: `
+        &lt;h1&gt;{{ title }}&lt;/h1&gt;
+        &lt;p&gt;计数: {{ count }}&lt;/p&gt;
+        &lt;button (click)="increment()"&gt;增加&lt;/button&gt;
+        &lt;input [(ngModel)]="inputValue" placeholder="输入内容"&gt;
+        &lt;p&gt;输入的内容: {{ inputValue }}&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li *ngFor="let item of items"&gt;{{ item }}&lt;/li&gt;
+        &lt;/ul&gt;
+    `,
+    styles: [`
+        h1 { color: #dd0031; }
+        button { margin: 5px; }
+    `]
+})
+export class AppComponent {
+    title = 'Angular 应用';
+    count = 0;
+    inputValue = '';
+    items = ['项目1', '项目2', '项目3'];
+
+    increment() {
+        this.count++;
+    }
+}
+
+// 子组件
+@Component({
+    selector: 'app-child',
+    template: `
+        &lt;h3&gt;{{ childTitle }}&lt;/h3&gt;
+        &lt;button (click)="sendMessage()"&gt;发送消息&lt;/button&gt;
+    `
+})
+export class ChildComponent {
+    @Input() childTitle: string = '';
+    @Output() messageEvent = new EventEmitter&lt;string&gt;();
+
+    sendMessage() {
+        this.messageEvent.emit('来自子组件的消息');
+    }
+}</pre>
+                    </div>
+
+                    <h3>🛣️ Angular Router</h3>
+                    <div class="code">
+                        <pre>// app-routing.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { UserComponent } from './user/user.component';
+
+const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: 'user/:id', component: UserComponent },
+    { path: '**', redirectTo: '' } // 通配符路由
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// user.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+    selector: 'app-user',
+    template: `&lt;h2&gt;用户ID: {{ userId }}&lt;/h2&gt;`
+})
+export class UserComponent implements OnInit {
+    userId: string = '';
+
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.userId = this.route.snapshot.paramMap.get('id') || '';
+    }
+}</pre>
+                    </div>
+
+                    <h3>🔧 服务与依赖注入</h3>
+                    <div class="code">
+                        <pre>// data.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DataService {
+    private apiUrl = 'https://api.example.com';
+
+    constructor(private http: HttpClient) {}
+
+    getData(): Observable&lt;any&gt; {
+        return this.http.get(`${this.apiUrl}/data`);
+    }
+
+    postData(data: any): Observable&lt;any&gt; {
+        return this.http.post(`${this.apiUrl}/data`, data);
+    }
+}
+
+// 组件中使用服务
+import { Component, OnInit } from '@angular/core';
+import { DataService } from './data.service';
+
+@Component({
+    selector: 'app-data',
+    template: `
+        &lt;div *ngFor="let item of data"&gt;
+            {{ item.name }}
+        &lt;/div&gt;
+    `
+})
+export class DataComponent implements OnInit {
+    data: any[] = [];
+
+    constructor(private dataService: DataService) {}
+
+    ngOnInit() {
+        this.dataService.getData().subscribe(
+            response =&gt; {
+                this.data = response;
+            },
+            error =&gt; {
+                console.error('获取数据失败:', error);
+            }
+        );
+    }
+}</pre>
+                    </div>
+                </section>
+
+                <section id="comparison">
+                    <h2>⚖️ 框架对比</h2>
+                    <p>选择合适的框架对项目成功至关重要。以下是三大主流框架的详细对比：</p>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background: var(--light-gray);">
+                                    <th style="padding: 12px; border: 1px solid var(--border-color);">特性</th>
+                                    <th style="padding: 12px; border: 1px solid var(--border-color);">React</th>
+                                    <th style="padding: 12px; border: 1px solid var(--border-color);">Vue</th>
+                                    <th style="padding: 12px; border: 1px solid var(--border-color);">Angular</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color); font-weight: 600;">学习曲线</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">中等</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">简单</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">陡峭</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color); font-weight: 600;">性能</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">优秀</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">优秀</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">良好</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color); font-weight: 600;">生态系统</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">非常丰富</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">丰富</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">完整</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color); font-weight: 600;">企业支持</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">Facebook</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">独立</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">Google</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color); font-weight: 600;">适用场景</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">大型SPA、移动端</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">中小型项目、渐进式</td>
+                                    <td style="padding: 12px; border: 1px solid var(--border-color);">企业级应用</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </section>
+
+                <section id="ecosystem">
+                    <h2>🌍 生态系统</h2>
+                    
+                    <h3>⚛️ React 生态</h3>
+                    <ul>
+                        <li><strong>状态管理</strong>：Redux, MobX, Zustand, Recoil</li>
+                        <li><strong>路由</strong>：React Router, Reach Router</li>
+                        <li><strong>UI库</strong>：Ant Design, Material-UI, Chakra UI</li>
+                        <li><strong>开发工具</strong>：Create React App, Next.js, Gatsby</li>
+                        <li><strong>测试</strong>：Jest, React Testing Library, Enzyme</li>
+                    </ul>
+
+                    <h3>💚 Vue 生态</h3>
+                    <ul>
+                        <li><strong>状态管理</strong>：Vuex, Pinia</li>
+                        <li><strong>路由</strong>：Vue Router</li>
+                        <li><strong>UI库</strong>：Element Plus, Vuetify, Quasar</li>
+                        <li><strong>开发工具</strong>：Vue CLI, Vite, Nuxt.js</li>
+                        <li><strong>测试</strong>：Vue Test Utils, Jest</li>
+                    </ul>
+
+                    <h3>🅰️ Angular 生态</h3>
+                    <ul>
+                        <li><strong>状态管理</strong>：NgRx, Akita</li>
+                        <li><strong>路由</strong>：Angular Router</li>
+                        <li><strong>UI库</strong>：Angular Material, PrimeNG, Ng-Zorro</li>
+                        <li><strong>开发工具</strong>：Angular CLI, Nx</li>
+                        <li><strong>测试</strong>：Jasmine, Karma, Protractor</li>
+                </ul>
+            </section>
+
+                <section id="best-practices">
+                    <h2>✨ 最佳实践</h2>
+                    
+                    <h3>🎯 通用最佳实践</h3>
+                    <div class="tip">
+                        <ul>
+                            <li><strong>组件设计</strong>：保持组件小而专一，遵循单一职责原则</li>
+                            <li><strong>状态管理</strong>：合理使用本地状态和全局状态</li>
+                            <li><strong>性能优化</strong>：使用懒加载、代码分割、虚拟滚动</li>
+                            <li><strong>代码规范</strong>：使用ESLint、Prettier保持代码一致性</li>
+                            <li><strong>测试覆盖</strong>：编写单元测试和集成测试</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔧 性能优化技巧</h3>
+                    <div class="code">
+                        <pre>// React 性能优化
+import React, { memo, useMemo, useCallback } from 'react';
+
+const ExpensiveComponent = memo(({ data, onUpdate }) =&gt; {
+    // 使用 useMemo 缓存计算结果
+    const processedData = useMemo(() =&gt; {
+        return data.map(item =&gt; ({
+            ...item,
+            processed: true
+        }));
+    }, [data]);
+
+    // 使用 useCallback 缓存函数
+    const handleClick = useCallback((id) =&gt; {
+        onUpdate(id);
+    }, [onUpdate]);
+
+    return (
+        &lt;div&gt;
+            {processedData.map(item =&gt; (
+                &lt;div key={item.id} onClick={() =&gt; handleClick(item.id)}&gt;
+                    {item.name}
+                &lt;/div&gt;
+            ))}
+        &lt;/div&gt;
+    );
+});
+
+// Vue 性能优化
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;!-- 使用 v-memo 缓存渲染结果 --&gt;
+        &lt;div v-for="item in list" :key="item.id" v-memo="[item.id, item.name]"&gt;
+            {{ item.name }}
+        &lt;/div&gt;
+        
+        &lt;!-- 使用 v-once 只渲染一次 --&gt;
+        &lt;div v-once&gt;{{ expensiveCalculation() }}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;</pre>
+                    </div>
+                </section>
+
+                <section id="projects">
+                    <h2>🎨 实战项目</h2>
+                    
+                    <h3>📝 待办事项应用 (React)</h3>
+                    <div class="code">
+                        <pre>import React, { useState, useReducer } from 'react';
+
+// 使用 useReducer 管理复杂状态
+function todoReducer(state, action) {
+    switch (action.type) {
+        case 'ADD_TODO':
+            return [...state, {
+                id: Date.now(),
+                text: action.text,
+                completed: false
+            }];
+        case 'TOGGLE_TODO':
+            return state.map(todo =&gt;
+                todo.id === action.id 
+                    ? { ...todo, completed: !todo.completed }
+                    : todo
+            );
+        case 'DELETE_TODO':
+            return state.filter(todo =&gt; todo.id !== action.id);
+        default:
+            return state;
+    }
+}
+
+function TodoApp() {
+    const [todos, dispatch] = useReducer(todoReducer, []);
+    const [inputValue, setInputValue] = useState('');
+
+    const addTodo = () =&gt; {
+        if (inputValue.trim()) {
+            dispatch({ type: 'ADD_TODO', text: inputValue });
+            setInputValue('');
+        }
+    };
+
+    return (
+        &lt;div className="todo-app"&gt;
+            &lt;h1&gt;待办事项&lt;/h1&gt;
+            &lt;div&gt;
+                &lt;input
+                    value={inputValue}
+                    onChange={(e) =&gt; setInputValue(e.target.value)}
+                    onKeyPress={(e) =&gt; e.key === 'Enter' && addTodo()}
+                    placeholder="添加新任务..."
+                /&gt;
+                &lt;button onClick={addTodo}&gt;添加&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;ul&gt;
+                {todos.map(todo =&gt; (
+                    &lt;li key={todo.id} className={todo.completed ? 'completed' : ''}&gt;
+                        &lt;span onClick={() =&gt; dispatch({ type: 'TOGGLE_TODO', id: todo.id })}&gt;
+                            {todo.text}
+                        &lt;/span&gt;
+                        &lt;button onClick={() =&gt; dispatch({ type: 'DELETE_TODO', id: todo.id })}&gt;
+                            删除
+                        &lt;/button&gt;
+                    &lt;/li&gt;
+                ))}
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    );
+}</pre>
+                    </div>
+
+                    <div class="tip">
+                        <strong>🎯 项目扩展建议：</strong>
+                        <ol>
+                            <li>添加本地存储功能</li>
+                            <li>实现拖拽排序</li>
+                            <li>添加分类和标签</li>
+                            <li>集成后端API</li>
+                            <li>添加用户认证</li>
+                        </ol>
+        </div>
+                </section>
+
+        <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="html.html">🏗️ HTML 基础星球</a> |
+                        <a href="css.html">🎨 CSS 美化星云</a> |
+                        <a href="javascript.html">⚡ JavaScript 动力核心</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 

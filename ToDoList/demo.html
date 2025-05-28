@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 功能演示 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <style>
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .demo-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .demo-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .demo-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .demo-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .demo-button.secondary {
+            background: linear-gradient(135deg, var(--secondary-color), var(--text-secondary));
+        }
+        
+        .demo-button.success {
+            background: linear-gradient(135deg, var(--success-color), var(--success-light));
+        }
+        
+        .demo-button.warning {
+            background: linear-gradient(135deg, var(--warning-color), var(--warning-light));
+        }
+        
+        .demo-button.danger {
+            background: linear-gradient(135deg, var(--error-color), var(--error-light));
+        }
+        
+        .demo-output {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin-top: 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            min-height: 60px;
+            white-space: pre-wrap;
+        }
+        
+        .feature-showcase {
+            background: linear-gradient(135deg, var(--glass-background), rgba(255, 255, 255, 0.05));
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            margin: 48px 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        
+        .stats-counter {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: var(--card-background);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            min-width: 120px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .interactive-demo {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .color-picker-demo {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+        
+        .color-box {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .color-box:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .animation-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: var(--border-radius-lg);
+            margin: 16px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .pulse-element {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin: 0 20px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+        
+        .progress-demo {
+            margin: 16px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1>🎯 功能演示中心</h1>
+            <p style="font-size: 1.2rem; color: var(--text-secondary);">
+                体验全栈开发银河系的所有功能特性
+            </p>
+            <a href="index.html" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">← 返回银河系首页</a>
+        </div>
+
+        <!-- 核心功能展示 -->
+        <div class="feature-showcase">
+            <h2>🌟 核心功能特性</h2>
+            <p>探索我们为您精心打造的学习工具和体验</p>
+            
+            <div class="stats-counter">
+                <div class="stat-box">
+                    <div class="stat-number" id="techCount">15+</div>
+                    <div class="stat-label">技术栈</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="exampleCount">500+</div>
+                    <div class="stat-label">代码示例</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="projectCount">100+</div>
+                    <div class="stat-label">实战项目</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="userCount">∞</div>
+                    <div class="stat-label">学习者</div>
+        </div>
+    </div>
+        </div>
+
+        <!-- 功能演示网格 -->
+        <div class="demo-grid">
+            <!-- 银河背景演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>🌌</span>
+                    <span>银河背景系统</span>
+                </div>
+                <div class="demo-description">
+                    动态星空、流星雨、星云漂浮、银河旋臂等视觉效果
+                </div>
+                <button class="demo-button" onclick="createStars()">✨ 创建星星</button>
+                <button class="demo-button secondary" onclick="createShootingStar()">🌠 召唤流星</button>
+                <button class="demo-button success" onclick="createNebula()">☁️ 生成星云</button>
+                <div class="demo-output" id="galaxyOutput">点击按钮体验银河效果...</div>
+            </div>
+
+            <!-- 主题切换演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>🎨</span>
+                    <span>主题系统</span>
+                </div>
+                <div class="demo-description">
+                    支持亮色/暗色主题切换，保存用户偏好设置
+                </div>
+                <button class="demo-button" onclick="toggleThemeDemo()">🌙 切换主题</button>
+                <button class="demo-button secondary" onclick="resetTheme()">🔄 重置主题</button>
+                <div class="demo-output" id="themeOutput">当前主题: 亮色模式</div>
+            </div>
+
+            <!-- 搜索功能演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>🔍</span>
+                    <span>智能搜索</span>
+                </div>
+                <div class="demo-description">
+                    全局搜索、实时结果、关键词高亮、搜索统计
+                </div>
+                <input type="text" placeholder="搜索技术栈..." id="demoSearch" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-bottom: 8px;">
+                <button class="demo-button" onclick="performDemoSearch()">🔍 搜索</button>
+                <button class="demo-button secondary" onclick="clearDemoSearch()">🗑️ 清空</button>
+                <div class="demo-output" id="searchOutput">输入关键词进行搜索...</div>
+            </div>
+
+            <!-- 通知系统演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>📢</span>
+                    <span>通知系统</span>
+                </div>
+                <div class="demo-description">
+                    成功、警告、错误、信息四种类型的通知提示
+                    </div>
+                <button class="demo-button success" onclick="showDemoNotification('success')">✅ 成功</button>
+                <button class="demo-button warning" onclick="showDemoNotification('warning')">⚠️ 警告</button>
+                <button class="demo-button danger" onclick="showDemoNotification('error')">❌ 错误</button>
+                <button class="demo-button" onclick="showDemoNotification('info')">ℹ️ 信息</button>
+                <div class="demo-output" id="notificationOutput">点击按钮查看通知效果...</div>
+                    </div>
+
+            <!-- 代码游乐场演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>🎮</span>
+                    <span>代码游乐场</span>
+                    </div>
+                <div class="demo-description">
+                    在线代码编辑器，支持HTML、CSS、JavaScript、React
+                    </div>
+                <button class="demo-button" onclick="openPlayground()">🚀 打开游乐场</button>
+                <button class="demo-button secondary" onclick="loadTemplate()">📋 加载模板</button>
+                <div class="demo-output" id="playgroundOutput">在线编程环境，实时预览代码效果</div>
+                    </div>
+
+            <!-- 响应式设计演示 -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    <span>📱</span>
+                    <span>响应式设计</span>
+                    </div>
+                <div class="demo-description">
+                    完美适配桌面、平板、手机等不同设备
+                </div>
+                <button class="demo-button" onclick="simulateDevice('desktop')">🖥️ 桌面</button>
+                <button class="demo-button secondary" onclick="simulateDevice('tablet')">📱 平板</button>
+                <button class="demo-button success" onclick="simulateDevice('mobile')">📱 手机</button>
+                <div class="demo-output" id="responsiveOutput">当前视图: 桌面模式</div>
+            </div>
+        </div>
+
+        <!-- 交互式演示区域 -->
+        <div class="interactive-demo">
+            <h3>🎨 交互式颜色演示</h3>
+            <p>点击颜色方块改变页面主题色彩</p>
+            <div class="color-picker-demo">
+                <div class="color-box" style="background: #667eea;" onclick="changeThemeColor('#667eea')"></div>
+                <div class="color-box" style="background: #ff6b6b;" onclick="changeThemeColor('#ff6b6b')"></div>
+                <div class="color-box" style="background: #4ecdc4;" onclick="changeThemeColor('#4ecdc4')"></div>
+                <div class="color-box" style="background: #45b7d1;" onclick="changeThemeColor('#45b7d1')"></div>
+                <div class="color-box" style="background: #96ceb4;" onclick="changeThemeColor('#96ceb4')"></div>
+                <div class="color-box" style="background: #feca57;" onclick="changeThemeColor('#feca57')"></div>
+            </div>
+        </div>
+
+        <!-- 动画演示区域 -->
+        <div class="interactive-demo">
+            <h3>🎬 CSS动画演示</h3>
+            <p>观看各种CSS动画效果</p>
+            <div class="animation-demo">
+                <div class="floating-element"></div>
+                <div class="pulse-element"></div>
+                <div class="floating-element" style="animation-delay: 1s;"></div>
+            </div>
+            <button class="demo-button" onclick="toggleAnimation()">⏯️ 暂停/播放动画</button>
+            <button class="demo-button secondary" onclick="changeAnimationSpeed()">⚡ 改变速度</button>
+                    </div>
+
+        <!-- 进度条演示 -->
+        <div class="interactive-demo">
+            <h3>📊 进度条演示</h3>
+            <p>动态进度条和数据可视化</p>
+            <div class="progress-demo">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                <p style="text-align: center; margin-top: 8px;">
+                    进度: <span id="progressText">0%</span>
+                </p>
+                    </div>
+            <button class="demo-button" onclick="startProgress()">▶️ 开始</button>
+            <button class="demo-button secondary" onclick="pauseProgress()">⏸️ 暂停</button>
+            <button class="demo-button warning" onclick="resetProgress()">🔄 重置</button>
+                    </div>
+
+        <!-- 键盘快捷键演示 -->
+        <div class="interactive-demo">
+            <h3>⌨️ 键盘快捷键</h3>
+            <p>体验便捷的键盘操作</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0;">
+                <div style="background: var(--light-gray); padding: 12px; border-radius: var(--border-radius);">
+                    <strong>Ctrl + K</strong><br>
+                    <small>聚焦搜索框</small>
+                    </div>
+                <div style="background: var(--light-gray); padding: 12px; border-radius: var(--border-radius);">
+                    <strong>Ctrl + D</strong><br>
+                    <small>切换主题</small>
+                    </div>
+                <div style="background: var(--light-gray); padding: 12px; border-radius: var(--border-radius);">
+                    <strong>F11</strong><br>
+                    <small>全屏模式</small>
+                    </div>
+                <div style="background: var(--light-gray); padding: 12px; border-radius: var(--border-radius);">
+                    <strong>空格</strong><br>
+                    <small>召唤流星</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 本地存储演示 -->
+        <div class="interactive-demo">
+            <h3>💾 本地存储演示</h3>
+            <p>数据持久化和用户偏好保存</p>
+            <input type="text" id="storageInput" placeholder="输入要保存的数据..." style="width: 70%; padding: 8px; border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-right: 8px;">
+            <button class="demo-button" onclick="saveToStorage()">💾 保存</button>
+            <button class="demo-button secondary" onclick="loadFromStorage()">📂 加载</button>
+            <button class="demo-button warning" onclick="clearStorage()">🗑️ 清空</button>
+            <div class="demo-output" id="storageOutput">本地存储为空</div>
+        </div>
+
+        <!-- 性能监控演示 -->
+        <div class="interactive-demo">
+            <h3>📈 性能监控</h3>
+            <p>实时监控页面性能指标</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 16px 0;">
+                <div class="stat-box">
+                    <div class="stat-number" id="loadTime">0ms</div>
+                    <div class="stat-label">加载时间</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="memoryUsage">0MB</div>
+                    <div class="stat-label">内存使用</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="fps">60fps</div>
+                    <div class="stat-label">帧率</div>
+                </div>
+            </div>
+            <button class="demo-button" onclick="updatePerformanceStats()">🔄 刷新数据</button>
+        </div>
+
+        <div style="text-align: center; margin: 48px 0;">
+            <h3>🚀 开始您的银河之旅</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                体验完功能演示后，选择您感兴趣的技术栈开始学习吧！
+            </p>
+            <a href="frontend/html.html" class="demo-button">🏗️ HTML 基础</a>
+            <a href="frontend/css.html" class="demo-button secondary">🎨 CSS 美化</a>
+            <a href="frontend/javascript.html" class="demo-button success">⚡ JavaScript</a>
+            <a href="playground.html" class="demo-button warning">🎮 代码游乐场</a>
+        </div>
+    </div>
+
+    <script src="js/galaxy-background.js"></script>
+    <script src="js/enhanced-features.js"></script>
+    <script>
+        // 演示功能脚本
+        let progressInterval;
+        let currentProgress = 0;
+        let animationPaused = false;
+        
+        // 银河效果演示
+        function createStars() {
+            if (window.galaxyBackground) {
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => window.galaxyBackground.createStar(), i * 100);
+                }
+                document.getElementById('galaxyOutput').textContent = '✨ 创建了10颗新星星！';
+            }
+        }
+        
+        function createShootingStar() {
+            if (window.galaxyBackground) {
+                window.galaxyBackground.createShootingStar();
+                document.getElementById('galaxyOutput').textContent = '🌠 流星划过天空！';
+            }
+        }
+        
+        function createNebula() {
+            if (window.galaxyBackground) {
+                window.galaxyBackground.createNebula();
+                document.getElementById('galaxyOutput').textContent = '☁️ 生成了美丽的星云！';
+            }
+        }
+        
+        // 主题切换演示
+        function toggleThemeDemo() {
+            if (window.enhancedFeatures) {
+                window.enhancedFeatures.toggleTheme();
+                const isDark = document.body.classList.contains('dark-theme');
+                document.getElementById('themeOutput').textContent = `当前主题: ${isDark ? '暗色模式' : '亮色模式'}`;
+            }
+        }
+        
+        function resetTheme() {
+            document.body.classList.remove('dark-theme');
+            localStorage.removeItem('theme');
+            document.getElementById('themeOutput').textContent = '当前主题: 亮色模式（已重置）';
+        }
+        
+        // 搜索演示
+        function performDemoSearch() {
+            const query = document.getElementById('demoSearch').value;
+            if (query.trim()) {
+                const results = ['HTML', 'CSS', 'JavaScript', 'React', 'Vue', 'Node.js']
+                    .filter(tech => tech.toLowerCase().includes(query.toLowerCase()));
+                document.getElementById('searchOutput').textContent = 
+                    results.length > 0 ? `找到 ${results.length} 个结果: ${results.join(', ')}` : '未找到相关结果';
+            } else {
+                document.getElementById('searchOutput').textContent = '请输入搜索关键词';
+            }
+        }
+        
+        function clearDemoSearch() {
+            document.getElementById('demoSearch').value = '';
+            document.getElementById('searchOutput').textContent = '搜索已清空';
+        }
+        
+        // 通知演示
+        function showDemoNotification(type) {
+            const messages = {
+                success: '✅ 操作成功完成！',
+                warning: '⚠️ 请注意这个警告信息',
+                error: '❌ 发生了一个错误',
+                info: 'ℹ️ 这是一条信息提示'
+            };
+            
+            if (window.enhancedFeatures) {
+                window.enhancedFeatures.showNotification(messages[type], type);
+                document.getElementById('notificationOutput').textContent = `显示了${type}类型的通知`;
+            }
+        }
+        
+        // 代码游乐场演示
+        function openPlayground() {
+            window.open('playground.html', '_blank');
+            document.getElementById('playgroundOutput').textContent = '🚀 代码游乐场已在新窗口打开';
+        }
+        
+        function loadTemplate() {
+            document.getElementById('playgroundOutput').textContent = '📋 模板包括：HTML基础、CSS动画、JavaScript交互、React组件等';
+        }
+        
+        // 响应式演示
+        function simulateDevice(device) {
+            const devices = {
+                desktop: '🖥️ 桌面模式 (1200px+)',
+                tablet: '📱 平板模式 (768px-1199px)',
+                mobile: '📱 手机模式 (<768px)'
+            };
+            document.getElementById('responsiveOutput').textContent = `当前视图: ${devices[device]}`;
+        }
+        
+        // 颜色主题演示
+        function changeThemeColor(color) {
+            document.documentElement.style.setProperty('--primary-color', color);
+            document.documentElement.style.setProperty('--accent-color', color);
+        }
+        
+        // 动画控制
+        function toggleAnimation() {
+            const elements = document.querySelectorAll('.floating-element, .pulse-element');
+            elements.forEach(el => {
+                el.style.animationPlayState = animationPaused ? 'running' : 'paused';
+            });
+            animationPaused = !animationPaused;
+        }
+        
+        function changeAnimationSpeed() {
+            const elements = document.querySelectorAll('.floating-element, .pulse-element');
+            const speeds = ['0.5s', '1s', '2s', '3s'];
+            const randomSpeed = speeds[Math.floor(Math.random() * speeds.length)];
+            elements.forEach(el => {
+                el.style.animationDuration = randomSpeed;
+            });
+        }
+        
+        // 进度条控制
+        function startProgress() {
+            if (progressInterval) clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                currentProgress += 2;
+                if (currentProgress > 100) {
+                    currentProgress = 100;
+                    clearInterval(progressInterval);
+                }
+                updateProgressBar();
+            }, 50);
+        }
+        
+        function pauseProgress() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+        }
+        
+        function resetProgress() {
+            if (progressInterval) clearInterval(progressInterval);
+            currentProgress = 0;
+            updateProgressBar();
+        }
+        
+        function updateProgressBar() {
+            document.getElementById('progressFill').style.width = currentProgress + '%';
+            document.getElementById('progressText').textContent = currentProgress + '%';
+        }
+        
+        // 本地存储演示
+        function saveToStorage() {
+            const data = document.getElementById('storageInput').value;
+            if (data.trim()) {
+                localStorage.setItem('demoData', data);
+                document.getElementById('storageOutput').textContent = `已保存: ${data}`;
+            }
+        }
+        
+        function loadFromStorage() {
+            const data = localStorage.getItem('demoData');
+            if (data) {
+                document.getElementById('storageInput').value = data;
+                document.getElementById('storageOutput').textContent = `已加载: ${data}`;
+            } else {
+                document.getElementById('storageOutput').textContent = '本地存储为空';
+            }
+        }
+        
+        function clearStorage() {
+            localStorage.removeItem('demoData');
+            document.getElementById('storageInput').value = '';
+            document.getElementById('storageOutput').textContent = '本地存储已清空';
+        }
+        
+        // 性能监控
+        function updatePerformanceStats() {
+            // 模拟性能数据
+            const loadTime = Math.floor(Math.random() * 1000) + 100;
+            const memoryUsage = Math.floor(Math.random() * 50) + 10;
+            const fps = Math.floor(Math.random() * 20) + 50;
+            
+            document.getElementById('loadTime').textContent = loadTime + 'ms';
+            document.getElementById('memoryUsage').textContent = memoryUsage + 'MB';
+            document.getElementById('fps').textContent = fps + 'fps';
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePerformanceStats();
+            
+            // 自动更新统计数据
+            setInterval(() => {
+                const techCount = document.getElementById('techCount');
+                const exampleCount = document.getElementById('exampleCount');
+                const projectCount = document.getElementById('projectCount');
+                
+                // 添加动画效果
+                [techCount, exampleCount, projectCount].forEach(el => {
+                    el.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        el.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html> 

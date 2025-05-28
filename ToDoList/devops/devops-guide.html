@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 DevOps 代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-header.docker {
+            background: linear-gradient(135deg, #2496ed, #0db7ed);
+        }
+        
+        .code-header.kubernetes {
+            background: linear-gradient(135deg, #326ce5, #1a73e8);
+        }
+        
+        .code-header.cicd {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag.docker {
+            background: #2496ed;
+            color: white;
+        }
+        
+        .tag.kubernetes {
+            background: #326ce5;
+            color: white;
+        }
+        
+        .tag.cicd {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .terminal-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .terminal-title {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .file-title {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">🔧 DevOps 代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#docker">Docker 容器</a></li>
+                    <li><a href="#dockerfile">Dockerfile</a></li>
+                    <li><a href="#docker-compose">Docker Compose</a></li>
+                    <li><a href="#kubernetes">Kubernetes</a></li>
+                    <li><a href="#k8s-deployment">K8s 部署</a></li>
+                    <li><a href="#k8s-service">K8s 服务</a></li>
+                    <li><a href="#cicd">CI/CD 流水线</a></li>
+                    <li><a href="#github-actions">GitHub Actions</a></li>
+                    <li><a href="#jenkins">Jenkins</a></li>
+                    <li><a href="#monitoring">监控配置</a></li>
+                    <li><a href="#nginx">Nginx 配置</a></li>
+                    <li><a href="#scripts">自动化脚本</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索DevOps代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>🔧 DevOps 代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    完整的DevOps代码示例库，涵盖容器化、编排、CI/CD等现代运维技术
+                </p>
+
+                <section id="docker">
+                    <h2>🐳 Docker 容器化</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header docker">
+                            <span>📦 Dockerfile 最佳实践</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag docker">Docker</span>
+                                <span class="tag">容器</span>
+                                <span class="tag">镜像</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># Node.js 应用 Dockerfile
+FROM node:18-alpine AS builder
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制 package.json 和 package-lock.json
+COPY package*.json ./
+
+# 安装依赖
+RUN npm ci --only=production && npm cache clean --force
+
+# 复制源代码
+COPY . .
+
+# 构建应用
+RUN npm run build
+
+# 生产环境镜像
+FROM node:18-alpine AS production
+
+# 创建非root用户
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制构建产物
+COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+
+# 切换到非root用户
+USER nextjs
+
+# 暴露端口
+EXPOSE 3000
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/health || exit 1
+
+# 启动应用
+CMD ["node", "dist/server.js"]
+
+# Python 应用 Dockerfile
+FROM python:3.11-slim AS python-app
+
+# 设置环境变量
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# 安装系统依赖
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# 创建用户
+RUN useradd --create-home --shell /bin/bash app
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制依赖文件
+COPY requirements.txt .
+
+# 安装Python依赖
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制应用代码
+COPY --chown=app:app . .
+
+# 切换用户
+USER app
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动命令
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "app:app"]
+
+# Nginx 反向代理 Dockerfile
+FROM nginx:alpine AS nginx-proxy
+
+# 复制配置文件
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+# 复制静态文件
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# 暴露端口
+EXPOSE 80 443
+
+# 启动Nginx
+CMD ["nginx", "-g", "daemon off;"]</pre>
+                                </div>
+                            </div>
+                            <div class="file-structure">
+                                <div class="file-title">📁 项目结构：</div>
+                                project/<br>
+                                ├── Dockerfile<br>
+                                ├── .dockerignore<br>
+                                ├── package.json<br>
+                                ├── src/<br>
+                                └── nginx.conf
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header docker">
+                            <span>🚀 Docker 命令大全</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># 镜像操作
+# 构建镜像
+docker build -t myapp:latest .
+docker build -t myapp:v1.0 --build-arg NODE_ENV=production .
+
+# 查看镜像
+docker images
+docker image ls
+
+# 删除镜像
+docker rmi myapp:latest
+docker image prune  # 删除悬空镜像
+docker image prune -a  # 删除所有未使用的镜像
+
+# 推送镜像到仓库
+docker tag myapp:latest registry.example.com/myapp:latest
+docker push registry.example.com/myapp:latest
+
+# 从仓库拉取镜像
+docker pull nginx:alpine
+docker pull redis:6.2
+
+# 容器操作
+# 运行容器
+docker run -d --name myapp -p 3000:3000 myapp:latest
+docker run -d --name redis -p 6379:6379 redis:alpine
+docker run -it --name ubuntu ubuntu:20.04 /bin/bash
+
+# 查看容器
+docker ps  # 运行中的容器
+docker ps -a  # 所有容器
+docker container ls
+
+# 容器管理
+docker start myapp
+docker stop myapp
+docker restart myapp
+docker pause myapp
+docker unpause myapp
+
+# 删除容器
+docker rm myapp
+docker rm -f myapp  # 强制删除运行中的容器
+docker container prune  # 删除所有停止的容器
+
+# 进入容器
+docker exec -it myapp /bin/bash
+docker exec -it myapp sh
+docker attach myapp
+
+# 查看容器日志
+docker logs myapp
+docker logs -f myapp  # 实时查看
+docker logs --tail 100 myapp  # 查看最后100行
+
+# 查看容器信息
+docker inspect myapp
+docker stats myapp  # 查看资源使用情况
+docker top myapp  # 查看容器内进程
+
+# 复制文件
+docker cp myapp:/app/config.json ./config.json
+docker cp ./config.json myapp:/app/config.json
+
+# 网络操作
+# 创建网络
+docker network create mynetwork
+docker network create --driver bridge mybridge
+
+# 查看网络
+docker network ls
+docker network inspect mynetwork
+
+# 连接容器到网络
+docker network connect mynetwork myapp
+
+# 删除网络
+docker network rm mynetwork
+docker network prune
+
+# 数据卷操作
+# 创建数据卷
+docker volume create myvolume
+
+# 查看数据卷
+docker volume ls
+docker volume inspect myvolume
+
+# 使用数据卷
+docker run -d --name myapp -v myvolume:/app/data myapp:latest
+docker run -d --name myapp -v /host/path:/container/path myapp:latest
+
+# 删除数据卷
+docker volume rm myvolume
+docker volume prune
+
+# 系统清理
+docker system df  # 查看磁盘使用情况
+docker system prune  # 清理未使用的资源
+docker system prune -a  # 清理所有未使用的资源
+
+# Docker Compose 操作
+docker-compose up -d  # 后台启动服务
+docker-compose down  # 停止并删除服务
+docker-compose ps  # 查看服务状态
+docker-compose logs  # 查看日志
+docker-compose exec web bash  # 进入服务容器
+
+# 镜像导入导出
+docker save -o myapp.tar myapp:latest  # 导出镜像
+docker load -i myapp.tar  # 导入镜像
+
+# 容器导入导出
+docker export myapp > myapp.tar  # 导出容器
+docker import myapp.tar myapp:imported  # 导入容器为镜像</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">常用命令示例：</div>
+                                $ docker run -d --name nginx -p 80:80 nginx:alpine<br>
+                                $ docker exec -it nginx sh<br>
+                                $ docker logs -f nginx
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="docker-compose">
+                    <h2>🐙 Docker Compose 编排</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header docker">
+                            <span>📋 完整应用栈配置</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag docker">Docker Compose</span>
+                                <span class="tag">编排</span>
+                                <span class="tag">微服务</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># docker-compose.yml - 完整的Web应用栈
+version: '3.8'
+
+services:
+  # 前端应用
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 后端API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:password@postgres:5432/myapp
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/logs:/app/logs
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=myapp
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d myapp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./ssl:/etc/nginx/ssl
+      - ./static:/usr/share/nginx/html
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Elasticsearch (日志搜索)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Kibana (日志可视化)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Prometheus (监控)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Grafana (监控可视化)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - app-network
+    restart: unless-stopped
+
+# 网络配置
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# 数据卷配置
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+# 开发环境覆盖配置 (docker-compose.override.yml)
+# version: '3.8'
+# services:
+#   backend:
+#     volumes:
+#       - ./backend:/app
+#       - /app/node_modules
+#     environment:
+#       - NODE_ENV=development
+#     command: npm run dev
+#   
+#   frontend:
+#     volumes:
+#       - ./frontend:/app
+#       - /app/node_modules
+#     environment:
+#       - NODE_ENV=development
+#     command: npm start</pre>
+                                </div>
+                            </div>
+                            <div class="preview-box">
+                                <div class="preview-title">🔧 环境变量文件 (.env)：</div>
+                                <pre>JWT_SECRET=your-super-secret-jwt-key
+REDIS_PASSWORD=your-redis-password
+GRAFANA_PASSWORD=admin123
+POSTGRES_PASSWORD=your-postgres-password</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="kubernetes">
+                    <h2>⚓ Kubernetes 编排</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header kubernetes">
+                            <span>🚀 K8s 部署配置</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag kubernetes">Kubernetes</span>
+                                <span class="tag">部署</span>
+                                <span class="tag">编排</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># namespace.yaml - 命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+    environment: production
+
+---
+# configmap.yaml - 配置映射
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: myapp
+data:
+  NODE_ENV: "production"
+  API_URL: "http://backend-service:8000"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  database.properties: |
+    host=postgres-service
+    port=5432
+    database=myapp
+    ssl=true
+
+---
+# secret.yaml - 敏感信息
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+  namespace: myapp
+type: Opaque
+data:
+  # base64 编码的值
+  JWT_SECRET: eW91ci1zdXBlci1zZWNyZXQtand0LWtleQ==
+  DATABASE_PASSWORD: eW91ci1wb3N0Z3Jlcy1wYXNzd29yZA==
+  REDIS_PASSWORD: eW91ci1yZWRpcy1wYXNzd29yZA==
+
+---
+# deployment.yaml - 应用部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: myapp
+  labels:
+    app: backend
+    version: v1.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1.0
+    spec:
+      containers:
+      - name: backend
+        image: myregistry.com/myapp-backend:v1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: NODE_ENV
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: JWT_SECRET
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: DATABASE_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: app-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: app-storage
+          mountPath: /app/uploads
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: app-pvc
+      - name: config-volume
+        configMap:
+          name: app-config
+          items:
+          - key: database.properties
+            path: database.properties
+      imagePullSecrets:
+      - name: registry-secret
+
+---
+# service.yaml - 服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: myapp
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: backend
+
+---
+# ingress.yaml - 入口控制器
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: myapp
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+spec:
+  tls:
+  - hosts:
+    - api.myapp.com
+    secretName: api-tls-secret
+  rules:
+  - host: api.myapp.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-service
+            port:
+              number: 8000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 3000
+
+---
+# pvc.yaml - 持久卷声明
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pvc
+  namespace: myapp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# hpa.yaml - 水平自动扩缩
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: myapp
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-deployment
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+      - type: Pods
+        value: 4
+        periodSeconds: 15
+      selectPolicy: Max</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">部署命令：</div>
+                                kubectl apply -f namespace.yaml<br>
+                                kubectl apply -f configmap.yaml<br>
+                                kubectl apply -f secret.yaml<br>
+                                kubectl apply -f deployment.yaml<br>
+                                kubectl apply -f service.yaml<br>
+                                kubectl apply -f ingress.yaml
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="cicd">
+                    <h2>🔄 CI/CD 流水线</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header cicd">
+                            <span>🚀 GitHub Actions 工作流</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag cicd">GitHub Actions</span>
+                                <span class="tag">CI/CD</span>
+                                <span class="tag">自动化</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # 代码质量检查
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run install:all
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Run Prettier
+      run: npm run format:check
+
+    - name: Run type checking
+      run: npm run type-check
+
+    - name: Run unit tests
+      run: npm run test:unit
+      env:
+        CI: true
+
+    - name: Run integration tests
+      run: npm run test:integration
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
+        REDIS_URL: redis://localhost:6379
+
+    - name: Generate test coverage
+      run: npm run test:coverage
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info
+        fail_ci_if_error: true
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # 安全扫描
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+    - name: Run Snyk security scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+
+  # 构建Docker镜像
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    needs: [lint-and-test, security-scan]
+    if: github.event_name != 'pull_request'
+    
+    outputs:
+      image-digest: ${{ steps.build.outputs.digest }}
+      image-tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          NODE_ENV=production
+          BUILD_DATE=${{ github.event.head_commit.timestamp }}
+          VCS_REF=${{ github.sha }}
+
+    - name: Sign container image
+      uses: sigstore/cosign-installer@v3
+      with:
+        cosign-release: 'v2.1.1'
+    
+    - name: Sign the published Docker image
+      env:
+        COSIGN_EXPERIMENTAL: 1
+      run: |
+        cosign sign --yes ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+
+  # 部署到测试环境
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://staging.myapp.com
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.0'
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region us-west-2 --name staging-cluster
+
+    - name: Deploy to Kubernetes
+      run: |
+        envsubst < k8s/staging/deployment.yaml | kubectl apply -f -
+        kubectl rollout status deployment/myapp-backend -n staging
+        kubectl rollout status deployment/myapp-frontend -n staging
+      env:
+        IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
+        DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        REDIS_URL: ${{ secrets.STAGING_REDIS_URL }}
+
+    - name: Run smoke tests
+      run: |
+        npm run test:smoke
+      env:
+        TEST_URL: https://staging.myapp.com
+
+  # 部署到生产环境
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://myapp.com
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region us-west-2 --name production-cluster
+
+    - name: Blue-Green Deployment
+      run: |
+        # 部署到绿色环境
+        envsubst < k8s/production/deployment-green.yaml | kubectl apply -f -
+        kubectl rollout status deployment/myapp-backend-green -n production
+        
+        # 健康检查
+        kubectl wait --for=condition=ready pod -l app=myapp-backend,version=green -n production --timeout=300s
+        
+        # 切换流量
+        kubectl patch service myapp-backend-service -n production -p '{"spec":{"selector":{"version":"green"}}}'
+        
+        # 清理蓝色环境
+        kubectl delete deployment myapp-backend-blue -n production --ignore-not-found=true
+        
+        # 重命名绿色为蓝色
+        kubectl patch deployment myapp-backend-green -n production -p '{"metadata":{"name":"myapp-backend-blue"},"spec":{"selector":{"matchLabels":{"version":"blue"}},"template":{"metadata":{"labels":{"version":"blue"}}}}}'
+      env:
+        IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
+
+    - name: Post-deployment tests
+      run: |
+        npm run test:e2e
+      env:
+        TEST_URL: https://myapp.com
+
+    - name: Notify Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+      if: always()</pre>
+                                </div>
+                            </div>
+                            <div class="file-structure">
+                                <div class="file-title">📁 CI/CD 文件结构：</div>
+                                .github/<br>
+                                └── workflows/<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;├── ci-cd.yml<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;├── security.yml<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;└── release.yml<br>
+                                k8s/<br>
+                                ├── staging/<br>
+                                └── production/
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="docker.html">🐳 Docker 教程</a> |
+                        <a href="kubernetes.html">⚓ Kubernetes 教程</a> |
+                        <a href="ci-cd.html">🔄 CI/CD 教程</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = 'var(--success-color)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

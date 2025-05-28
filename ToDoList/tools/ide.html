@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDE 开发环境全面手册</title>
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">IDE 开发环境手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>VS Code</summary><ul>
+          <li><a href="#vscode-basic">基础配置</a></li>
+          <li><a href="#vscode-extensions">插件推荐</a></li>
+          <li><a href="#vscode-shortcuts">快捷键</a></li>
+          <li><a href="#vscode-debugging">调试</a></li>
+        </ul></details></li>
+        <li><details><summary>IntelliJ IDEA</summary><ul>
+          <li><a href="#idea-basic">基础配置</a></li>
+          <li><a href="#idea-plugins">插件管理</a></li>
+          <li><a href="#idea-refactor">重构工具</a></li>
+          <li><a href="#idea-debugging">调试技巧</a></li>
+        </ul></details></li>
+        <li><details><summary>WebStorm</summary><ul>
+          <li><a href="#webstorm-basic">基础配置</a></li>
+          <li><a href="#webstorm-features">特色功能</a></li>
+          <li><a href="#webstorm-tools">开发工具</a></li>
+        </ul></details></li>
+        <li><details><summary>Vim/Neovim</summary><ul>
+          <li><a href="#vim-basic">基础操作</a></li>
+          <li><a href="#vim-config">配置文件</a></li>
+          <li><a href="#vim-plugins">插件生态</a></li>
+        </ul></details></li>
+        <li><details><summary>开发环境</summary><ul>
+          <li><a href="#terminal">终端工具</a></li>
+          <li><a href="#containers">容器开发</a></li>
+          <li><a href="#remote-dev">远程开发</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; 开发工具 &gt; IDE
+      </div>
+      <h1 id="intro">IDE 开发环境全面手册</h1>
+      
+      <section>
+        <h2 id="vscode-basic">VS Code 基础配置</h2>
+        <p>Visual Studio Code 是微软开发的免费代码编辑器。</p>
+        <div class="code"><pre>// settings.json 配置
+{
+  "editor.fontSize": 14,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "workbench.colorTheme": "One Dark Pro",
+  "terminal.integrated.fontSize": 12,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false
+}</pre></div>
+        <div class="tip">实际场景：个性化配置、提高开发效率、团队统一设置。</div>
+        <div class="note">常见错误：配置冲突、插件兼容性问题。</div>
+      </section>
+
+      <section>
+        <h2 id="vscode-extensions">VS Code 插件推荐</h2>
+        <p>通过插件扩展 VS Code 的功能。</p>
+        <div class="code"><pre>// 必备插件列表
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode-remote.remote-containers",
+    "gitpod.gitpod-desktop",
+    "ms-vscode.live-server",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-eslint"
+  ]
+}</pre></div>
+        <div class="tip">实际场景：语法高亮、代码补全、格式化、调试。</div>
+        <h3>插件分类</h3>
+        <ul>
+          <li><strong>语言支持：</strong>Python、JavaScript、TypeScript、Java</li>
+          <li><strong>代码质量：</strong>ESLint、Prettier、SonarLint</li>
+          <li><strong>版本控制：</strong>GitLens、Git Graph</li>
+          <li><strong>主题美化：</strong>One Dark Pro、Material Theme</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="vscode-shortcuts">VS Code 快捷键</h2>
+        <p>掌握快捷键可以大幅提高开发效率。</p>
+        <div class="code"><pre>// 常用快捷键 (Windows/Linux)
+Ctrl + Shift + P    // 命令面板
+Ctrl + P           // 快速打开文件
+Ctrl + `           // 打开终端
+Ctrl + Shift + `   // 新建终端
+Ctrl + /           // 注释/取消注释
+Ctrl + Shift + K   // 删除行
+Alt + Up/Down      // 移动行
+Shift + Alt + Up/Down  // 复制行
+Ctrl + D           // 选择下一个相同单词
+Ctrl + Shift + L   // 选择所有相同单词
+F2                 // 重命名符号
+Ctrl + Shift + F   // 全局搜索
+Ctrl + H           // 替换</pre></div>
+        <div class="tip">实际场景：快速导航、代码编辑、搜索替换。</div>
+      </section>
+
+      <section>
+        <h2 id="vscode-debugging">VS Code 调试</h2>
+        <p>VS Code 提供了强大的调试功能。</p>
+        <div class="code"><pre>// launch.json 调试配置
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Node.js",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}</pre></div>
+        <div class="tip">实际场景：断点调试、变量监视、调用栈分析。</div>
+      </section>
+
+      <section>
+        <h2 id="idea-basic">IntelliJ IDEA 基础配置</h2>
+        <p>IntelliJ IDEA 是 JetBrains 开发的 Java IDE。</p>
+        <div class="code"><pre>// 推荐配置设置
+Editor > General:
+- Change font size with Ctrl+Mouse Wheel: ✓
+- Show whitespaces: ✓
+- Ensure line feed at file end on Save: ✓
+
+Editor > Code Style:
+- Tab size: 4
+- Indent: 4
+- Continuation indent: 8
+
+Build, Execution, Deployment > Compiler:
+- Build project automatically: ✓
+- Compile independent modules in parallel: ✓
+
+Version Control > Git:
+- Use credential helper: ✓
+- Auto-update if push of the current branch was rejected: ✓</pre></div>
+        <div class="tip">实际场景：Java 开发、Spring 项目、企业级应用。</div>
+      </section>
+
+      <section>
+        <h2 id="idea-plugins">IntelliJ IDEA 插件管理</h2>
+        <p>通过插件扩展 IDEA 的功能。</p>
+        <div class="code"><pre>// 推荐插件列表
+Essential Plugins:
+- Lombok Plugin
+- Spring Boot Helper
+- Maven Helper
+- Gradle
+- Database Navigator
+- SonarLint
+- CheckStyle-IDEA
+- FindBugs-IDEA
+- Key Promoter X
+- Rainbow Brackets
+- String Manipulation
+- .ignore
+- Markdown Navigator</pre></div>
+        <div class="tip">实际场景：代码生成、框架支持、代码质量检查。</div>
+      </section>
+
+      <section>
+        <h2 id="idea-refactor">IntelliJ IDEA 重构工具</h2>
+        <p>IDEA 提供了强大的重构功能。</p>
+        <div class="code"><pre>// 常用重构操作
+Shift + F6         // 重命名
+Ctrl + Alt + M     // 提取方法
+Ctrl + Alt + V     // 提取变量
+Ctrl + Alt + C     // 提取常量
+Ctrl + Alt + P     // 提取参数
+Ctrl + Alt + F     // 提取字段
+F6                 // 移动类/方法
+Ctrl + F6          // 更改签名
+Ctrl + Alt + N     // 内联
+Ctrl + Alt + Shift + T  // 重构菜单</pre></div>
+        <div class="tip">实际场景：代码重构、架构调整、代码优化。</div>
+      </section>
+
+      <section>
+        <h2 id="idea-debugging">IntelliJ IDEA 调试技巧</h2>
+        <p>IDEA 的调试功能非常强大。</p>
+        <div class="code"><pre>// 调试技巧
+1. 条件断点：右键断点设置条件
+2. 异常断点：Run > View Breakpoints > Java Exception Breakpoints
+3. 方法断点：在方法名行设置断点
+4. 字段监视点：在字段声明处设置断点
+5. 表达式求值：Alt + F8
+6. 强制返回：Ctrl + Shift + F9
+7. 热部署：Ctrl + F9 (Build Project)
+
+// 远程调试配置
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</pre></div>
+        <div class="tip">实际场景：复杂问题排查、性能分析、远程调试。</div>
+      </section>
+
+      <section>
+        <h2 id="webstorm-basic">WebStorm 基础配置</h2>
+        <p>WebStorm 是专门为 JavaScript 开发优化的 IDE。</p>
+        <div class="code"><pre>// WebStorm 配置
+Editor > Code Style > JavaScript:
+- Tab size: 2
+- Indent: 2
+- Use tab character: false
+
+Languages & Frameworks > JavaScript:
+- JavaScript language version: ECMAScript 6+
+- Prefer Strict mode: ✓
+
+Languages & Frameworks > Node.js and NPM:
+- Node interpreter: /usr/local/bin/node
+- Package manager: npm
+
+Tools > File Watchers:
+- Prettier: ✓
+- ESLint: ✓
+- Sass: ✓</pre></div>
+        <div class="tip">实际场景：前端开发、React/Vue 项目、TypeScript。</div>
+      </section>
+
+      <section>
+        <h2 id="webstorm-features">WebStorm 特色功能</h2>
+        <p>WebStorm 为前端开发提供了专门的功能。</p>
+        <div class="code"><pre>// 特色功能
+1. 智能代码补全
+   - 支持 ES6+、TypeScript、React、Vue
+   - 自动导入模块
+   - 代码片段
+
+2. 内置工具
+   - 集成终端
+   - 版本控制
+   - 数据库工具
+   - REST 客户端
+
+3. 调试支持
+   - Chrome 调试
+   - Node.js 调试
+   - React/Vue 组件调试
+
+4. 重构工具
+   - 安全重命名
+   - 提取组件
+   - 移动文件</pre></div>
+        <div class="tip">实际场景：现代前端开发、组件化开发、全栈开发。</div>
+      </section>
+
+      <section>
+        <h2 id="webstorm-tools">WebStorm 开发工具</h2>
+        <p>WebStorm 集成了丰富的开发工具。</p>
+        <div class="code"><pre>// 集成工具配置
+// package.json scripts
+{
+  "scripts": {
+    "dev": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
+    "test": "jest",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  }
+}
+
+// .eslintrc.js
+module.exports = {
+  extends: ['eslint:recommended', '@typescript-eslint/recommended'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  rules: {
+    'no-console': 'warn',
+    'no-unused-vars': 'error'
+  }
+};</pre></div>
+        <div class="tip">实际场景：构建工具集成、代码质量检查、自动化流程。</div>
+      </section>
+
+      <section>
+        <h2 id="vim-basic">Vim/Neovim 基础操作</h2>
+        <p>Vim 是高效的文本编辑器，适合命令行环境。</p>
+        <div class="code"><pre>// Vim 基础命令
+模式切换:
+i, a, o     // 进入插入模式
+Esc         // 返回普通模式
+:           // 进入命令模式
+v           // 进入可视模式
+
+移动命令:
+h, j, k, l  // 左下上右
+w, b        // 单词前进/后退
+0, $        // 行首/行尾
+gg, G       // 文件开头/结尾
+
+编辑命令:
+dd          // 删除行
+yy          // 复制行
+p           // 粘贴
+u           // 撤销
+Ctrl + r    // 重做</pre></div>
+        <div class="tip">实际场景：服务器编辑、快速修改、轻量级编辑。</div>
+      </section>
+
+      <section>
+        <h2 id="vim-config">Vim 配置文件</h2>
+        <p>通过 .vimrc 配置文件自定义 Vim。</p>
+        <div class="code"><pre>" .vimrc 配置示例
+set number              " 显示行号
+set relativenumber      " 相对行号
+set tabstop=4          " Tab 宽度
+set shiftwidth=4       " 缩进宽度
+set expandtab          " 使用空格代替 Tab
+set autoindent         " 自动缩进
+set smartindent        " 智能缩进
+set hlsearch           " 高亮搜索
+set incsearch          " 增量搜索
+set ignorecase         " 忽略大小写
+set smartcase          " 智能大小写
+set wrap               " 自动换行
+set ruler              " 显示光标位置
+set showcmd            " 显示命令
+set wildmenu           " 命令补全菜单
+
+" 键位映射
+let mapleader = ","
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR></pre></div>
+        <div class="tip">实际场景：个性化配置、提高效率、团队标准。</div>
+      </section>
+
+      <section>
+        <h2 id="vim-plugins">Vim 插件生态</h2>
+        <p>通过插件管理器安装和管理 Vim 插件。</p>
+        <div class="code"><pre>" 使用 vim-plug 管理插件
+call plug#begin('~/.vim/plugged')
+
+" 文件管理
+Plug 'preservim/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+
+" 语法高亮
+Plug 'sheerun/vim-polyglot'
+Plug 'pangloss/vim-javascript'
+
+" 代码补全
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Git 集成
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" 状态栏
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 主题
+Plug 'morhetz/gruvbox'
+
+call plug#end()</pre></div>
+        <div class="tip">实际场景：功能扩展、现代化开发、IDE 级别体验。</div>
+      </section>
+
+      <section>
+        <h2 id="terminal">终端工具</h2>
+        <p>现代终端工具提供了更好的开发体验。</p>
+        <div class="code"><pre># Oh My Zsh 配置
+# .zshrc
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  docker
+  kubectl
+  npm
+  yarn
+  vscode
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# 别名配置
+alias ll="ls -la"
+alias la="ls -A"
+alias l="ls -CF"
+alias ..="cd .."
+alias ...="cd ../.."
+alias g="git"
+alias k="kubectl"
+alias d="docker"</pre></div>
+        <div class="tip">实际场景：命令行效率、自动补全、美化界面。</div>
+      </section>
+
+      <section>
+        <h2 id="containers">容器开发</h2>
+        <p>使用容器技术创建一致的开发环境。</p>
+        <div class="code"><pre># Dockerfile 开发环境
+FROM node:16-alpine
+
+WORKDIR /app
+
+# 安装开发工具
+RUN apk add --no-cache \
+    git \
+    curl \
+    vim \
+    zsh
+
+# 安装 Oh My Zsh
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# 复制配置文件
+COPY .vimrc /root/.vimrc
+COPY .zshrc /root/.zshrc
+
+# 安装全局包
+RUN npm install -g \
+    @vue/cli \
+    create-react-app \
+    typescript \
+    nodemon
+
+EXPOSE 3000 8080
+CMD ["zsh"]</pre></div>
+        <div class="tip">实际场景：环境一致性、快速搭建、团队协作。</div>
+      </section>
+
+      <section>
+        <h2 id="remote-dev">远程开发</h2>
+        <p>通过远程开发提高开发灵活性。</p>
+        <div class="code"><pre># VS Code Remote 配置
+# .vscode/settings.json
+{
+  "remote.SSH.remotePlatform": {
+    "myserver": "linux"
+  },
+  "remote.SSH.configFile": "~/.ssh/config"
+}
+
+# SSH 配置 ~/.ssh/config
+Host myserver
+    HostName 192.168.1.100
+    User developer
+    Port 22
+    IdentityFile ~/.ssh/id_rsa
+    ForwardAgent yes
+
+# Docker 开发容器
+# .devcontainer/devcontainer.json
+{
+  "name": "Node.js Development",
+  "image": "node:16",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next"
+      ]
+    }
+  }
+}</pre></div>
+        <div class="tip">实际场景：云端开发、资源共享、环境隔离。</div>
+      </section>
+
+      <section>
+        <h2 id="best-practice">最佳实践</h2>
+        <ul>
+          <li>选择适合项目类型的 IDE</li>
+          <li>统一团队开发环境配置</li>
+          <li>合理使用插件，避免过度依赖</li>
+          <li>掌握快捷键提高效率</li>
+          <li>定期备份配置文件</li>
+          <li>使用版本控制管理配置</li>
+          <li>关注性能，避免卡顿</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="faq">常见问题</h2>
+        <ul>
+          <li>Q: IDE 运行缓慢如何优化？<br>A: 增加内存分配、禁用不必要插件、清理缓存。</li>
+          <li>Q: 如何同步多设备配置？<br>A: 使用云同步、Git 仓库、配置文件管理。</li>
+          <li>Q: 插件冲突如何解决？<br>A: 逐个禁用测试、查看日志、更新版本。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://code.visualstudio.com/" target="_blank">VS Code 官方网站</a></li>
+          <li><a href="https://www.jetbrains.com/idea/" target="_blank">IntelliJ IDEA</a></li>
+          <li><a href="https://www.jetbrains.com/webstorm/" target="_blank">WebStorm</a></li>
+          <li><a href="https://neovim.io/" target="_blank">Neovim</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://ohmyz.sh/" target="_blank">Oh My Zsh</a> | <a href="https://www.iterm2.com/" target="_blank">iTerm2</a> | <a href="https://hyper.is/" target="_blank">Hyper</a>
+    </div>
+  </div>
+  <script src="../js/navigation.js"></script>
+</body>
+</html> 

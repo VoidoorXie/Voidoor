@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git 全面手册</title>
+  <style>
+    body { margin: 0; padding: 0; display: flex; font-family: Arial, sans-serif; background: #f4f4f4; }
+    .sidebar { width: 260px; background: #fff; border-right: 1px solid #eee; min-height: 100vh; padding: 24px 0; position: fixed; left: 0; top: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-section { margin-bottom: 32px; }
+    .sidebar-title { font-weight: bold; font-size: 1.1em; margin: 12px 0 8px 24px; color: #222; }
+    .sidebar-list, .sidebar-list ul { list-style: none; padding-left: 24px; margin: 0; }
+    .sidebar-list li { margin: 6px 0; }
+    .sidebar-list a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .sidebar-list a:hover { color: #1976d2; text-decoration: underline; }
+    details summary { cursor: pointer; font-weight: 500; color: #444; outline: none; }
+    @media (max-width: 800px) { .sidebar { position: static; width: 100%; min-height: auto; border-right: none; border-bottom: 1px solid #eee; } body { flex-direction: column; } .main-content { margin-left: 0; padding: 16px; } }
+    .main-content { margin-left: 260px; padding: 32px; flex: 1; }
+    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .info-bar { background: #e3f2fd; padding: 12px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 200; }
+    .search-box { padding: 6px 12px; border: 1px solid #bbb; border-radius: 4px; }
+    .code { background: #2d2d2d; color: #fff; padding: 15px; border-radius: 4px; font-family: monospace; overflow-x: auto; margin: 15px 0; }
+    .tip { background: #d4edda; border-left: 4px solid #28a745; padding: 12px; margin: 10px 0; border-radius: 4px; }
+    .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 10px 0; border-radius: 4px; }
+    .footer-resources { background: #f8f9fa; padding: 24px 32px; border-top: 1px solid #eee; margin-top: 40px; }
+    h1 { text-align: center; color: #333; font-size: 2.5em; margin-bottom: 30px; }
+    h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #1976d2; margin-top: 28px; }
+    section { margin-bottom: 48px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Git 全面手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>基础操作</summary><ul>
+          <li><a href="#init">初始化仓库</a></li>
+          <li><a href="#add-commit">添加与提交</a></li>
+          <li><a href="#status-log">状态与历史</a></li>
+          <li><a href="#diff">差异对比</a></li>
+        </ul></details></li>
+        <li><details><summary>分支管理</summary><ul>
+          <li><a href="#branch-basic">分支基础</a></li>
+          <li><a href="#merge">合并分支</a></li>
+          <li><a href="#rebase">变基操作</a></li>
+          <li><a href="#conflict">冲突解决</a></li>
+        </ul></details></li>
+        <li><details><summary>远程仓库</summary><ul>
+          <li><a href="#remote">远程仓库管理</a></li>
+          <li><a href="#push-pull">推送与拉取</a></li>
+          <li><a href="#clone">克隆仓库</a></li>
+          <li><a href="#fork">Fork 工作流</a></li>
+        </ul></details></li>
+        <li><details><summary>高级功能</summary><ul>
+          <li><a href="#stash">暂存区</a></li>
+          <li><a href="#reset">重置操作</a></li>
+          <li><a href="#cherry-pick">樱桃拣选</a></li>
+          <li><a href="#hooks">钩子</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; 开发工具 &gt; Git
+      </div>
+      <h1 id="intro">Git 全面手册</h1>
+      <section>
+        <h2 id="init">初始化仓库</h2>
+        <p>Git 是分布式版本控制系统，用于跟踪文件变化和协作开发。</p>
+        <div class="code"><pre># 初始化新仓库
+git init
+
+# 配置用户信息
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# 查看配置
+git config --list</pre></div>
+        <div class="tip">实际场景：项目开始、团队协作、版本管理。</div>
+        <div class="note">常见错误：忘记配置用户信息导致提交失败。</div>
+      </section>
+      <section>
+        <h2 id="add-commit">添加与提交</h2>
+        <p>Git 的基本工作流程是添加文件到暂存区，然后提交到仓库。</p>
+        <div class="code"><pre># 添加文件到暂存区
+git add file.txt
+git add .  # 添加所有文件
+
+# 提交更改
+git commit -m "Add new feature"
+
+# 添加并提交（跳过暂存区）
+git commit -am "Update existing file"
+
+# 修改最后一次提交
+git commit --amend -m "Updated commit message"</pre></div>
+        <div class="tip">实际场景：代码开发、功能实现、bug 修复。</div>
+        <div class="note">常见错误：提交信息不清晰、提交粒度过大。</div>
+        <h3>最佳实践</h3>
+        <ul>
+          <li>提交信息要清晰描述变更内容</li>
+          <li>每次提交应该是一个逻辑单元</li>
+          <li>使用约定式提交格式</li>
+        </ul>
+      </section>
+      <section>
+        <h2 id="branch-basic">分支基础</h2>
+        <p>分支是 Git 的核心功能，允许并行开发不同功能。</p>
+        <div class="code"><pre># 查看分支
+git branch
+git branch -a  # 查看所有分支
+
+# 创建分支
+git branch feature/new-feature
+
+# 切换分支
+git checkout feature/new-feature
+git switch feature/new-feature  # Git 2.23+
+
+# 创建并切换分支
+git checkout -b feature/new-feature
+git switch -c feature/new-feature  # Git 2.23+
+
+# 删除分支
+git branch -d feature/new-feature
+git branch -D feature/new-feature  # 强制删除</pre></div>
+        <div class="tip">实际场景：功能开发、实验性代码、并行工作。</div>
+        <div class="note">常见错误：在错误的分支上开发、忘记切换分支。</div>
+      </section>
+      <section>
+        <h2 id="merge">合并分支</h2>
+        <p>将不同分支的更改合并到主分支。</p>
+        <div class="code"><pre># 合并分支
+git checkout main
+git merge feature/new-feature
+
+# 无快进合并（保留分支历史）
+git merge --no-ff feature/new-feature
+
+# 压缩合并（将多个提交合并为一个）
+git merge --squash feature/new-feature
+
+# 取消合并
+git merge --abort</pre></div>
+        <div class="tip">实际场景：功能完成、代码集成、发布准备。</div>
+        <div class="note">常见错误：合并冲突处理不当、丢失代码。</div>
+      </section>
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://git-scm.com/" target="_blank">Git 官方网站</a></li>
+          <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+          <li><a href="https://gitlab.com/" target="_blank">GitLab</a></li>
+          <li><a href="https://www.atlassian.com/git" target="_blank">Atlassian Git 教程</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://www.sourcetreeapp.com/" target="_blank">SourceTree</a> | <a href="https://www.gitkraken.com/" target="_blank">GitKraken</a> | <a href="https://github.com/jesseduffield/lazygit" target="_blank">LazyGit</a>
+    </div>
+  </div>
+</body>
+</html> 

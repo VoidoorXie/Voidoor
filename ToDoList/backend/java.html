@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 全面手册</title>
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Java 全面手册</div>
+            <ul class="sidebar-list">
+                <li><a href="#intro">简介</a></li>
+                <li><details open><summary>基础语法</summary><ul>
+                    <li><a href="#variables">变量与数据类型</a></li>
+                    <li><a href="#control">流程控制</a></li>
+                    <li><a href="#methods">方法</a></li>
+                    <li><a href="#classes">类与对象</a></li>
+                </ul></details></li>
+                <li><details><summary>Spring Boot</summary><ul>
+                    <li><a href="#spring-basic">基础用法</a></li>
+                    <li><a href="#spring-web">Web 开发</a></li>
+                    <li><a href="#spring-data">数据访问</a></li>
+                    <li><a href="#spring-security">安全配置</a></li>
+                </ul></details></li>
+                <li><details><summary>数据库操作</summary><ul>
+                    <li><a href="#jdbc">JDBC</a></li>
+                    <li><a href="#jpa">JPA/Hibernate</a></li>
+                    <li><a href="#mybatis">MyBatis</a></li>
+                </ul></details></li>
+                <li><details><summary>微服务</summary><ul>
+                    <li><a href="#microservices">微服务架构</a></li>
+                    <li><a href="#spring-cloud">Spring Cloud</a></li>
+                    <li><a href="#eureka">服务发现</a></li>
+                </ul></details></li>
+                <li><a href="#best-practice">最佳实践</a></li>
+                <li><a href="#faq">常见问题</a></li>
+                <li><a href="#resources">相关资源</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="info-bar">
+            <input type="text" placeholder="搜索内容..." class="search-box">
+            <button onclick="window.scrollTo(0,0)">返回顶部</button>
+            <a href="#resources">相关资源</a>
+            <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+        </div>
+        <div class="container">
+            <div class="nav-breadcrumb">
+                <a href="../index.html">首页</a> &gt; 后端开发 &gt; Java
+            </div>
+            <h1 id="intro">Java 全面手册</h1>
+            
+            <section>
+                <h2 id="variables">变量与数据类型</h2>
+                <p>Java 是强类型语言，所有变量必须声明类型。</p>
+                <div class="code"><pre>// 基本数据类型
+int age = 25;
+double height = 1.75;
+boolean isActive = true;
+char grade = 'A';
+
+// 引用数据类型
+String name = "Java";
+int[] numbers = {1, 2, 3, 4, 5};
+List&lt;String&gt; list = new ArrayList&lt;&gt;();</pre></div>
+                <div class="tip">实际场景：变量声明、数据存储、类型转换。</div>
+                <div class="note">常见错误：未初始化变量、类型不匹配。</div>
+            </section>
+
+            <section>
+                <h2 id="control">流程控制</h2>
+                <p>Java 支持条件语句、循环语句等流程控制结构。</p>
+                <div class="code"><pre>// 条件语句
+if (age >= 18) {
+    System.out.println("成年人");
+} else {
+    System.out.println("未成年人");
+}
+
+// 循环语句
+for (int i = 0; i < 10; i++) {
+    System.out.println(i);
+}
+
+// 增强 for 循环
+for (String item : list) {
+    System.out.println(item);
+}</pre></div>
+                <div class="tip">实际场景：条件判断、数据遍历、业务逻辑控制。</div>
+            </section>
+
+            <section>
+                <h2 id="methods">方法</h2>
+                <p>方法是 Java 中执行特定任务的代码块。</p>
+                <div class="code"><pre>public class Calculator {
+    // 静态方法
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    // 实例方法
+    public double multiply(double x, double y) {
+        return x * y;
+    }
+    
+    // 重载方法
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}</pre></div>
+                <div class="tip">实际场景：代码复用、功能封装、模块化开发。</div>
+            </section>
+
+            <section>
+                <h2 id="classes">类与对象</h2>
+                <p>Java 是面向对象编程语言，类是对象的模板。</p>
+                <div class="code"><pre>public class User {
+    private String name;
+    private int age;
+    
+    // 构造方法
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Getter 和 Setter
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    // toString 方法
+    @Override
+    public String toString() {
+        return "User{name='" + name + "', age=" + age + "}";
+    }
+}</pre></div>
+                <div class="tip">实际场景：数据建模、业务对象、实体类设计。</div>
+            </section>
+
+            <section>
+                <h2 id="spring-basic">Spring Boot 基础用法</h2>
+                <p>Spring Boot 简化了 Spring 应用的开发和部署。</p>
+                <div class="code"><pre>@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+
+@RestController
+@RequestMapping("/api")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping("/users")
+    public List&lt;User&gt; getAllUsers() {
+        return userService.findAll();
+    }
+    
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+}</pre></div>
+                <div class="tip">实际场景：Web 应用开发、RESTful API、微服务。</div>
+            </section>
+
+            <section>
+                <h2 id="spring-web">Web 开发</h2>
+                <p>Spring Boot 提供了完整的 Web 开发支持。</p>
+                <div class="code"><pre>@RestController
+public class ProductController {
+    
+    @GetMapping("/products/{id}")
+    public ResponseEntity&lt;Product&gt; getProduct(@PathVariable Long id) {
+        Product product = productService.findById(id);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @PostMapping("/products")
+    public ResponseEntity&lt;Product&gt; createProduct(@Valid @RequestBody Product product) {
+        Product saved = productService.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+}</pre></div>
+                <div class="tip">实际场景：HTTP 接口、参数验证、响应处理。</div>
+            </section>
+
+            <section>
+                <h2 id="spring-data">数据访问</h2>
+                <p>Spring Data JPA 简化了数据库操作。</p>
+                <div class="code"><pre>@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false, unique = true)
+    private String username;
+    
+    @Column(nullable = false)
+    private String email;
+    
+    // getters and setters
+}
+
+@Repository
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    Optional&lt;User&gt; findByUsername(String username);
+    List&lt;User&gt; findByEmailContaining(String email);
+}</pre></div>
+                <div class="tip">实际场景：数据持久化、查询操作、事务管理。</div>
+            </section>
+
+            <section>
+                <h2 id="spring-security">安全配置</h2>
+                <p>Spring Security 提供了全面的安全解决方案。</p>
+                <div class="code"><pre>@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+        return http.build();
+    }
+}</pre></div>
+                <div class="tip">实际场景：用户认证、权限控制、API 安全。</div>
+            </section>
+
+            <section>
+                <h2 id="jdbc">JDBC</h2>
+                <p>JDBC 是 Java 访问数据库的标准 API。</p>
+                <div class="code"><pre>public class UserDao {
+    private DataSource dataSource;
+    
+    public User findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return new User(
+                    rs.getLong("id"),
+                    rs.getString("username"),
+                    rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+}</pre></div>
+                <div class="tip">实际场景：原生 SQL 操作、性能优化、复杂查询。</div>
+            </section>
+
+            <section>
+                <h2 id="jpa">JPA/Hibernate</h2>
+                <p>JPA 是 Java 持久化 API，Hibernate 是其实现。</p>
+                <div class="code"><pre>@Service
+@Transactional
+public class UserService {
+    
+    @PersistenceContext
+    private EntityManager entityManager;
+    
+    public User save(User user) {
+        if (user.getId() == null) {
+            entityManager.persist(user);
+            return user;
+        } else {
+            return entityManager.merge(user);
+        }
+    }
+    
+    public List&lt;User&gt; findByAge(int minAge, int maxAge) {
+        TypedQuery&lt;User&gt; query = entityManager.createQuery(
+            "SELECT u FROM User u WHERE u.age BETWEEN :min AND :max", 
+            User.class
+        );
+        query.setParameter("min", minAge);
+        query.setParameter("max", maxAge);
+        return query.getResultList();
+    }
+}</pre></div>
+                <div class="tip">实际场景：对象关系映射、事务管理、缓存优化。</div>
+            </section>
+
+            <section>
+                <h2 id="mybatis">MyBatis</h2>
+                <p>MyBatis 是优秀的持久层框架，支持 SQL 映射。</p>
+                <div class="code"><pre>@Mapper
+public interface UserMapper {
+    
+    @Select("SELECT * FROM users WHERE id = #{id}")
+    User findById(@Param("id") Long id);
+    
+    @Insert("INSERT INTO users(username, email) VALUES(#{username}, #{email})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(User user);
+    
+    @Update("UPDATE users SET username = #{username}, email = #{email} WHERE id = #{id}")
+    void update(User user);
+    
+    @Delete("DELETE FROM users WHERE id = #{id}")
+    void delete(Long id);
+}</pre></div>
+                <div class="tip">实际场景：SQL 控制、动态查询、批量操作。</div>
+            </section>
+
+            <section>
+                <h2 id="microservices">微服务架构</h2>
+                <p>微服务是一种架构模式，将应用拆分为小型独立服务。</p>
+                <div class="code"><pre>@SpringBootApplication
+@EnableEurekaClient
+public class UserServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
+}
+
+@FeignClient(name = "order-service")
+public interface OrderServiceClient {
+    
+    @GetMapping("/orders/user/{userId}")
+    List&lt;Order&gt; getOrdersByUserId(@PathVariable("userId") Long userId);
+}</pre></div>
+                <div class="tip">实际场景：服务拆分、独立部署、团队协作。</div>
+            </section>
+
+            <section>
+                <h2 id="spring-cloud">Spring Cloud</h2>
+                <p>Spring Cloud 提供了微服务开发的全套解决方案。</p>
+                <div class="code"><pre>@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+
+@Component
+public class UserServiceFallback implements UserServiceClient {
+    
+    @Override
+    public User getUserById(Long id) {
+        return new User(id, "Unknown", "unknown@example.com");
+    }
+}</pre></div>
+                <div class="tip">实际场景：配置中心、服务熔断、负载均衡。</div>
+            </section>
+
+            <section>
+                <h2 id="eureka">服务发现</h2>
+                <p>Eureka 是 Netflix 开源的服务发现组件。</p>
+                <div class="code"><pre>@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServerApplication.class, args);
+    }
+}
+
+# application.yml
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false</pre></div>
+                <div class="tip">实际场景：服务注册、健康检查、故障转移。</div>
+            </section>
+
+            <section>
+                <h2 id="best-practice">最佳实践</h2>
+                <ul>
+                    <li>遵循 Java 编码规范，使用驼峰命名</li>
+                    <li>合理使用设计模式，提高代码可维护性</li>
+                    <li>编写单元测试，确保代码质量</li>
+                    <li>使用日志框架记录关键信息</li>
+                    <li>注意内存管理，避免内存泄漏</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 id="faq">常见问题</h2>
+                <ul>
+                    <li>Q: Java 中 == 和 equals() 的区别？<br>A: == 比较引用，equals() 比较内容。</li>
+                    <li>Q: 如何避免空指针异常？<br>A: 使用 Optional、空值检查、防御性编程。</li>
+                    <li>Q: Spring Boot 如何配置多数据源？<br>A: 使用 @Primary 和 @Qualifier 注解。</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 id="resources">相关资源</h2>
+                <ul>
+                    <li><a href="https://www.oracle.com/java/" target="_blank">Java 官方网站</a></li>
+                    <li><a href="https://spring.io/projects/spring-boot" target="_blank">Spring Boot 官方文档</a></li>
+                    <li><a href="https://spring.io/projects/spring-cloud" target="_blank">Spring Cloud 官方文档</a></li>
+                    <li><a href="https://mybatis.org/mybatis-3/" target="_blank">MyBatis 官方文档</a></li>
+                </ul>
+            </section>
+        </div>
+        <div class="footer-resources">
+            <strong>推荐工具：</strong> <a href="https://www.jetbrains.com/idea/" target="_blank">IntelliJ IDEA</a> | <a href="https://maven.apache.org/" target="_blank">Maven</a> | <a href="https://gradle.org/" target="_blank">Gradle</a>
+        </div>
+    </div>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 

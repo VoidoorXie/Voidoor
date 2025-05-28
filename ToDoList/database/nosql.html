@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoSQL 数据库</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .code {
+            background: #2d2d2d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .nav-breadcrumb {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+        .nav-breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .nav-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-breadcrumb">
+            <a href="../index.html">首页</a> &gt; 数据库 &gt; NoSQL 数据库
+        </div>
+
+        <h1>NoSQL 数据库</h1>
+
+        <div class="section">
+            <h2>MongoDB 基础</h2>
+            <div class="note">
+                MongoDB 是一个基于文档的 NoSQL 数据库，适合处理大量非结构化数据。
+            </div>
+            <div class="code">
+<pre>// 创建数据库和集合
+use myapp
+db.createCollection('users')
+db.createCollection('posts')
+
+// 创建索引
+db.users.createIndex({ email: 1 }, { unique: true })
+db.users.createIndex({ username: 1 }, { unique: true })
+
+// 插入文档
+db.users.insertOne({
+    username: 'john',
+    email: 'john@example.com',
+    password: 'hashed_password',
+    role: 'user',
+    created_at: new Date()
+})
+
+// 查询文档
+db.users.find({ role: 'user' })
+
+// 更新文档
+db.users.updateOne(
+    { username: 'john' },
+    { $set: { role: 'admin' } }
+)
+
+// 删除文档
+db.users.deleteOne({ email: 'john@example.com' })</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>MongoDB 聚合管道</h2>
+            <div class="tip">
+                聚合管道是 MongoDB 中强大的数据分析工具。
+            </div>
+            <div class="code">
+<pre>// 复杂聚合查询示例
+db.posts.aggregate([
+    { $match: { status: 'published' } },
+    { $lookup: {
+        from: 'users',
+        localField: 'author_id',
+        foreignField: '_id',
+        as: 'author'
+    }},
+    { $unwind: '$author' },
+    { $group: {
+        _id: '$author.username',
+        post_count: { $sum: 1 },
+        total_likes: { $sum: '$likes' }
+    }},
+    { $sort: { post_count: -1 } }
+])</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Redis 基础</h2>
+            <div class="note">
+                Redis 是一个高性能的键值存储数据库，常用于缓存、会话存储等场景。
+            </div>
+            <div class="code">
+<pre># 字符串操作
+SET user:1:name "John"
+GET user:1:name
+
+# 哈希表操作
+HSET user:1 username "john" email "john@example.com"
+HGETALL user:1
+
+# 列表操作
+LPUSH posts "Post 1"
+RPUSH posts "Post 2"
+LRANGE posts 0 -1
+
+# 集合操作
+SADD tags "javascript" "nodejs" "mongodb"
+SMEMBERS tags
+
+# 有序集合操作
+ZADD leaderboard 100 "player1" 200 "player2"
+ZRANGE leaderboard 0 -1 WITHSCORES
+
+# 过期时间
+SET session:123 "user_data" EX 3600
+TTL session:123</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Redis 高级特性</h2>
+            <div class="tip">
+                Redis 提供了许多高级特性，如发布订阅、事务、Lua 脚本等。
+            </div>
+            <div class="code">
+<pre># 发布订阅
+SUBSCRIBE news
+PUBLISH news "Hello World"
+
+# 事务
+MULTI
+SET user:1:name "John"
+SET user:1:email "john@example.com"
+EXEC
+
+# Lua 脚本
+EVAL "return redis.call('GET', KEYS[1])" 1 user:1:name
+
+# 分布式锁
+SET lock:resource "1" NX PX 10000
+DEL lock:resource</pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

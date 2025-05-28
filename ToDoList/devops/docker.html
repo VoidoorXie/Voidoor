@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker 全面手册</title>
+  <style>
+    body { margin: 0; padding: 0; display: flex; font-family: Arial, sans-serif; background: #f4f4f4; }
+    .sidebar { width: 260px; background: #fff; border-right: 1px solid #eee; min-height: 100vh; padding: 24px 0; position: fixed; left: 0; top: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-section { margin-bottom: 32px; }
+    .sidebar-title { font-weight: bold; font-size: 1.1em; margin: 12px 0 8px 24px; color: #222; }
+    .sidebar-list, .sidebar-list ul { list-style: none; padding-left: 24px; margin: 0; }
+    .sidebar-list li { margin: 6px 0; }
+    .sidebar-list a { color: #333; text-decoration: none; transition: color 0.2s; }
+    .sidebar-list a:hover { color: #1976d2; text-decoration: underline; }
+    details summary { cursor: pointer; font-weight: 500; color: #444; outline: none; }
+    @media (max-width: 800px) { .sidebar { position: static; width: 100%; min-height: auto; border-right: none; border-bottom: 1px solid #eee; } body { flex-direction: column; } .main-content { margin-left: 0; padding: 16px; } }
+    .main-content { margin-left: 260px; padding: 32px; flex: 1; }
+    .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .info-bar { background: #e3f2fd; padding: 12px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 200; }
+    .search-box { padding: 6px 12px; border: 1px solid #bbb; border-radius: 4px; }
+    .code { background: #2d2d2d; color: #fff; padding: 15px; border-radius: 4px; font-family: monospace; overflow-x: auto; margin: 15px 0; }
+    .tip { background: #d4edda; border-left: 4px solid #28a745; padding: 12px; margin: 10px 0; border-radius: 4px; }
+    .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 10px 0; border-radius: 4px; }
+    .footer-resources { background: #f8f9fa; padding: 24px 32px; border-top: 1px solid #eee; margin-top: 40px; }
+    h1 { text-align: center; color: #333; font-size: 2.5em; margin-bottom: 30px; }
+    h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; }
+    h3 { color: #1976d2; margin-top: 28px; }
+    section { margin-bottom: 48px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Docker 全面手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>基础概念</summary><ul>
+          <li><a href="#containers">容器</a></li>
+          <li><a href="#images">镜像</a></li>
+          <li><a href="#dockerfile">Dockerfile</a></li>
+          <li><a href="#volumes">数据卷</a></li>
+        </ul></details></li>
+        <li><details><summary>常用命令</summary><ul>
+          <li><a href="#basic-commands">基础命令</a></li>
+          <li><a href="#image-commands">镜像管理</a></li>
+          <li><a href="#container-commands">容器管理</a></li>
+          <li><a href="#network-commands">网络管理</a></li>
+        </ul></details></li>
+        <li><details><summary>Docker Compose</summary><ul>
+          <li><a href="#compose-basic">基础用法</a></li>
+          <li><a href="#compose-services">服务定义</a></li>
+          <li><a href="#compose-networks">网络配置</a></li>
+          <li><a href="#compose-volumes">数据卷配置</a></li>
+        </ul></details></li>
+        <li><details><summary>实战案例</summary><ul>
+          <li><a href="#web-app">Web 应用</a></li>
+          <li><a href="#database">数据库</a></li>
+          <li><a href="#microservices">微服务</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; DevOps &gt; Docker
+      </div>
+      <h1 id="intro">Docker 全面手册</h1>
+      <section>
+        <h2 id="containers">容器</h2>
+        <p>容器是 Docker 的核心概念，是轻量级、可移植的运行环境。</p>
+        <div class="code"><pre># 运行容器
+docker run -d --name my-app -p 3000:3000 node:16
+
+# 查看运行中的容器
+docker ps
+
+# 进入容器
+docker exec -it my-app bash
+
+# 停止容器
+docker stop my-app
+
+# 删除容器
+docker rm my-app</pre></div>
+        <div class="tip">实际场景：应用部署、环境隔离、微服务架构。</div>
+        <div class="note">常见错误：忘记映射端口导致无法访问应用。</div>
+        <h3>最佳实践</h3>
+        <ul>
+          <li>使用具体的镜像标签，避免使用 latest</li>
+          <li>合理设置资源限制</li>
+          <li>及时清理不用的容器</li>
+        </ul>
+      </section>
+      <section>
+        <h2 id="dockerfile">Dockerfile</h2>
+        <p>Dockerfile 是构建 Docker 镜像的脚本文件。</p>
+        <div class="code"><pre># Node.js 应用 Dockerfile
+FROM node:16-alpine
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制 package.json
+COPY package*.json ./
+
+# 安装依赖
+RUN npm ci --only=production
+
+# 复制应用代码
+COPY . .
+
+# 暴露端口
+EXPOSE 3000
+
+# 创建非 root 用户
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+USER nextjs
+
+# 启动命令
+CMD ["npm", "start"]</pre></div>
+        <div class="tip">实际场景：自定义镜像、CI/CD 流水线、生产部署。</div>
+        <div class="note">常见错误：镜像层过多、安全漏洞、体积过大。</div>
+        <h3>优化技巧</h3>
+        <ul>
+          <li>使用多阶段构建减小镜像体积</li>
+          <li>合并 RUN 指令减少层数</li>
+          <li>使用 .dockerignore 排除不必要文件</li>
+        </ul>
+      </section>
+      <section>
+        <h2 id="compose-basic">Docker Compose 基础用法</h2>
+        <p>Docker Compose 用于定义和运行多容器 Docker 应用。</p>
+        <div class="code"><pre># docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mongodb://db:27017/myapp
+    depends_on:
+      - db
+    volumes:
+      - ./logs:/app/logs
+
+  db:
+    image: mongo:5.0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  mongodb_data:</pre></div>
+        <div class="tip">实际场景：开发环境、测试环境、生产部署。</div>
+        <div class="note">常见错误：服务依赖配置错误、网络连接问题。</div>
+        <h3>常用命令</h3>
+        <div class="code"><pre># 启动所有服务
+docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f web
+
+# 停止所有服务
+docker-compose down
+
+# 重新构建并启动
+docker-compose up --build</pre></div>
+      </section>
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://www.docker.com/" target="_blank">Docker 官方网站</a></li>
+          <li><a href="https://docs.docker.com/" target="_blank">Docker 官方文档</a></li>
+          <li><a href="https://hub.docker.com/" target="_blank">Docker Hub</a></li>
+          <li><a href="https://docs.docker.com/compose/" target="_blank">Docker Compose 文档</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://www.portainer.io/" target="_blank">Portainer</a> | <a href="https://github.com/wagoodman/dive" target="_blank">Dive</a> | <a href="https://github.com/jesseduffield/lazydocker" target="_blank">LazyDocker</a>
+    </div>
+  </div>
+</body>
+</html> 

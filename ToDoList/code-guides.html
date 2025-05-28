@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 代码大全导航 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <style>
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin: 40px 0;
+        }
+        
+        .guide-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .guide-card:hover::before {
+            opacity: 1;
+        }
+        
+        .guide-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            display: block;
+        }
+        
+        .guide-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 16px;
+        }
+        
+        .guide-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .guide-features {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+        
+        .guide-features li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .guide-features li::before {
+            content: '✨';
+            margin-right: 8px;
+        }
+        
+        .guide-button {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .guide-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stats-section {
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 48px;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+        
+        .search-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            margin: 48px 0;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 16px 24px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            font-size: 16px;
+            background: var(--input-background);
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--card-background);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">📚 代码大全导航</h1>
+            <p class="hero-subtitle">
+                汇集全栈开发的所有代码示例和最佳实践，从前端到后端，从基础到高级，一站式代码查阅平台
+            </p>
+            <a href="index.html" class="guide-button">🏠 返回首页</a>
+        </div>
+
+        <div class="search-section">
+            <h2 style="margin-bottom: 24px;">🔍 快速查找代码</h2>
+            <input type="text" class="search-input" placeholder="搜索技术栈、框架或代码示例..." id="searchInput">
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="frontend">前端</button>
+                <button class="filter-btn" data-category="backend">后端</button>
+                <button class="filter-btn" data-category="database">数据库</button>
+                <button class="filter-btn" data-category="devops">运维</button>
+                <button class="filter-btn" data-category="tools">工具</button>
+            </div>
+        </div>
+
+        <div class="guide-grid" id="guideGrid">
+            <!-- 前端代码大全 -->
+            <div class="guide-card" data-category="frontend">
+                <span class="guide-icon">🏗️</span>
+                <h3 class="guide-title">HTML 代码大全</h3>
+                <p class="guide-description">
+                    从基础标签到高级语义化结构，完整的HTML5代码示例库，包含响应式设计和最佳实践。
+                </p>
+                <ul class="guide-features">
+                    <li>基础HTML结构和标签</li>
+                    <li>表单和多媒体元素</li>
+                    <li>语义化标签应用</li>
+                    <li>响应式设计模板</li>
+                </ul>
+                <a href="frontend/html-guide.html" class="guide-button">📚 查看代码</a>
+            </div>
+
+            <div class="guide-card" data-category="frontend">
+                <span class="guide-icon">🎨</span>
+                <h3 class="guide-title">CSS 代码大全</h3>
+                <p class="guide-description">
+                    涵盖CSS3所有特性的完整代码库，从基础样式到高级动画，打造现代化的用户界面。
+                </p>
+                <ul class="guide-features">
+                    <li>布局系统（Flexbox、Grid）</li>
+                    <li>动画和过渡效果</li>
+                    <li>响应式设计技巧</li>
+                    <li>CSS预处理器使用</li>
+                </ul>
+                <a href="frontend/css-guide.html" class="guide-button">🎨 查看代码</a>
+            </div>
+
+            <div class="guide-card" data-category="frontend">
+                <span class="guide-icon">⚡</span>
+                <h3 class="guide-title">JavaScript 代码大全</h3>
+                <p class="guide-description">
+                    现代JavaScript的完整指南，从ES6+语法到高级设计模式，掌握前端开发核心技能。
+                </p>
+                <ul class="guide-features">
+                    <li>ES6+现代语法特性</li>
+                    <li>异步编程和Promise</li>
+                    <li>DOM操作和事件处理</li>
+                    <li>设计模式和最佳实践</li>
+                </ul>
+                <a href="frontend/javascript-guide.html" class="guide-button">⚡ 查看代码</a>
+            </div>
+
+            <!-- 后端代码大全 -->
+            <div class="guide-card" data-category="backend">
+                <span class="guide-icon">🛸</span>
+                <h3 class="guide-title">后端开发代码大全</h3>
+                <p class="guide-description">
+                    全面的后端开发代码库，涵盖Node.js、Python、Java等主流技术栈的完整示例。
+                </p>
+                <ul class="guide-features">
+                    <li>RESTful API设计</li>
+                    <li>数据库集成和ORM</li>
+                    <li>身份验证和授权</li>
+                    <li>微服务架构模式</li>
+                </ul>
+                <a href="backend/backend-guide.html" class="guide-button">🛸 查看代码</a>
+            </div>
+
+            <!-- 数据库代码大全 -->
+            <div class="guide-card" data-category="database">
+                <span class="guide-icon">💾</span>
+                <h3 class="guide-title">数据库代码大全</h3>
+                <p class="guide-description">
+                    SQL和NoSQL数据库的完整操作指南，从基础查询到高级优化，掌握数据管理精髓。
+                </p>
+                <ul class="guide-features">
+                    <li>SQL查询和优化</li>
+                    <li>MongoDB文档操作</li>
+                    <li>Redis缓存策略</li>
+                    <li>数据库设计模式</li>
+                </ul>
+                <a href="database/database-guide.html" class="guide-button">💾 查看代码</a>
+            </div>
+
+            <!-- DevOps代码大全 -->
+            <div class="guide-card" data-category="devops">
+                <span class="guide-icon">🔧</span>
+                <h3 class="guide-title">DevOps 代码大全</h3>
+                <p class="guide-description">
+                    现代运维技术的完整实践指南，从容器化到CI/CD，构建高效的开发运维流程。
+                </p>
+                <ul class="guide-features">
+                    <li>Docker容器化部署</li>
+                    <li>Kubernetes集群管理</li>
+                    <li>CI/CD流水线配置</li>
+                    <li>监控和日志管理</li>
+                </ul>
+                <a href="devops/devops-guide.html" class="guide-button">🔧 查看代码</a>
+            </div>
+
+            <!-- 开发工具代码大全 -->
+            <div class="guide-card" data-category="tools">
+                <span class="guide-icon">🛠️</span>
+                <h3 class="guide-title">开发工具代码大全</h3>
+                <p class="guide-description">
+                    提升开发效率的工具配置大全，从Git版本控制到IDE配置，优化你的开发环境。
+                </p>
+                <ul class="guide-features">
+                    <li>Git版本控制技巧</li>
+                    <li>VS Code配置优化</li>
+                    <li>测试框架配置</li>
+                    <li>构建工具设置</li>
+                </ul>
+                <a href="tools/tools-guide.html" class="guide-button">🛠️ 查看代码</a>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2>📊 代码库统计</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 0;">
+                我们为您精心整理的代码示例和最佳实践
+            </p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">6+ 📚</div>
+                    <div class="stat-label">代码大全</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+ 💻</div>
+                    <div class="stat-label">代码示例</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+ 🛠️</div>
+                    <div class="stat-label">工具配置</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+ 📖</div>
+                    <div class="stat-label">最佳实践</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 40px 0;">
+            <h2>🚀 开始你的代码之旅</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
+                选择你感兴趣的技术领域，探索丰富的代码示例和最佳实践
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="learning-path.html" class="guide-button">🗺️ 学习路径</a>
+                <a href="playground.html" class="guide-button">🎮 代码游乐场</a>
+                <a href="demo.html" class="guide-button">🎯 功能演示</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/galaxy-background.js"></script>
+    <script>
+        // 搜索功能
+        const searchInput = document.getElementById('searchInput');
+        const guideGrid = document.getElementById('guideGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const guideCards = document.querySelectorAll('.guide-card');
+
+        // 搜索过滤
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filterGuides(searchTerm, getActiveCategory());
+        });
+
+        // 分类过滤
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 更新活跃状态
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                const searchTerm = searchInput.value.toLowerCase();
+                filterGuides(searchTerm, category);
+            });
+        });
+
+        function getActiveCategory() {
+            const activeBtn = document.querySelector('.filter-btn.active');
+            return activeBtn ? activeBtn.dataset.category : 'all';
+        }
+
+        function filterGuides(searchTerm, category) {
+            guideCards.forEach(card => {
+                const title = card.querySelector('.guide-title').textContent.toLowerCase();
+                const description = card.querySelector('.guide-description').textContent.toLowerCase();
+                const features = Array.from(card.querySelectorAll('.guide-features li'))
+                    .map(li => li.textContent.toLowerCase()).join(' ');
+                
+                const matchesSearch = !searchTerm || 
+                    title.includes(searchTerm) || 
+                    description.includes(searchTerm) || 
+                    features.includes(searchTerm);
+                
+                const matchesCategory = category === 'all' || 
+                    card.dataset.category === category;
+                
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.3s ease-in';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 添加淡入动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 卡片悬停效果增强
+        guideCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // 统计数字动画
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const text = stat.textContent;
+                const number = parseInt(text.match(/\d+/)[0]);
+                const suffix = text.replace(/\d+/, '');
+                
+                let current = 0;
+                const increment = number / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        current = number;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current) + suffix;
+                }, 30);
+            });
+        }
+
+        // 页面加载完成后执行动画
+        window.addEventListener('load', () => {
+            setTimeout(animateNumbers, 500);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛸 后端开发代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛸</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #68d391, #38a169);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-header.nodejs {
+            background: linear-gradient(135deg, #68d391, #38a169);
+        }
+        
+        .code-header.python {
+            background: linear-gradient(135deg, #3776ab, #ffd43b);
+        }
+        
+        .code-header.java {
+            background: linear-gradient(135deg, #ed8b00, #5382a1);
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag.nodejs {
+            background: #68d391;
+            color: white;
+        }
+        
+        .tag.python {
+            background: #3776ab;
+            color: white;
+        }
+        
+        .tag.java {
+            background: #ed8b00;
+            color: white;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .terminal-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .terminal-title {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">🛸 后端代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#nodejs">Node.js 服务器</a></li>
+                    <li><a href="#express">Express 框架</a></li>
+                    <li><a href="#python">Python 后端</a></li>
+                    <li><a href="#flask">Flask 应用</a></li>
+                    <li><a href="#django">Django 框架</a></li>
+                    <li><a href="#java">Java 后端</a></li>
+                    <li><a href="#spring">Spring Boot</a></li>
+                    <li><a href="#api">RESTful API</a></li>
+                    <li><a href="#database">数据库操作</a></li>
+                    <li><a href="#auth">身份认证</a></li>
+                    <li><a href="#middleware">中间件</a></li>
+                    <li><a href="#deployment">部署配置</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索后端代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>🛸 后端开发代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    完整的后端开发代码示例库，涵盖Node.js、Python、Java等主流技术栈
+                </p>
+
+                <section id="nodejs">
+                    <h2>🟢 Node.js 服务器</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header nodejs">
+                            <span>🚀 基础HTTP服务器</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag nodejs">Node.js</span>
+                                <span class="tag">HTTP</span>
+                                <span class="tag">服务器</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// server.js - 基础HTTP服务器
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+
+// 创建服务器
+const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const pathname = parsedUrl.pathname;
+    const method = req.method;
+
+    // 设置CORS头
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // 路由处理
+    if (pathname === '/' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(`
+            <h1>欢迎来到Node.js服务器</h1>
+            <p>当前时间: ${new Date().toLocaleString()}</p>
+            <a href="/api/users">查看用户API</a>
+        `);
+    } else if (pathname === '/api/users' && method === 'GET') {
+        // 模拟用户数据
+        const users = [
+            { id: 1, name: '张三', email: 'zhangsan@example.com' },
+            { id: 2, name: '李四', email: 'lisi@example.com' }
+        ];
+        
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(users, null, 2));
+    } else if (pathname === '/api/users' && method === 'POST') {
+        // 处理POST请求
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        
+        req.on('end', () => {
+            try {
+                const userData = JSON.parse(body);
+                userData.id = Date.now();
+                userData.createdAt = new Date().toISOString();
+                
+                res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify(userData, null, 2));
+            } catch (error) {
+                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({ error: '无效的JSON数据' }));
+            }
+        });
+    } else {
+        // 404处理
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end('<h1>404 - 页面未找到</h1>');
+    }
+});
+
+// 启动服务器
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`服务器运行在 http://localhost:${PORT}`);
+});
+
+// 优雅关闭
+process.on('SIGTERM', () => {
+    console.log('收到SIGTERM信号，正在关闭服务器...');
+    server.close(() => {
+        console.log('服务器已关闭');
+        process.exit(0);
+    });
+});</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">运行命令：</div>
+                                node server.js<br>
+                                服务器运行在 http://localhost:3000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header nodejs">
+                            <span>📁 文件系统操作</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// fileOperations.js - 文件系统操作
+const fs = require('fs').promises;
+const path = require('path');
+
+class FileManager {
+    constructor(baseDir = './data') {
+        this.baseDir = baseDir;
+        this.ensureDirectory();
+    }
+
+    // 确保目录存在
+    async ensureDirectory() {
+        try {
+            await fs.access(this.baseDir);
+        } catch (error) {
+            await fs.mkdir(this.baseDir, { recursive: true });
+            console.log(`创建目录: ${this.baseDir}`);
+        }
+    }
+
+    // 读取文件
+    async readFile(filename) {
+        try {
+            const filePath = path.join(this.baseDir, filename);
+            const data = await fs.readFile(filePath, 'utf8');
+            return JSON.parse(data);
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                return null; // 文件不存在
+            }
+            throw error;
+        }
+    }
+
+    // 写入文件
+    async writeFile(filename, data) {
+        const filePath = path.join(this.baseDir, filename);
+        const jsonData = JSON.stringify(data, null, 2);
+        await fs.writeFile(filePath, jsonData, 'utf8');
+        console.log(`文件已保存: ${filePath}`);
+    }
+
+    // 追加内容到文件
+    async appendToFile(filename, data) {
+        const filePath = path.join(this.baseDir, filename);
+        const content = typeof data === 'string' ? data : JSON.stringify(data);
+        await fs.appendFile(filePath, content + '\n', 'utf8');
+    }
+
+    // 删除文件
+    async deleteFile(filename) {
+        try {
+            const filePath = path.join(this.baseDir, filename);
+            await fs.unlink(filePath);
+            console.log(`文件已删除: ${filePath}`);
+            return true;
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                return false; // 文件不存在
+            }
+            throw error;
+        }
+    }
+
+    // 列出目录中的文件
+    async listFiles() {
+        try {
+            const files = await fs.readdir(this.baseDir);
+            const fileStats = await Promise.all(
+                files.map(async (file) => {
+                    const filePath = path.join(this.baseDir, file);
+                    const stats = await fs.stat(filePath);
+                    return {
+                        name: file,
+                        size: stats.size,
+                        isDirectory: stats.isDirectory(),
+                        modified: stats.mtime
+                    };
+                })
+            );
+            return fileStats;
+        } catch (error) {
+            console.error('读取目录失败:', error);
+            return [];
+        }
+    }
+
+    // 复制文件
+    async copyFile(source, destination) {
+        const sourcePath = path.join(this.baseDir, source);
+        const destPath = path.join(this.baseDir, destination);
+        await fs.copyFile(sourcePath, destPath);
+        console.log(`文件已复制: ${source} -> ${destination}`);
+    }
+}
+
+// 使用示例
+async function example() {
+    const fileManager = new FileManager('./data');
+
+    // 保存用户数据
+    const users = [
+        { id: 1, name: '张三', email: 'zhangsan@example.com' },
+        { id: 2, name: '李四', email: 'lisi@example.com' }
+    ];
+    
+    await fileManager.writeFile('users.json', users);
+
+    // 读取用户数据
+    const loadedUsers = await fileManager.readFile('users.json');
+    console.log('加载的用户:', loadedUsers);
+
+    // 列出所有文件
+    const files = await fileManager.listFiles();
+    console.log('目录中的文件:', files);
+}
+
+// 导出模块
+module.exports = FileManager;
+
+// 如果直接运行此文件
+if (require.main === module) {
+    example().catch(console.error);
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="express">
+                    <h2>🚂 Express 框架</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header nodejs">
+                            <span>🏗️ Express 基础应用</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag nodejs">Express</span>
+                                <span class="tag">中间件</span>
+                                <span class="tag">路由</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// app.js - Express应用
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+
+const app = express();
+
+// 中间件配置
+app.use(helmet()); // 安全头
+app.use(cors()); // 跨域
+app.use(morgan('combined')); // 日志
+app.use(express.json({ limit: '10mb' })); // JSON解析
+app.use(express.urlencoded({ extended: true })); // URL编码解析
+
+// 速率限制
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15分钟
+    max: 100, // 最多100个请求
+    message: '请求过于频繁，请稍后再试'
+});
+app.use('/api/', limiter);
+
+// 静态文件服务
+app.use('/static', express.static('public'));
+
+// 模拟数据库
+let users = [
+    { id: 1, name: '张三', email: 'zhangsan@example.com', age: 25 },
+    { id: 2, name: '李四', email: 'lisi@example.com', age: 30 }
+];
+
+// 自定义中间件 - 请求日志
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
+});
+
+// 自定义中间件 - 身份验证
+const authenticate = (req, res, next) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(401).json({ error: '缺少认证令牌' });
+    }
+    
+    // 简单的令牌验证（实际应用中应使用JWT）
+    if (token !== 'Bearer valid-token') {
+        return res.status(401).json({ error: '无效的令牌' });
+    }
+    
+    req.user = { id: 1, name: '当前用户' };
+    next();
+};
+
+// 路由定义
+// 首页
+app.get('/', (req, res) => {
+    res.json({
+        message: '欢迎使用Express API',
+        version: '1.0.0',
+        endpoints: {
+            users: '/api/users',
+            health: '/health'
+        }
+    });
+});
+
+// 健康检查
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// 用户路由
+// 获取所有用户
+app.get('/api/users', (req, res) => {
+    const { page = 1, limit = 10, search } = req.query;
+    
+    let filteredUsers = users;
+    
+    // 搜索功能
+    if (search) {
+        filteredUsers = users.filter(user => 
+            user.name.includes(search) || user.email.includes(search)
+        );
+    }
+    
+    // 分页
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+    
+    res.json({
+        data: paginatedUsers,
+        pagination: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            total: filteredUsers.length,
+            pages: Math.ceil(filteredUsers.length / limit)
+        }
+    });
+});
+
+// 获取单个用户
+app.get('/api/users/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    const user = users.find(u => u.id === userId);
+    
+    if (!user) {
+        return res.status(404).json({ error: '用户未找到' });
+    }
+    
+    res.json(user);
+});
+
+// 创建用户
+app.post('/api/users', authenticate, (req, res) => {
+    const { name, email, age } = req.body;
+    
+    // 验证输入
+    if (!name || !email) {
+        return res.status(400).json({ 
+            error: '姓名和邮箱是必填项' 
+        });
+    }
+    
+    // 检查邮箱是否已存在
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+        return res.status(409).json({ 
+            error: '邮箱已存在' 
+        });
+    }
+    
+    const newUser = {
+        id: users.length + 1,
+        name,
+        email,
+        age: age || null,
+        createdAt: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    res.status(201).json(newUser);
+});
+
+// 更新用户
+app.put('/api/users/:id', authenticate, (req, res) => {
+    const userId = parseInt(req.params.id);
+    const userIndex = users.findIndex(u => u.id === userId);
+    
+    if (userIndex === -1) {
+        return res.status(404).json({ error: '用户未找到' });
+    }
+    
+    const { name, email, age } = req.body;
+    
+    // 更新用户信息
+    if (name) users[userIndex].name = name;
+    if (email) users[userIndex].email = email;
+    if (age !== undefined) users[userIndex].age = age;
+    users[userIndex].updatedAt = new Date().toISOString();
+    
+    res.json(users[userIndex]);
+});
+
+// 删除用户
+app.delete('/api/users/:id', authenticate, (req, res) => {
+    const userId = parseInt(req.params.id);
+    const userIndex = users.findIndex(u => u.id === userId);
+    
+    if (userIndex === -1) {
+        return res.status(404).json({ error: '用户未找到' });
+    }
+    
+    const deletedUser = users.splice(userIndex, 1)[0];
+    res.json({ message: '用户已删除', user: deletedUser });
+});
+
+// 错误处理中间件
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ 
+        error: '服务器内部错误',
+        message: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+});
+
+// 404处理
+app.use('*', (req, res) => {
+    res.status(404).json({ 
+        error: '路由未找到',
+        path: req.originalUrl 
+    });
+});
+
+// 启动服务器
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Express服务器运行在端口 ${PORT}`);
+});
+
+module.exports = app;</pre>
+                                </div>
+                            </div>
+                            <div class="preview-box">
+                                <div class="preview-title">📦 package.json 依赖：</div>
+                                <pre>{
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "express-rate-limit": "^6.8.1"
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="python">
+                    <h2>🐍 Python 后端</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header python">
+                            <span>🌐 Python HTTP服务器</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag python">Python</span>
+                                <span class="tag">HTTP</span>
+                                <span class="tag">服务器</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># server.py - Python HTTP服务器
+import json
+import urllib.parse
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from datetime import datetime
+
+class APIHandler(BaseHTTPRequestHandler):
+    # 模拟数据库
+    users = [
+        {"id": 1, "name": "张三", "email": "zhangsan@example.com", "age": 25},
+        {"id": 2, "name": "李四", "email": "lisi@example.com", "age": 30}
+    ]
+
+    def _set_headers(self, status_code=200, content_type='application/json'):
+        """设置响应头"""
+        self.send_response(status_code)
+        self.send_header('Content-Type', f'{content_type}; charset=utf-8')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
+
+    def _send_json(self, data, status_code=200):
+        """发送JSON响应"""
+        self._set_headers(status_code)
+        response = json.dumps(data, ensure_ascii=False, indent=2)
+        self.wfile.write(response.encode('utf-8'))
+
+    def _send_html(self, html, status_code=200):
+        """发送HTML响应"""
+        self._set_headers(status_code, 'text/html')
+        self.wfile.write(html.encode('utf-8'))
+
+    def _get_request_body(self):
+        """获取请求体"""
+        content_length = int(self.headers.get('Content-Length', 0))
+        if content_length > 0:
+            body = self.rfile.read(content_length)
+            return json.loads(body.decode('utf-8'))
+        return {}
+
+    def do_OPTIONS(self):
+        """处理预检请求"""
+        self._set_headers()
+
+    def do_GET(self):
+        """处理GET请求"""
+        parsed_path = urllib.parse.urlparse(self.path)
+        path = parsed_path.path
+        query_params = urllib.parse.parse_qs(parsed_path.query)
+
+        if path == '/':
+            # 首页
+            html = f"""
+            <html>
+            <head><title>Python HTTP服务器</title></head>
+            <body>
+                <h1>欢迎来到Python HTTP服务器</h1>
+                <p>当前时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+                <ul>
+                    <li><a href="/api/users">用户API</a></li>
+                    <li><a href="/health">健康检查</a></li>
+                </ul>
+            </body>
+            </html>
+            """
+            self._send_html(html)
+
+        elif path == '/health':
+            # 健康检查
+            health_data = {
+                "status": "OK",
+                "timestamp": datetime.now().isoformat(),
+                "server": "Python HTTP Server"
+            }
+            self._send_json(health_data)
+
+        elif path == '/api/users':
+            # 获取用户列表
+            page = int(query_params.get('page', [1])[0])
+            limit = int(query_params.get('limit', [10])[0])
+            search = query_params.get('search', [None])[0]
+
+            filtered_users = self.users
+            
+            # 搜索功能
+            if search:
+                filtered_users = [
+                    user for user in self.users 
+                    if search.lower() in user['name'].lower() or 
+                       search.lower() in user['email'].lower()
+                ]
+
+            # 分页
+            start_index = (page - 1) * limit
+            end_index = start_index + limit
+            paginated_users = filtered_users[start_index:end_index]
+
+            response_data = {
+                "data": paginated_users,
+                "pagination": {
+                    "page": page,
+                    "limit": limit,
+                    "total": len(filtered_users),
+                    "pages": (len(filtered_users) + limit - 1) // limit
+                }
+            }
+            self._send_json(response_data)
+
+        elif path.startswith('/api/users/'):
+            # 获取单个用户
+            try:
+                user_id = int(path.split('/')[-1])
+                user = next((u for u in self.users if u['id'] == user_id), None)
+                
+                if user:
+                    self._send_json(user)
+                else:
+                    self._send_json({"error": "用户未找到"}, 404)
+            except ValueError:
+                self._send_json({"error": "无效的用户ID"}, 400)
+
+        else:
+            # 404
+            self._send_json({"error": "路由未找到"}, 404)
+
+    def do_POST(self):
+        """处理POST请求"""
+        if self.path == '/api/users':
+            try:
+                data = self._get_request_body()
+                
+                # 验证必填字段
+                if not data.get('name') or not data.get('email'):
+                    self._send_json({"error": "姓名和邮箱是必填项"}, 400)
+                    return
+
+                # 检查邮箱是否已存在
+                if any(u['email'] == data['email'] for u in self.users):
+                    self._send_json({"error": "邮箱已存在"}, 409)
+                    return
+
+                # 创建新用户
+                new_user = {
+                    "id": max([u['id'] for u in self.users], default=0) + 1,
+                    "name": data['name'],
+                    "email": data['email'],
+                    "age": data.get('age'),
+                    "created_at": datetime.now().isoformat()
+                }
+                
+                self.users.append(new_user)
+                self._send_json(new_user, 201)
+
+            except json.JSONDecodeError:
+                self._send_json({"error": "无效的JSON数据"}, 400)
+        else:
+            self._send_json({"error": "路由未找到"}, 404)
+
+    def do_PUT(self):
+        """处理PUT请求"""
+        if self.path.startswith('/api/users/'):
+            try:
+                user_id = int(self.path.split('/')[-1])
+                user_index = next((i for i, u in enumerate(self.users) if u['id'] == user_id), None)
+                
+                if user_index is None:
+                    self._send_json({"error": "用户未找到"}, 404)
+                    return
+
+                data = self._get_request_body()
+                
+                # 更新用户信息
+                if 'name' in data:
+                    self.users[user_index]['name'] = data['name']
+                if 'email' in data:
+                    self.users[user_index]['email'] = data['email']
+                if 'age' in data:
+                    self.users[user_index]['age'] = data['age']
+                
+                self.users[user_index]['updated_at'] = datetime.now().isoformat()
+                
+                self._send_json(self.users[user_index])
+
+            except (ValueError, json.JSONDecodeError):
+                self._send_json({"error": "无效的请求"}, 400)
+        else:
+            self._send_json({"error": "路由未找到"}, 404)
+
+    def do_DELETE(self):
+        """处理DELETE请求"""
+        if self.path.startswith('/api/users/'):
+            try:
+                user_id = int(self.path.split('/')[-1])
+                user_index = next((i for i, u in enumerate(self.users) if u['id'] == user_id), None)
+                
+                if user_index is None:
+                    self._send_json({"error": "用户未找到"}, 404)
+                    return
+
+                deleted_user = self.users.pop(user_index)
+                self._send_json({
+                    "message": "用户已删除",
+                    "user": deleted_user
+                })
+
+            except ValueError:
+                self._send_json({"error": "无效的用户ID"}, 400)
+        else:
+            self._send_json({"error": "路由未找到"}, 404)
+
+def run_server(port=8000):
+    """启动服务器"""
+    server_address = ('', port)
+    httpd = HTTPServer(server_address, APIHandler)
+    print(f"Python HTTP服务器运行在端口 {port}")
+    print(f"访问 http://localhost:{port}")
+    
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\n服务器已停止")
+        httpd.server_close()
+
+if __name__ == '__main__':
+    run_server()</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">运行命令：</div>
+                                python server.py<br>
+                                Python HTTP服务器运行在端口 8000<br>
+                                访问 http://localhost:8000
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="nodejs.html">🟢 Node.js 教程</a> |
+                        <a href="python.html">🐍 Python 教程</a> |
+                        <a href="java.html">☕ Java 教程</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = 'var(--success-color)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

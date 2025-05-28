@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ JavaScript 动力核心 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚡ JavaScript 核心</div>
+                <ul class="sidebar-list">
+                    <li><a href="#introduction">JavaScript 简介</a></li>
+                    <li><a href="#basics">基础语法</a></li>
+                    <li><a href="#variables">变量与数据类型</a></li>
+                    <li><a href="#functions">函数</a></li>
+                    <li><a href="#objects">对象与数组</a></li>
+                    <li><a href="#dom">DOM 操作</a></li>
+                    <li><a href="#events">事件处理</a></li>
+                    <li><a href="#async">异步编程</a></li>
+                    <li><a href="#es6">ES6+ 特性</a></li>
+                    <li><a href="#projects">实战项目</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索JavaScript内容...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>⚡ JavaScript 动力核心</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    释放网页的生命力，用ES6+的现代语法驾驭浏览器的无限可能
+                </p>
+
+                <section id="introduction">
+                    <h2>🌟 JavaScript 简介</h2>
+                    <p>JavaScript是一种动态的、解释型的编程语言，是Web开发的核心技术之一。它让网页变得生动有趣，能够响应用户交互。</p>
+                    
+                    <div class="info">
+                        <h3>JavaScript 的特点</h3>
+                        <ul>
+                            <li><strong>动态语言</strong>：运行时可以改变数据类型</li>
+                            <li><strong>解释执行</strong>：无需编译，直接在浏览器中运行</li>
+                            <li><strong>事件驱动</strong>：响应用户操作和系统事件</li>
+                            <li><strong>跨平台</strong>：浏览器、服务器、移动端都能运行</li>
+                        </ul>
+                    </div>
+
+                    <div class="tip">
+                        <strong>💡 学习提示：</strong>
+                        JavaScript是前端开发的灵魂，掌握它就像获得了魔法师的法杖，能让静态的网页变得生动有趣！
+                    </div>
+                </section>
+
+                <section id="basics">
+                    <h2>📝 基础语法</h2>
+                    <p>JavaScript的语法简洁而强大，让我们从最基础的语法开始学习。</p>
+
+                    <h3>💬 注释</h3>
+                    <div class="code">
+                        <pre>// 单行注释
+
+/*
+ * 多行注释
+ * 可以写很多行
+ */
+
+/**
+ * 文档注释
+ * @param {string} name - 用户名
+ * @returns {string} 问候语
+ */</pre>
+                    </div>
+
+                    <h3>📄 语句和表达式</h3>
+                    <div class="code">
+                        <pre>// 语句 - 执行某个操作
+console.log("Hello, World!");
+let x = 10;
+if (x > 5) {
+    console.log("x 大于 5");
+}
+
+// 表达式 - 产生一个值
+5 + 3;              // 数学表达式
+"Hello" + " World"; // 字符串表达式
+x > 5;              // 布尔表达式
+[1, 2, 3];          // 数组表达式</pre>
+                    </div>
+
+                    <h3>🔤 标识符规则</h3>
+                    <div class="code">
+                        <pre>// 有效的标识符
+let userName = "张三";
+let _private = "私有变量";
+let $element = document.getElementById("app");
+let age2 = 25;
+
+// 无效的标识符
+// let 2age = 25;        // 不能以数字开头
+// let user-name = "张三"; // 不能包含连字符
+// let class = "CSS";     // 不能使用保留字</pre>
+                    </div>
+                </section>
+
+                <section id="variables">
+                    <h2>📦 变量与数据类型</h2>
+                    
+                    <h3>🏷️ 变量声明</h3>
+                    <div class="code">
+                        <pre>// var - 函数作用域，可重复声明
+var name = "张三";
+var name = "李四"; // 可以重复声明
+
+// let - 块作用域，不可重复声明
+let age = 25;
+// let age = 30; // 错误：不能重复声明
+
+// const - 块作用域，常量
+const PI = 3.14159;
+// PI = 3.14; // 错误：不能重新赋值
+
+// 解构赋值
+let [a, b, c] = [1, 2, 3];
+let {x, y} = {x: 10, y: 20};</pre>
+                    </div>
+
+                    <h3>🎭 数据类型</h3>
+                    <div class="code">
+                        <pre>// 基本数据类型
+let num = 42;                    // Number
+let str = "Hello";               // String
+let bool = true;                 // Boolean
+let nothing = null;              // Null
+let undef = undefined;           // Undefined
+let sym = Symbol("id");          // Symbol
+let big = 123456789012345678901234567890n; // BigInt
+
+// 引用数据类型
+let obj = {name: "张三", age: 25};  // Object
+let arr = [1, 2, 3, 4, 5];          // Array
+let func = function() {};           // Function
+let date = new Date();              // Date
+
+// 类型检测
+console.log(typeof num);         // "number"
+console.log(typeof str);         // "string"
+console.log(Array.isArray(arr)); // true
+console.log(obj instanceof Object); // true</pre>
+                    </div>
+
+                    <h3>🔄 类型转换</h3>
+                    <div class="code">
+                        <pre>// 隐式转换
+let result1 = "5" + 3;      // "53" (字符串拼接)
+let result2 = "5" - 3;      // 2 (数字运算)
+let result3 = "5" * "2";    // 10 (数字运算)
+let result4 = !"";          // true (布尔转换)
+
+// 显式转换
+let num1 = Number("123");   // 123
+let num2 = parseInt("123px"); // 123
+let num3 = parseFloat("3.14"); // 3.14
+
+let str1 = String(123);     // "123"
+let str2 = (123).toString(); // "123"
+
+let bool1 = Boolean(1);     // true
+let bool2 = Boolean("");    // false</pre>
+                    </div>
+                </section>
+
+                <section id="functions">
+                    <h2>🔧 函数</h2>
+                    <p>函数是JavaScript的核心概念，它们是可重用的代码块。</p>
+
+                    <h3>📝 函数声明</h3>
+                    <div class="code">
+                        <pre>// 函数声明
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+// 函数表达式
+const greet2 = function(name) {
+    return "Hello, " + name + "!";
+};
+
+// 箭头函数
+const greet3 = (name) => {
+    return "Hello, " + name + "!";
+};
+
+// 简化的箭头函数
+const greet4 = name => "Hello, " + name + "!";
+
+// 立即执行函数
+(function() {
+    console.log("立即执行！");
+})();</pre>
+                    </div>
+
+                    <h3>⚙️ 参数和返回值</h3>
+                    <div class="code">
+                        <pre>// 默认参数
+function greet(name = "朋友") {
+    return "Hello, " + name + "!";
+}
+
+// 剩余参数
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
+}
+
+// 解构参数
+function createUser({name, age, email}) {
+    return {
+        name: name,
+        age: age,
+        email: email,
+        id: Date.now()
+    };
+}
+
+// 多个返回值
+function getCoordinates() {
+    return [10, 20];
+}
+let [x, y] = getCoordinates();
+
+// 回调函数
+function processData(data, callback) {
+    let result = data.map(item => item * 2);
+    callback(result);
+}
+
+processData([1, 2, 3], function(result) {
+    console.log(result); // [2, 4, 6]
+});</pre>
+                    </div>
+
+                    <h3>🔄 作用域和闭包</h3>
+                    <div class="code">
+                        <pre>// 作用域
+let globalVar = "全局变量";
+
+function outerFunction() {
+    let outerVar = "外部变量";
+    
+    function innerFunction() {
+        let innerVar = "内部变量";
+        console.log(globalVar); // 可以访问
+        console.log(outerVar);  // 可以访问
+        console.log(innerVar);  // 可以访问
+    }
+    
+    innerFunction();
+    // console.log(innerVar); // 错误：无法访问
+}
+
+// 闭包
+function createCounter() {
+    let count = 0;
+    
+    return function() {
+        count++;
+        return count;
+    };
+}
+
+let counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3</pre>
+                    </div>
+                </section>
+
+                <section id="objects">
+                    <h2>📚 对象与数组</h2>
+                    
+                    <h3>🏗️ 对象操作</h3>
+                    <div class="code">
+                        <pre>// 创建对象
+let person = {
+    name: "张三",
+    age: 25,
+    city: "北京",
+    greet: function() {
+        return "Hello, I'm " + this.name;
+    }
+};
+
+// 访问属性
+console.log(person.name);        // 点号访问
+console.log(person["age"]);      // 方括号访问
+
+// 添加属性
+person.email = "zhangsan@example.com";
+person["phone"] = "13800138000";
+
+// 删除属性
+delete person.city;
+
+// 检查属性
+console.log("name" in person);           // true
+console.log(person.hasOwnProperty("age")); // true
+
+// 遍历对象
+for (let key in person) {
+    console.log(key + ": " + person[key]);
+}
+
+// 对象方法
+let keys = Object.keys(person);      // 获取所有键
+let values = Object.values(person);  // 获取所有值
+let entries = Object.entries(person); // 获取键值对数组</pre>
+                    </div>
+
+                    <h3>📋 数组操作</h3>
+                    <div class="code">
+                        <pre>// 创建数组
+let fruits = ["苹果", "香蕉", "橙子"];
+let numbers = new Array(1, 2, 3, 4, 5);
+
+// 访问元素
+console.log(fruits[0]);    // "苹果"
+console.log(fruits.length); // 3
+
+// 添加元素
+fruits.push("葡萄");       // 末尾添加
+fruits.unshift("草莓");    // 开头添加
+
+// 删除元素
+let lastFruit = fruits.pop();     // 删除末尾元素
+let firstFruit = fruits.shift();  // 删除开头元素
+
+// 数组方法
+let sliced = fruits.slice(1, 3);  // 切片
+fruits.splice(1, 1, "芒果");      // 替换元素
+
+// 查找元素
+let index = fruits.indexOf("苹果");
+let found = fruits.find(fruit => fruit.length > 2);
+let hasApple = fruits.includes("苹果");
+
+// 遍历数组
+fruits.forEach(function(fruit, index) {
+    console.log(index + ": " + fruit);
+});
+
+// 数组转换
+let upperFruits = fruits.map(fruit => fruit.toUpperCase());
+let longFruits = fruits.filter(fruit => fruit.length > 2);
+let total = numbers.reduce((sum, num) => sum + num, 0);</pre>
+                    </div>
+                </section>
+
+                <section id="dom">
+                    <h2>🌐 DOM 操作</h2>
+                    <p>DOM（Document Object Model）是JavaScript操作网页的接口。</p>
+
+                    <h3>🔍 选择元素</h3>
+                    <div class="code">
+                        <pre>// 通过ID选择
+let element = document.getElementById("myId");
+
+// 通过类名选择
+let elements = document.getElementsByClassName("myClass");
+let element2 = document.querySelector(".myClass");
+let allElements = document.querySelectorAll(".myClass");
+
+// 通过标签名选择
+let paragraphs = document.getElementsByTagName("p");
+
+// 通过属性选择
+let inputs = document.querySelectorAll("input[type='text']");
+
+// 父子关系
+let parent = element.parentNode;
+let children = element.children;
+let firstChild = element.firstElementChild;
+let lastChild = element.lastElementChild;
+let nextSibling = element.nextElementSibling;</pre>
+                    </div>
+
+                    <h3>✏️ 修改内容</h3>
+                    <div class="code">
+                        <pre>// 修改文本内容
+element.textContent = "新的文本内容";
+element.innerText = "新的文本内容";
+
+// 修改HTML内容
+element.innerHTML = "<strong>粗体文本</strong>";
+
+// 修改属性
+element.setAttribute("class", "newClass");
+element.className = "newClass";
+element.id = "newId";
+
+// 修改样式
+element.style.color = "red";
+element.style.fontSize = "20px";
+element.style.backgroundColor = "#f0f0f0";
+
+// 添加/删除类
+element.classList.add("active");
+element.classList.remove("inactive");
+element.classList.toggle("highlight");
+element.classList.contains("active"); // 检查是否包含类</pre>
+                    </div>
+
+                    <h3>🏗️ 创建和删除元素</h3>
+                    <div class="code">
+                        <pre>// 创建元素
+let newDiv = document.createElement("div");
+newDiv.textContent = "新创建的div";
+newDiv.className = "new-element";
+
+// 添加到页面
+document.body.appendChild(newDiv);
+element.insertBefore(newDiv, element.firstChild);
+
+// 克隆元素
+let clonedElement = element.cloneNode(true); // true表示深度克隆
+
+// 删除元素
+element.removeChild(newDiv);
+newDiv.remove(); // 现代浏览器支持
+
+// 替换元素
+let newElement = document.createElement("span");
+element.replaceChild(newElement, oldElement);</pre>
+                    </div>
+                </section>
+
+                <section id="events">
+                    <h2>🎯 事件处理</h2>
+                    <p>事件让网页能够响应用户的操作，是交互的基础。</p>
+
+                    <h3>👆 添加事件监听器</h3>
+                    <div class="code">
+                        <pre>// 方法1：HTML属性（不推荐）
+// &lt;button onclick="alert('点击了按钮')"&gt;点击我&lt;/button&gt;
+
+// 方法2：DOM属性
+button.onclick = function() {
+    alert("点击了按钮");
+};
+
+// 方法3：addEventListener（推荐）
+button.addEventListener("click", function() {
+    alert("点击了按钮");
+});
+
+// 箭头函数
+button.addEventListener("click", () => {
+    alert("点击了按钮");
+});
+
+// 命名函数
+function handleClick() {
+    alert("点击了按钮");
+}
+button.addEventListener("click", handleClick);
+
+// 移除事件监听器
+button.removeEventListener("click", handleClick);</pre>
+                    </div>
+
+                    <h3>🎪 常用事件类型</h3>
+                    <div class="code">
+                        <pre>// 鼠标事件
+element.addEventListener("click", handleClick);
+element.addEventListener("dblclick", handleDoubleClick);
+element.addEventListener("mousedown", handleMouseDown);
+element.addEventListener("mouseup", handleMouseUp);
+element.addEventListener("mouseover", handleMouseOver);
+element.addEventListener("mouseout", handleMouseOut);
+element.addEventListener("mousemove", handleMouseMove);
+
+// 键盘事件
+document.addEventListener("keydown", function(event) {
+    console.log("按下了：" + event.key);
+});
+document.addEventListener("keyup", handleKeyUp);
+
+// 表单事件
+form.addEventListener("submit", function(event) {
+    event.preventDefault(); // 阻止默认提交
+    // 自定义处理逻辑
+});
+input.addEventListener("change", handleInputChange);
+input.addEventListener("input", handleInputInput);
+input.addEventListener("focus", handleInputFocus);
+input.addEventListener("blur", handleInputBlur);
+
+// 窗口事件
+window.addEventListener("load", function() {
+    console.log("页面加载完成");
+});
+window.addEventListener("resize", function() {
+    console.log("窗口大小改变");
+});
+window.addEventListener("scroll", function() {
+    console.log("页面滚动");
+});</pre>
+                    </div>
+
+                    <h3>📋 事件对象</h3>
+                    <div class="code">
+                        <pre>button.addEventListener("click", function(event) {
+    // 事件对象属性
+    console.log(event.type);        // 事件类型
+    console.log(event.target);      // 触发事件的元素
+    console.log(event.currentTarget); // 绑定事件的元素
+    console.log(event.clientX);     // 鼠标X坐标
+    console.log(event.clientY);     // 鼠标Y坐标
+    
+    // 阻止默认行为
+    event.preventDefault();
+    
+    // 阻止事件冒泡
+    event.stopPropagation();
+});
+
+// 键盘事件对象
+document.addEventListener("keydown", function(event) {
+    console.log(event.key);         // 按键值
+    console.log(event.code);        // 按键代码
+    console.log(event.ctrlKey);     // 是否按下Ctrl
+    console.log(event.shiftKey);    // 是否按下Shift
+    console.log(event.altKey);      // 是否按下Alt
+});</pre>
+                    </div>
+                </section>
+
+                <section id="async">
+                    <h2>⏰ 异步编程</h2>
+                    <p>异步编程让JavaScript能够处理耗时操作而不阻塞主线程。</p>
+
+                    <h3>⏱️ 定时器</h3>
+                    <div class="code">
+                        <pre>// setTimeout - 延迟执行
+let timeoutId = setTimeout(function() {
+    console.log("3秒后执行");
+}, 3000);
+
+// 取消定时器
+clearTimeout(timeoutId);
+
+// setInterval - 重复执行
+let intervalId = setInterval(function() {
+    console.log("每2秒执行一次");
+}, 2000);
+
+// 取消重复定时器
+clearInterval(intervalId);
+
+// 实用示例：倒计时
+function countdown(seconds) {
+    let timer = setInterval(function() {
+        console.log(seconds + "秒");
+        seconds--;
+        
+        if (seconds < 0) {
+            clearInterval(timer);
+            console.log("时间到！");
+        }
+    }, 1000);
+}</pre>
+                    </div>
+
+                    <h3>🎯 Promise</h3>
+                    <div class="code">
+                        <pre>// 创建Promise
+let promise = new Promise(function(resolve, reject) {
+    // 异步操作
+    setTimeout(function() {
+        let success = Math.random() > 0.5;
+        if (success) {
+            resolve("操作成功！");
+        } else {
+            reject("操作失败！");
+        }
+    }, 2000);
+});
+
+// 使用Promise
+promise
+    .then(function(result) {
+        console.log(result);
+    })
+    .catch(function(error) {
+        console.error(error);
+    })
+    .finally(function() {
+        console.log("操作完成");
+    });
+
+// Promise链式调用
+fetch("/api/user")
+    .then(response => response.json())
+    .then(data => {
+        console.log("用户数据：", data);
+        return fetch("/api/posts/" + data.id);
+    })
+    .then(response => response.json())
+    .then(posts => {
+        console.log("用户文章：", posts);
+    })
+    .catch(error => {
+        console.error("请求失败：", error);
+    });</pre>
+                    </div>
+
+                    <h3>🚀 async/await</h3>
+                    <div class="code">
+                        <pre>// async函数
+async function fetchUserData() {
+    try {
+        let response = await fetch("/api/user");
+        let userData = await response.json();
+        
+        let postsResponse = await fetch("/api/posts/" + userData.id);
+        let posts = await postsResponse.json();
+        
+        return {
+            user: userData,
+            posts: posts
+        };
+    } catch (error) {
+        console.error("获取数据失败：", error);
+        throw error;
+    }
+}
+
+// 使用async函数
+fetchUserData()
+    .then(data => {
+        console.log("获取到数据：", data);
+    })
+    .catch(error => {
+        console.error("处理失败：", error);
+    });
+
+// 在async函数中使用
+async function main() {
+    try {
+        let data = await fetchUserData();
+        console.log("用户和文章数据：", data);
+    } catch (error) {
+        console.error("主函数错误：", error);
+    }
+}</pre>
+                    </div>
+                </section>
+
+                <section id="es6">
+                    <h2>🆕 ES6+ 现代特性</h2>
+                    
+                    <h3>🔄 解构赋值</h3>
+                    <div class="code">
+                        <pre>// 数组解构
+let [a, b, c] = [1, 2, 3];
+let [first, ...rest] = [1, 2, 3, 4, 5];
+let [x, y, z = 0] = [1, 2]; // 默认值
+
+// 对象解构
+let {name, age} = {name: "张三", age: 25};
+let {name: userName, age: userAge} = person; // 重命名
+let {city = "北京"} = person; // 默认值
+
+// 函数参数解构
+function greet({name, age}) {
+    return `Hello, ${name}! You are ${age} years old.`;
+}
+
+// 嵌套解构
+let user = {
+    id: 1,
+    name: "张三",
+    address: {
+        city: "北京",
+        street: "长安街"
+    }
+};
+let {address: {city, street}} = user;</pre>
+                    </div>
+
+                    <h3>📝 模板字符串</h3>
+                    <div class="code">
+                        <pre>// 基本用法
+let name = "张三";
+let age = 25;
+let message = `Hello, ${name}! You are ${age} years old.`;
+
+// 多行字符串
+let html = `
+    &lt;div class="user"&gt;
+        &lt;h2&gt;${name}&lt;/h2&gt;
+        &lt;p&gt;Age: ${age}&lt;/p&gt;
+    &lt;/div&gt;
+`;
+
+// 表达式
+let price = 100;
+let tax = 0.1;
+let total = `Total: $${(price * (1 + tax)).toFixed(2)}`;
+
+// 标签模板
+function highlight(strings, ...values) {
+    return strings.reduce((result, string, i) => {
+        return result + string + (values[i] ? `<mark>${values[i]}</mark>` : '');
+    }, '');
+}
+
+let highlighted = highlight`Hello, ${name}! You are ${age} years old.`;</pre>
+                    </div>
+
+                    <h3>🔧 新的数组方法</h3>
+                    <div class="code">
+                        <pre>let numbers = [1, 2, 3, 4, 5];
+
+// map - 转换数组
+let doubled = numbers.map(n => n * 2);
+
+// filter - 过滤数组
+let evens = numbers.filter(n => n % 2 === 0);
+
+// reduce - 归约数组
+let sum = numbers.reduce((total, n) => total + n, 0);
+
+// find - 查找元素
+let found = numbers.find(n => n > 3);
+
+// some - 检查是否有元素满足条件
+let hasEven = numbers.some(n => n % 2 === 0);
+
+// every - 检查是否所有元素都满足条件
+let allPositive = numbers.every(n => n > 0);
+
+// includes - 检查是否包含元素
+let hasThree = numbers.includes(3);
+
+// Array.from - 从类数组创建数组
+let divs = Array.from(document.querySelectorAll('div'));
+
+// 扩展运算符
+let newNumbers = [...numbers, 6, 7, 8];
+let max = Math.max(...numbers);</pre>
+                    </div>
+
+                    <h3>🏗️ 类和模块</h3>
+                    <div class="code">
+                        <pre>// 类定义
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+    
+    static createAdult(name) {
+        return new Person(name, 18);
+    }
+}
+
+// 继承
+class Student extends Person {
+    constructor(name, age, school) {
+        super(name, age);
+        this.school = school;
+    }
+    
+    study() {
+        return `${this.name} is studying at ${this.school}`;
+    }
+}
+
+// 使用类
+let person = new Person("张三", 25);
+let student = new Student("李四", 20, "清华大学");
+
+// 模块导出
+export default Person;
+export { Student };
+export const PI = 3.14159;
+
+// 模块导入
+import Person, { Student, PI } from './person.js';
+import * as PersonModule from './person.js';</pre>
+                    </div>
+                </section>
+
+                <section id="projects">
+                    <h2>🎨 实战项目</h2>
+                    
+                    <h3>📝 待办事项列表</h3>
+                    <div class="code">
+                        <pre>class TodoApp {
+    constructor() {
+        this.todos = [];
+        this.init();
+    }
+    
+    init() {
+        this.createHTML();
+        this.bindEvents();
+        this.loadTodos();
+    }
+    
+    createHTML() {
+        document.body.innerHTML = `
+            &lt;div class="todo-app"&gt;
+                &lt;h1&gt;待办事项&lt;/h1&gt;
+                &lt;div class="input-section"&gt;
+                    &lt;input type="text" id="todoInput" placeholder="添加新任务..."&gt;
+                    &lt;button id="addBtn"&gt;添加&lt;/button&gt;
+                &lt;/div&gt;
+                &lt;ul id="todoList"&gt;&lt;/ul&gt;
+            &lt;/div&gt;
+        `;
+    }
+    
+    bindEvents() {
+        document.getElementById('addBtn').addEventListener('click', () => {
+            this.addTodo();
+        });
+        
+        document.getElementById('todoInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.addTodo();
+            }
+        });
+    }
+    
+    addTodo() {
+        const input = document.getElementById('todoInput');
+        const text = input.value.trim();
+        
+        if (text) {
+            const todo = {
+                id: Date.now(),
+                text: text,
+                completed: false
+            };
+            
+            this.todos.push(todo);
+            this.renderTodos();
+            this.saveTodos();
+            input.value = '';
+        }
+    }
+    
+    toggleTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.completed = !todo.completed;
+            this.renderTodos();
+            this.saveTodos();
+        }
+    }
+    
+    deleteTodo(id) {
+        this.todos = this.todos.filter(t => t.id !== id);
+        this.renderTodos();
+        this.saveTodos();
+    }
+    
+    renderTodos() {
+        const list = document.getElementById('todoList');
+        list.innerHTML = this.todos.map(todo => `
+            &lt;li class="${todo.completed ? 'completed' : ''}"&gt;
+                &lt;input type="checkbox" ${todo.completed ? 'checked' : ''} 
+                       onchange="app.toggleTodo(${todo.id})"&gt;
+                &lt;span&gt;${todo.text}&lt;/span&gt;
+                &lt;button onclick="app.deleteTodo(${todo.id})"&gt;删除&lt;/button&gt;
+            &lt;/li&gt;
+        `).join('');
+    }
+    
+    saveTodos() {
+        localStorage.setItem('todos', JSON.stringify(this.todos));
+    }
+    
+    loadTodos() {
+        const saved = localStorage.getItem('todos');
+        if (saved) {
+            this.todos = JSON.parse(saved);
+            this.renderTodos();
+        }
+    }
+}
+
+// 启动应用
+const app = new TodoApp();</pre>
+                    </div>
+
+                    <h3>🎮 简单游戏</h3>
+                    <div class="code">
+                        <pre>// 猜数字游戏
+class GuessNumberGame {
+    constructor() {
+        this.targetNumber = Math.floor(Math.random() * 100) + 1;
+        this.attempts = 0;
+        this.maxAttempts = 10;
+        this.init();
+    }
+    
+    init() {
+        document.body.innerHTML = `
+            &lt;div class="game"&gt;
+                &lt;h1&gt;猜数字游戏&lt;/h1&gt;
+                &lt;p&gt;我想了一个1-100之间的数字，你能猜出来吗？&lt;/p&gt;
+                &lt;input type="number" id="guessInput" min="1" max="100"&gt;
+                &lt;button onclick="game.makeGuess()"&gt;猜测&lt;/button&gt;
+                &lt;div id="message"&gt;&lt;/div&gt;
+                &lt;div id="attempts"&gt;剩余次数: ${this.maxAttempts}&lt;/div&gt;
+                &lt;button onclick="game.restart()"&gt;重新开始&lt;/button&gt;
+            &lt;/div&gt;
+        `;
+    }
+    
+    makeGuess() {
+        const input = document.getElementById('guessInput');
+        const guess = parseInt(input.value);
+        const messageEl = document.getElementById('message');
+        const attemptsEl = document.getElementById('attempts');
+        
+        if (isNaN(guess) || guess < 1 || guess > 100) {
+            messageEl.textContent = '请输入1-100之间的数字！';
+            return;
+        }
+        
+        this.attempts++;
+        
+        if (guess === this.targetNumber) {
+            messageEl.textContent = `🎉 恭喜！你用${this.attempts}次猜对了！`;
+            messageEl.style.color = 'green';
+            input.disabled = true;
+        } else if (this.attempts >= this.maxAttempts) {
+            messageEl.textContent = `😢 游戏结束！答案是${this.targetNumber}`;
+            messageEl.style.color = 'red';
+            input.disabled = true;
+        } else if (guess < this.targetNumber) {
+            messageEl.textContent = '太小了！再试试更大的数字';
+            messageEl.style.color = 'blue';
+        } else {
+            messageEl.textContent = '太大了！再试试更小的数字';
+            messageEl.style.color = 'blue';
+        }
+        
+        attemptsEl.textContent = `剩余次数: ${this.maxAttempts - this.attempts}`;
+        input.value = '';
+    }
+    
+    restart() {
+        this.targetNumber = Math.floor(Math.random() * 100) + 1;
+        this.attempts = 0;
+        this.init();
+    }
+}
+
+// 启动游戏
+const game = new GuessNumberGame();</pre>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="html.html">🏗️ HTML 基础星球</a> |
+                        <a href="css.html">🎨 CSS 美化星云</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 

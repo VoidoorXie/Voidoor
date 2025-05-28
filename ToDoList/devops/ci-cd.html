@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI/CD 全面手册</title>
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">CI/CD 全面手册</div>
+      <ul class="sidebar-list">
+        <li><a href="#intro">简介</a></li>
+        <li><details open><summary>CI 持续集成</summary><ul>
+          <li><a href="#ci-basics">CI 基础</a></li>
+          <li><a href="#build-automation">构建自动化</a></li>
+          <li><a href="#testing">自动化测试</a></li>
+          <li><a href="#code-quality">代码质量</a></li>
+        </ul></details></li>
+        <li><details><summary>CD 持续部署</summary><ul>
+          <li><a href="#cd-basics">CD 基础</a></li>
+          <li><a href="#deployment-strategies">部署策略</a></li>
+          <li><a href="#environments">环境管理</a></li>
+          <li><a href="#rollback">回滚机制</a></li>
+        </ul></details></li>
+        <li><details><summary>工具平台</summary><ul>
+          <li><a href="#jenkins">Jenkins</a></li>
+          <li><a href="#github-actions">GitHub Actions</a></li>
+          <li><a href="#gitlab-ci">GitLab CI</a></li>
+          <li><a href="#azure-devops">Azure DevOps</a></li>
+        </ul></details></li>
+        <li><details><summary>容器化部署</summary><ul>
+          <li><a href="#docker-ci">Docker CI</a></li>
+          <li><a href="#k8s-deployment">Kubernetes 部署</a></li>
+          <li><a href="#helm-charts">Helm Charts</a></li>
+        </ul></details></li>
+        <li><a href="#best-practice">最佳实践</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="#resources">相关资源</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="info-bar">
+      <input type="text" placeholder="搜索内容..." class="search-box">
+      <button onclick="window.scrollTo(0,0)">返回顶部</button>
+      <a href="#resources">相关资源</a>
+      <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+    </div>
+    <div class="container">
+      <div class="nav-breadcrumb">
+        <a href="../index.html">首页</a> &gt; DevOps &gt; CI/CD
+      </div>
+      <h1 id="intro">CI/CD 全面手册</h1>
+      
+      <section>
+        <h2 id="ci-basics">CI 基础</h2>
+        <p>持续集成（CI）是一种开发实践，开发者频繁地将代码集成到主分支。</p>
+        <div class="code"><pre># .github/workflows/ci.yml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Run linting
+      run: npm run lint</pre></div>
+        <div class="tip">实际场景：代码提交触发自动构建、测试、质量检查。</div>
+        <div class="note">常见错误：测试覆盖率不足、构建时间过长。</div>
+      </section>
+
+      <section>
+        <h2 id="build-automation">构建自动化</h2>
+        <p>自动化构建过程，确保代码能够正确编译和打包。</p>
+        <div class="code"><pre># Dockerfile 多阶段构建
+FROM node:16-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]</pre></div>
+        <div class="tip">实际场景：代码编译、依赖安装、资源打包、镜像构建。</div>
+      </section>
+
+      <section>
+        <h2 id="testing">自动化测试</h2>
+        <p>在 CI 流水线中集成各种类型的自动化测试。</p>
+        <div class="code"><pre># Jest 测试配置
+{
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "cypress run"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "!src/**/*.test.{js,ts}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  }
+}</pre></div>
+        <div class="tip">实际场景：单元测试、集成测试、端到端测试。</div>
+      </section>
+
+      <section>
+        <h2 id="code-quality">代码质量</h2>
+        <p>使用静态分析工具确保代码质量和安全性。</p>
+        <div class="code"><pre># SonarQube 配置
+sonar.projectKey=my-project
+sonar.projectName=My Project
+sonar.projectVersion=1.0
+sonar.sources=src
+sonar.tests=src
+sonar.test.inclusions=**/*.test.js
+sonar.javascript.lcov.reportPaths=coverage/lcov.info
+sonar.coverage.exclusions=**/*.test.js,**/node_modules/**</pre></div>
+        <div class="tip">实际场景：代码规范检查、安全漏洞扫描、技术债务分析。</div>
+      </section>
+
+      <section>
+        <h2 id="cd-basics">CD 基础</h2>
+        <p>持续部署（CD）自动化应用程序的发布过程。</p>
+        <div class="code"><pre># GitHub Actions CD 流水线
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t myapp:${{ github.sha }} .
+        docker tag myapp:${{ github.sha }} myapp:latest
+    
+    - name: Deploy to staging
+      run: |
+        docker-compose -f docker-compose.staging.yml up -d
+    
+    - name: Run smoke tests
+      run: npm run test:smoke
+    
+    - name: Deploy to production
+      if: success()
+      run: |
+        kubectl set image deployment/myapp myapp=myapp:${{ github.sha }}</pre></div>
+        <div class="tip">实际场景：自动部署、环境推广、发布管理。</div>
+      </section>
+
+      <section>
+        <h2 id="deployment-strategies">部署策略</h2>
+        <p>不同的部署策略适用于不同的场景和需求。</p>
+        <div class="code"><pre># 蓝绿部署 Kubernetes 配置
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: myapp-rollout
+spec:
+  replicas: 5
+  strategy:
+    blueGreen:
+      activeService: myapp-active
+      previewService: myapp-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+        - templateName: success-rate
+        args:
+        - name: service-name
+          value: myapp-preview
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:latest</pre></div>
+        <div class="tip">实际场景：蓝绿部署、金丝雀发布、滚动更新。</div>
+      </section>
+
+      <section>
+        <h2 id="environments">环境管理</h2>
+        <p>管理不同环境的配置和部署流程。</p>
+        <div class="code"><pre># 环境配置管理
+environments:
+  development:
+    url: https://dev.myapp.com
+    database_url: ${DEV_DATABASE_URL}
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  
+  staging:
+    url: https://staging.myapp.com
+    database_url: ${STAGING_DATABASE_URL}
+    replicas: 2
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+  
+  production:
+    url: https://myapp.com
+    database_url: ${PROD_DATABASE_URL}
+    replicas: 5
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi</pre></div>
+        <div class="tip">实际场景：环境隔离、配置管理、资源分配。</div>
+      </section>
+
+      <section>
+        <h2 id="rollback">回滚机制</h2>
+        <p>当部署出现问题时，快速回滚到上一个稳定版本。</p>
+        <div class="code"><pre># Kubernetes 回滚命令
+# 查看部署历史
+kubectl rollout history deployment/myapp
+
+# 回滚到上一个版本
+kubectl rollout undo deployment/myapp
+
+# 回滚到指定版本
+kubectl rollout undo deployment/myapp --to-revision=2
+
+# 检查回滚状态
+kubectl rollout status deployment/myapp</pre></div>
+        <div class="tip">实际场景：故障恢复、版本管理、风险控制。</div>
+      </section>
+
+      <section>
+        <h2 id="jenkins">Jenkins</h2>
+        <p>Jenkins 是最流行的开源 CI/CD 工具。</p>
+        <div class="code"><pre>// Jenkinsfile
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_REGISTRY = 'myregistry.com'
+        IMAGE_NAME = 'myapp'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'test-results.xml'
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    def image = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                    docker.withRegistry("https://${DOCKER_REGISTRY}") {
+                        image.push()
+                        image.push('latest')
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'kubectl set image deployment/myapp myapp=${DOCKER_REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}'
+            }
+        }
+    }
+}</pre></div>
+        <div class="tip">实际场景：企业级 CI/CD、插件生态、分布式构建。</div>
+      </section>
+
+      <section>
+        <h2 id="github-actions">GitHub Actions</h2>
+        <p>GitHub Actions 提供了原生的 CI/CD 解决方案。</p>
+        <div class="code"><pre># .github/workflows/deploy.yml
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: Deploy to ECS
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        service: myapp-service
+        cluster: myapp-cluster</pre></div>
+        <div class="tip">实际场景：GitHub 集成、云服务部署、开源项目。</div>
+      </section>
+
+      <section>
+        <h2 id="gitlab-ci">GitLab CI</h2>
+        <p>GitLab CI/CD 提供了完整的 DevOps 平台。</p>
+        <div class="code"><pre># .gitlab-ci.yml
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+test:
+  stage: test
+  image: node:16
+  script:
+    - npm install
+    - npm test
+  coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+deploy:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  only:
+    - main</pre></div>
+        <div class="tip">实际场景：GitLab 生态、私有部署、企业级功能。</div>
+      </section>
+
+      <section>
+        <h2 id="azure-devops">Azure DevOps</h2>
+        <p>Microsoft Azure DevOps 提供了完整的开发工具链。</p>
+        <div class="code"><pre># azure-pipelines.yml
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+    
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
+    
+    - task: Docker@2
+      inputs:
+        command: 'buildAndPush'
+        repository: 'myapp'
+        dockerfile: 'Dockerfile'
+        tags: '$(Build.BuildId)'
+
+- stage: Deploy
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              manifests: 'k8s/*.yaml'</pre></div>
+        <div class="tip">实际场景：Microsoft 生态、企业集成、混合云部署。</div>
+      </section>
+
+      <section>
+        <h2 id="docker-ci">Docker CI</h2>
+        <p>在 CI 流水线中构建和管理 Docker 镜像。</p>
+        <div class="code"><pre># 多阶段 Dockerfile 优化
+FROM node:16-alpine AS dependencies
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+FROM node:16-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine AS runtime
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=dependencies /app/node_modules ./node_modules
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]</pre></div>
+        <div class="tip">实际场景：镜像优化、安全扫描、多架构构建。</div>
+      </section>
+
+      <section>
+        <h2 id="k8s-deployment">Kubernetes 部署</h2>
+        <p>使用 Kubernetes 进行容器化应用的部署和管理。</p>
+        <div class="code"><pre># kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+
+images:
+- name: myapp
+  newTag: latest
+
+configMapGenerator:
+- name: app-config
+  files:
+  - config.yaml
+
+secretGenerator:
+- name: app-secrets
+  envs:
+  - .env</pre></div>
+        <div class="tip">实际场景：声明式部署、配置管理、环境差异化。</div>
+      </section>
+
+      <section>
+        <h2 id="helm-charts">Helm Charts</h2>
+        <p>使用 Helm 管理 Kubernetes 应用的打包和部署。</p>
+        <div class="code"><pre># Chart.yaml
+apiVersion: v2
+name: myapp
+description: A Helm chart for MyApp
+version: 0.1.0
+appVersion: "1.0"
+
+# values.yaml
+replicaCount: 3
+
+image:
+  repository: myapp
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: myapp.example.com
+      paths:
+        - path: /
+          pathType: Prefix</pre></div>
+        <div class="tip">实际场景：应用打包、版本管理、模板化部署。</div>
+      </section>
+
+      <section>
+        <h2 id="best-practice">最佳实践</h2>
+        <ul>
+          <li>保持构建快速，通常不超过 10 分钟</li>
+          <li>实施分支策略，如 GitFlow 或 GitHub Flow</li>
+          <li>使用基础设施即代码（IaC）</li>
+          <li>实施自动化测试金字塔</li>
+          <li>监控和日志记录</li>
+          <li>安全扫描和合规检查</li>
+          <li>渐进式部署策略</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="faq">常见问题</h2>
+        <ul>
+          <li>Q: 构建失败如何快速定位问题？<br>A: 查看构建日志、检查依赖版本、验证环境配置。</li>
+          <li>Q: 如何处理敏感信息？<br>A: 使用密钥管理服务、环境变量、加密存储。</li>
+          <li>Q: 部署回滚策略？<br>A: 蓝绿部署、金丝雀发布、数据库迁移回滚。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="resources">相关资源</h2>
+        <ul>
+          <li><a href="https://jenkins.io/" target="_blank">Jenkins 官方网站</a></li>
+          <li><a href="https://github.com/features/actions" target="_blank">GitHub Actions</a></li>
+          <li><a href="https://docs.gitlab.com/ee/ci/" target="_blank">GitLab CI/CD</a></li>
+          <li><a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank">Azure DevOps</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="footer-resources">
+      <strong>推荐工具：</strong> <a href="https://www.sonarqube.org/" target="_blank">SonarQube</a> | <a href="https://argoproj.github.io/" target="_blank">Argo CD</a> | <a href="https://tekton.dev/" target="_blank">Tekton</a>
+    </div>
+  </div>
+  <script src="../js/navigation.js"></script>
+</body>
+</html> 

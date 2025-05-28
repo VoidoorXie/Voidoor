@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 全栈开发银河系 - 现代化学习平台</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.9), rgba(53, 122, 189, 0.8));
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            margin: -40px -40px 40px -40px;
+            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            pointer-events: none;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        
+        .hero-feature:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .nav-section {
+            margin-bottom: 48px;
+        }
+        
+        .nav-section h2 {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .nav-section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 2px;
+        }
+        
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .nav-item {
+            background: var(--card-background);
+            padding: 24px;
+            border-radius: var(--border-radius-lg);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .nav-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .nav-item p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .stats-section {
+            background: var(--light-gray);
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            margin: 48px 0;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 32px;
+        }
+        
+        .stat-item {
+            background: var(--card-background);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        /* 浮动工具栏 */
+        .floating-toolbar {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        
+        .toolbar-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .toolbar-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* 搜索栏 */
+        .search-container {
+            position: relative;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            font-size: 16px;
+            background: var(--card-background);
+            backdrop-filter: blur(20px);
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* 新增功能卡片 */
+        .feature-showcase {
+            background: linear-gradient(135deg, var(--glass-background), rgba(255, 255, 255, 0.05));
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+            margin: 48px 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .feature-card {
+            background: var(--card-background);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-features {
+                gap: 20px;
+            }
+            
+            .nav-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .floating-toolbar {
+                right: 10px;
+                gap: 8px;
+            }
+            
+            .toolbar-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浮动工具栏 -->
+    <div class="floating-toolbar">
+        <button class="toolbar-btn" onclick="toggleTheme()" title="切换主题">🌙</button>
+        <button class="toolbar-btn" onclick="scrollToTop()" title="返回顶部">⬆️</button>
+        <button class="toolbar-btn" onclick="window.galaxyBackground.createShootingStar()" title="召唤流星">⭐</button>
+        <button class="toolbar-btn" onclick="toggleFullscreen()" title="全屏模式">🔳</button>
+    </div>
+
+    <div class="container">
+        <!-- 搜索栏 -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="🔍 搜索技术栈、教程或工具..." id="globalSearch">
+            <button class="search-btn" onclick="performGlobalSearch()">🔍</button>
+        </div>
+
+        <div class="hero-section">
+            <h1 class="hero-title">🌌 全栈开发银河系</h1>
+            <p class="hero-subtitle">在浩瀚的技术宇宙中探索，掌握前沿技术星座，成为优秀的全栈工程师。让我们一起在代码的银河中遨游！</p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <span>🚀</span>
+                    <span>现代化界面</span>
+                </div>
+                <div class="hero-feature">
+                    <span>⭐</span>
+                    <span>星级内容</span>
+                </div>
+                <div class="hero-feature">
+                    <span>🔍</span>
+                    <span>智能搜索</span>
+                </div>
+                <div class="hero-feature">
+                    <span>🌟</span>
+                    <span>银河体验</span>
+                </div>
+                <div class="hero-feature">
+                    <span>🛸</span>
+                    <span>未来科技</span>
+                </div>
+                <div class="hero-feature">
+                    <span>🌠</span>
+                    <span>流星般快速</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 特色功能展示 -->
+        <div class="feature-showcase">
+            <h2 style="text-align: center; margin-bottom: 16px;">🌟 银河系特色功能</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 0;">探索我们为您精心打造的学习工具和体验</p>
+            <div class="feature-grid">
+                <div class="feature-card" onclick="window.location.href='learning-path.html'" style="cursor: pointer;">
+                    <span class="feature-icon">🎯</span>
+                    <div class="feature-title">智能学习路径</div>
+                    <div class="feature-desc">AI驱动的个性化学习建议，为您量身定制最优学习路线</div>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💻</span>
+                    <div class="feature-title">在线代码编辑器</div>
+                    <div class="feature-desc">内置强大的代码编辑器，支持实时预览和多语言高亮</div>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🤝</span>
+                    <div class="feature-title">社区协作</div>
+                    <div class="feature-desc">与全球开发者交流学习，分享项目和获得代码审查</div>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <div class="feature-title">学习进度追踪</div>
+                    <div class="feature-desc">详细的学习统计和进度可视化，让成长看得见</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <h2>🌟 前端星系</h2>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="frontend/html.html">🏗️ HTML 基础星球</a>
+                    <p>探索网页结构的基石，掌握HTML5的神秘力量，构建你的第一个数字世界</p>
+                    <div style="margin-top: 8px;">
+                        <a href="frontend/html-guide.html" style="font-size: 0.9rem; color: var(--accent-color);">📚 HTML 代码大全</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="frontend/css.html">🎨 CSS 美化星云</a>
+                    <p>在样式的宇宙中创造美丽，用CSS3绘制出令人惊叹的视觉效果</p>
+                    <div style="margin-top: 8px;">
+                        <a href="frontend/css-guide.html" style="font-size: 0.9rem; color: var(--accent-color);">🎨 CSS 代码大全</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="frontend/javascript.html">⚡ JavaScript 动力核心</a>
+                    <p>释放网页的生命力，用ES6+的现代语法驾驭浏览器的无限可能</p>
+                    <div style="margin-top: 8px;">
+                        <a href="frontend/javascript-guide.html" style="font-size: 0.9rem; color: var(--accent-color);">⚡ JavaScript 代码大全</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="frontend/frameworks.html">🚀 框架宇宙飞船</a>
+                    <p>乘坐React、Vue、Angular的高速飞船，在现代前端开发中遨游</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2>🛸 后端母舰</h2>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a href="backend/backend-guide.html" style="background: linear-gradient(135deg, #68d391, #38a169); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; display: inline-block; box-shadow: var(--shadow-lg);">🛸 后端代码大全</a>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="backend/nodejs.html">🟢 Node.js 绿色引擎</a>
+                    <p>驾驭JavaScript的服务器端力量，用Express构建高速API宇宙站</p>
+                </li>
+                <li class="nav-item">
+                    <a href="backend/python.html">🐍 Python 智慧之蛇</a>
+                    <p>用优雅的Python语言编织后端魔法，Flask、Django助你征服服务器星球</p>
+                </li>
+                <li class="nav-item">
+                    <a href="backend/java.html">☕ Java 企业战舰</a>
+                    <p>乘坐Spring Boot的企业级战舰，在微服务的星际中建立强大帝国</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2>💾 数据宝库</h2>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a href="database/database-guide.html" style="background: linear-gradient(135deg, #4299e1, #3182ce); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; display: inline-block; box-shadow: var(--shadow-lg);">💾 数据库代码大全</a>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="database/sql.html">🗃️ SQL 关系星系</a>
+                    <p>在MySQL、PostgreSQL的有序宇宙中，用关系的力量连接数据星球</p>
+                </li>
+                <li class="nav-item">
+                    <a href="database/nosql.html">🌌 NoSQL 自由空间</a>
+                    <p>探索MongoDB、Redis的灵活星域，在无界限的数据宇宙中自由翱翔</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2>🔧 运维指挥中心</h2>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a href="devops/devops-guide.html" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; display: inline-block; box-shadow: var(--shadow-lg);">🔧 DevOps 代码大全</a>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="devops/docker.html">🐳 Docker 容器舰队</a>
+                    <p>将应用装入轻量级容器，在任何星球上都能完美运行的魔法盒子</p>
+                </li>
+                <li class="nav-item">
+                    <a href="devops/kubernetes.html">⚓ Kubernetes 舰队司令</a>
+                    <p>指挥容器大军的终极武器，让你的应用在集群中如鱼得水</p>
+                </li>
+                <li class="nav-item">
+                    <a href="devops/ci-cd.html">🔄 CI/CD 自动化工厂</a>
+                    <p>构建代码的自动化流水线，让部署如流星般快速而精准</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <h2>🛠️ 开发者工具箱</h2>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a href="tools/tools-guide.html" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; display: inline-block; box-shadow: var(--shadow-lg);">🛠️ 开发工具代码大全</a>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="tools/git.html">🌿 Git 时光机器</a>
+                    <p>掌控代码的时间线，在版本的历史长河中自由穿梭，团队协作的神器</p>
+                </li>
+                <li class="nav-item">
+                    <a href="tools/ide.html">💻 IDE 编程座舱</a>
+                    <p>VS Code、WebStorm的智能座舱，让编程如驾驶宇宙飞船般流畅</p>
+                </li>
+                <li class="nav-item">
+                    <a href="tools/testing.html">🧪 测试实验室</a>
+                    <p>用Jest、Pytest构建代码质量的防护盾，确保每一行代码都闪闪发光</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="stats-section">
+            <h2>🌌 银河系数据中心</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">15+ ⭐</div>
+                    <div class="stat-label">技术星座</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+ 💫</div>
+                    <div class="stat-label">代码流星</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+ 🌟</div>
+                    <div class="stat-label">智慧星辰</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞ 🚀</div>
+                    <div class="stat-label">无限探索</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <h2>🚀 启航银河之旅</h2>
+            <div style="text-align: center; padding: 40px 0;">
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 24px;">
+                    🌟 准备好在技术的银河中探索了吗？选择你的星际飞船，开始这场激动人心的编程冒险！
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="learning-path.html" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🗺️ 学习路径</a>
+                    <a href="frontend/html.html" style="background: linear-gradient(135deg, var(--success-color), var(--success-light)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🚀 开始探索</a>
+                    <a href="demo.html" style="background: linear-gradient(135deg, var(--accent-color), var(--accent-light)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🎯 功能演示</a>
+                    <a href="playground.html" style="background: linear-gradient(135deg, var(--info-color), var(--info-light)); color: white; padding: 12px 24px; border-radius: var(--border-radius); text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: var(--shadow-lg);">🎮 代码游乐场</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/galaxy-background.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/enhanced-features.js"></script>
+</body>
+</html> 

@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 HTML 代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">📚 HTML 代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#basic-structure">基础结构</a></li>
+                    <li><a href="#text-elements">文本元素</a></li>
+                    <li><a href="#links-images">链接与图片</a></li>
+                    <li><a href="#lists">列表</a></li>
+                    <li><a href="#tables">表格</a></li>
+                    <li><a href="#forms">表单</a></li>
+                    <li><a href="#semantic">语义化标签</a></li>
+                    <li><a href="#multimedia">多媒体</a></li>
+                    <li><a href="#interactive">交互元素</a></li>
+                    <li><a href="#advanced">高级技巧</a></li>
+                    <li><a href="#templates">完整模板</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索HTML代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <a href="html.html">📖 HTML教程</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>📚 HTML 代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    层次化的HTML代码示例，从基础到高级，满足各种开发需求
+                </p>
+
+                <section id="basic-structure">
+                    <h2>🏗️ 基础结构</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>📄 HTML5 基础模板</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag">HTML5</span>
+                                <span class="tag">基础模板</span>
+                                <span class="tag">必备</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta name="description" content="页面描述"&gt;
+    &lt;meta name="keywords" content="关键词1,关键词2,关键词3"&gt;
+    &lt;meta name="author" content="作者姓名"&gt;
+    &lt;title&gt;页面标题&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+    &lt;link rel="icon" href="favicon.ico"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;网站标题&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#home"&gt;首页&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#about"&gt;关于&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#contact"&gt;联系&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section id="home"&gt;
+            &lt;h2&gt;欢迎来到我的网站&lt;/h2&gt;
+            &lt;p&gt;这里是主要内容区域。&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&copy; 2024 我的网站. 保留所有权利.&lt;/p&gt;
+    &lt;/footer&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+                            <div class="preview-box">
+                                <div class="preview-title">💡 使用说明：</div>
+                                <ul>
+                                    <li>这是一个完整的HTML5页面模板</li>
+                                    <li>包含了所有必要的meta标签</li>
+                                    <li>使用了语义化的HTML5标签</li>
+                                    <li>适合作为新项目的起始模板</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🎯 响应式页面模板</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag">响应式</span>
+                                <span class="tag">移动端</span>
+                                <span class="tag">现代化</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta name="theme-color" content="#4a90e2"&gt;
+    &lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;
+    &lt;meta name="apple-mobile-web-app-status-bar-style" content="default"&gt;
+    &lt;title&gt;响应式网站&lt;/title&gt;
+    &lt;style&gt;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: #4a90e2; color: white; padding: 1rem 0; }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { color: white; text-decoration: none; }
+        main { padding: 2rem 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; }
+        footer { background: #333; color: white; text-align: center; padding: 1rem; }
+        
+        @media (max-width: 768px) {
+            nav ul { flex-direction: column; gap: 1rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;div class="container"&gt;
+            &lt;h1&gt;响应式网站&lt;/h1&gt;
+            &lt;nav&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href="#home"&gt;首页&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="#services"&gt;服务&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="#about"&gt;关于&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="#contact"&gt;联系&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/nav&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;div class="container"&gt;
+            &lt;section id="home"&gt;
+                &lt;h2&gt;欢迎访问&lt;/h2&gt;
+                &lt;p&gt;这是一个完全响应式的网站模板。&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section id="services"&gt;
+                &lt;h2&gt;我们的服务&lt;/h2&gt;
+                &lt;div class="grid"&gt;
+                    &lt;div class="card"&gt;
+                        &lt;h3&gt;网站开发&lt;/h3&gt;
+                        &lt;p&gt;专业的网站开发服务&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class="card"&gt;
+                        &lt;h3&gt;移动应用&lt;/h3&gt;
+                        &lt;p&gt;跨平台移动应用开发&lt;/p&gt;
+                    &lt;/div&gt;
+                    &lt;div class="card"&gt;
+                        &lt;h3&gt;UI设计&lt;/h3&gt;
+                        &lt;p&gt;现代化的用户界面设计&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/section&gt;
+        &lt;/div&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;div class="container"&gt;
+            &lt;p&gt;&copy; 2024 响应式网站. 保留所有权利.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="text-elements">
+                    <h2>📝 文本元素</h2>
+                    
+                    <div class="example-grid">
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>📰 标题和段落</span>
+                                <span class="difficulty-badge difficulty-beginner">初级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 标题层级 --&gt;
+&lt;h1&gt;一级标题 - 页面主标题&lt;/h1&gt;
+&lt;h2&gt;二级标题 - 章节标题&lt;/h2&gt;
+&lt;h3&gt;三级标题 - 小节标题&lt;/h3&gt;
+&lt;h4&gt;四级标题&lt;/h4&gt;
+&lt;h5&gt;五级标题&lt;/h5&gt;
+&lt;h6&gt;六级标题&lt;/h6&gt;
+
+&lt;!-- 段落和文本格式 --&gt;
+&lt;p&gt;这是一个普通段落。&lt;/p&gt;
+&lt;p&gt;这是&lt;strong&gt;重要文本&lt;/strong&gt;和&lt;em&gt;强调文本&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;这是&lt;mark&gt;高亮文本&lt;/mark&gt;和&lt;del&gt;删除文本&lt;/del&gt;。&lt;/p&gt;
+&lt;p&gt;这是&lt;small&gt;小号文本&lt;/small&gt;和&lt;sub&gt;下标&lt;/sub&gt;、&lt;sup&gt;上标&lt;/sup&gt;。&lt;/p&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>💬 引用和代码</span>
+                                <span class="difficulty-badge difficulty-beginner">初级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 引用 --&gt;
+&lt;blockquote cite="https://example.com"&gt;
+    &lt;p&gt;这是一个长引用，通常用于引用他人的话语或文章片段。&lt;/p&gt;
+    &lt;footer&gt;—— &lt;cite&gt;作者姓名&lt;/cite&gt;&lt;/footer&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这是&lt;q&gt;短引用&lt;/q&gt;的示例。&lt;/p&gt;
+
+&lt;!-- 代码 --&gt;
+&lt;p&gt;使用&lt;code&gt;console.log()&lt;/code&gt;来输出信息。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+function greet(name) {
+    console.log("Hello, " + name + "!");
+}
+greet("World");
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;!-- 键盘输入 --&gt;
+&lt;p&gt;按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt;复制文本。&lt;/p&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="links-images">
+                    <h2>🔗 链接与图片</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🌐 各种类型的链接</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!-- 外部链接 --&gt;
+&lt;a href="https://www.example.com" target="_blank" rel="noopener noreferrer"&gt;
+    外部网站链接
+&lt;/a&gt;
+
+&lt;!-- 内部链接 --&gt;
+&lt;a href="about.html"&gt;关于我们&lt;/a&gt;
+&lt;a href="#section1"&gt;跳转到页面内某个部分&lt;/a&gt;
+
+&lt;!-- 邮件链接 --&gt;
+&lt;a href="mailto:contact@example.com?subject=咨询&amp;body=您好，我想咨询..."&gt;
+    发送邮件
+&lt;/a&gt;
+
+&lt;!-- 电话链接 --&gt;
+&lt;a href="tel:+86-138-0013-8000"&gt;拨打电话&lt;/a&gt;
+
+&lt;!-- 下载链接 --&gt;
+&lt;a href="document.pdf" download="我的文档.pdf"&gt;下载PDF文档&lt;/a&gt;
+
+&lt;!-- 带图标的链接 --&gt;
+&lt;a href="https://github.com/username" target="_blank"&gt;
+    &lt;img src="github-icon.svg" alt="GitHub" width="20" height="20"&gt;
+    GitHub主页
+&lt;/a&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🖼️ 图片和多媒体</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!-- 基础图片 --&gt;
+&lt;img src="image.jpg" alt="图片描述" width="300" height="200"&gt;
+
+&lt;!-- 响应式图片 --&gt;
+&lt;img src="image.jpg" alt="响应式图片" 
+     style="max-width: 100%; height: auto;"&gt;
+
+&lt;!-- 不同分辨率的图片 --&gt;
+&lt;img src="image-small.jpg" 
+     srcset="image-small.jpg 480w, 
+             image-medium.jpg 800w, 
+             image-large.jpg 1200w"
+     sizes="(max-width: 480px) 100vw, 
+            (max-width: 800px) 50vw, 
+            25vw"
+     alt="多分辨率图片"&gt;
+
+&lt;!-- 图片与说明 --&gt;
+&lt;figure&gt;
+    &lt;img src="chart.png" alt="销售数据图表"&gt;
+    &lt;figcaption&gt;2024年第一季度销售数据&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;!-- 图片链接 --&gt;
+&lt;a href="large-image.jpg" target="_blank"&gt;
+    &lt;img src="thumbnail.jpg" alt="点击查看大图"&gt;
+&lt;/a&gt;
+
+&lt;!-- 懒加载图片 --&gt;
+&lt;img src="placeholder.jpg" 
+     data-src="actual-image.jpg" 
+     alt="懒加载图片" 
+     loading="lazy"&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="lists">
+                    <h2>📋 列表</h2>
+                    
+                    <div class="example-grid">
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>📝 基础列表</span>
+                                <span class="difficulty-badge difficulty-beginner">初级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 无序列表 --&gt;
+&lt;ul&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;橙子&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- 有序列表 --&gt;
+&lt;ol&gt;
+    &lt;li&gt;第一步：准备材料&lt;/li&gt;
+    &lt;li&gt;第二步：开始制作&lt;/li&gt;
+    &lt;li&gt;第三步：完成作品&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- 定义列表 --&gt;
+&lt;dl&gt;
+    &lt;dt&gt;HTML&lt;/dt&gt;
+    &lt;dd&gt;超文本标记语言&lt;/dd&gt;
+    &lt;dt&gt;CSS&lt;/dt&gt;
+    &lt;dd&gt;层叠样式表&lt;/dd&gt;
+&lt;/dl&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>🔢 高级列表</span>
+                                <span class="difficulty-badge difficulty-intermediate">中级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 嵌套列表 --&gt;
+&lt;ul&gt;
+    &lt;li&gt;前端技术
+        &lt;ul&gt;
+            &lt;li&gt;HTML&lt;/li&gt;
+            &lt;li&gt;CSS&lt;/li&gt;
+            &lt;li&gt;JavaScript&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;后端技术
+        &lt;ul&gt;
+            &lt;li&gt;Node.js&lt;/li&gt;
+            &lt;li&gt;Python&lt;/li&gt;
+            &lt;li&gt;Java&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- 自定义编号 --&gt;
+&lt;ol type="A"&gt;
+    &lt;li&gt;选项A&lt;/li&gt;
+    &lt;li&gt;选项B&lt;/li&gt;
+    &lt;li&gt;选项C&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol start="5"&gt;
+    &lt;li&gt;第五项&lt;/li&gt;
+    &lt;li&gt;第六项&lt;/li&gt;
+&lt;/ol&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tables">
+                    <h2>📊 表格</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>📈 完整表格示例</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;table&gt;
+    &lt;caption&gt;2024年销售数据统计&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;月份&lt;/th&gt;
+            &lt;th scope="col"&gt;产品A&lt;/th&gt;
+            &lt;th scope="col"&gt;产品B&lt;/th&gt;
+            &lt;th scope="col"&gt;总计&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;1月&lt;/th&gt;
+            &lt;td&gt;1,200&lt;/td&gt;
+            &lt;td&gt;800&lt;/td&gt;
+            &lt;td&gt;2,000&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;2月&lt;/th&gt;
+            &lt;td&gt;1,500&lt;/td&gt;
+            &lt;td&gt;900&lt;/td&gt;
+            &lt;td&gt;2,400&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;3月&lt;/th&gt;
+            &lt;td&gt;1,800&lt;/td&gt;
+            &lt;td&gt;1,100&lt;/td&gt;
+            &lt;td&gt;2,900&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;总计&lt;/th&gt;
+            &lt;td&gt;4,500&lt;/td&gt;
+            &lt;td&gt;2,800&lt;/td&gt;
+            &lt;td&gt;7,300&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+
+&lt;!-- 响应式表格 --&gt;
+&lt;div style="overflow-x: auto;"&gt;
+    &lt;table style="min-width: 600px;"&gt;
+        &lt;!-- 表格内容 --&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;!-- 合并单元格 --&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th colspan="2"&gt;合并的标题&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;单元格1&lt;/td&gt;
+        &lt;td&gt;单元格2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td rowspan="2"&gt;跨行单元格&lt;/td&gt;
+        &lt;td&gt;单元格3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;单元格4&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="forms">
+                    <h2>📝 表单</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>📋 完整表单示例</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;form action="/submit" method="post" enctype="multipart/form-data"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;个人信息&lt;/legend&gt;
+        
+        &lt;!-- 文本输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="fullname"&gt;姓名 *&lt;/label&gt;
+            &lt;input type="text" id="fullname" name="fullname" required 
+                   placeholder="请输入您的姓名" autocomplete="name"&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 邮箱输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="email"&gt;邮箱 *&lt;/label&gt;
+            &lt;input type="email" id="email" name="email" required 
+                   placeholder="example@email.com" autocomplete="email"&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 电话输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="phone"&gt;电话&lt;/label&gt;
+            &lt;input type="tel" id="phone" name="phone" 
+                   pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" 
+                   placeholder="138-0013-8000"&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 密码输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="password"&gt;密码 *&lt;/label&gt;
+            &lt;input type="password" id="password" name="password" required 
+                   minlength="8" autocomplete="new-password"&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;fieldset&gt;
+        &lt;legend&gt;详细信息&lt;/legend&gt;
+        
+        &lt;!-- 日期输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="birthday"&gt;生日&lt;/label&gt;
+            &lt;input type="date" id="birthday" name="birthday"&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 数字输入 --&gt;
+        &lt;div&gt;
+            &lt;label for="age"&gt;年龄&lt;/label&gt;
+            &lt;input type="number" id="age" name="age" min="1" max="120"&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 单选按钮 --&gt;
+        &lt;fieldset&gt;
+            &lt;legend&gt;性别&lt;/legend&gt;
+            &lt;div&gt;
+                &lt;input type="radio" id="male" name="gender" value="male"&gt;
+                &lt;label for="male"&gt;男&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="radio" id="female" name="gender" value="female"&gt;
+                &lt;label for="female"&gt;女&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="radio" id="other" name="gender" value="other"&gt;
+                &lt;label for="other"&gt;其他&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;!-- 复选框 --&gt;
+        &lt;fieldset&gt;
+            &lt;legend&gt;兴趣爱好&lt;/legend&gt;
+            &lt;div&gt;
+                &lt;input type="checkbox" id="reading" name="hobbies" value="reading"&gt;
+                &lt;label for="reading"&gt;阅读&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="checkbox" id="music" name="hobbies" value="music"&gt;
+                &lt;label for="music"&gt;音乐&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="checkbox" id="sports" name="hobbies" value="sports"&gt;
+                &lt;label for="sports"&gt;运动&lt;/label&gt;
+            &lt;/div&gt;
+        &lt;/fieldset&gt;
+
+        &lt;!-- 下拉选择 --&gt;
+        &lt;div&gt;
+            &lt;label for="city"&gt;所在城市&lt;/label&gt;
+            &lt;select id="city" name="city"&gt;
+                &lt;option value=""&gt;请选择城市&lt;/option&gt;
+                &lt;optgroup label="直辖市"&gt;
+                    &lt;option value="beijing"&gt;北京&lt;/option&gt;
+                    &lt;option value="shanghai"&gt;上海&lt;/option&gt;
+                    &lt;option value="tianjin"&gt;天津&lt;/option&gt;
+                    &lt;option value="chongqing"&gt;重庆&lt;/option&gt;
+                &lt;/optgroup&gt;
+                &lt;optgroup label="省会城市"&gt;
+                    &lt;option value="guangzhou"&gt;广州&lt;/option&gt;
+                    &lt;option value="shenzhen"&gt;深圳&lt;/option&gt;
+                    &lt;option value="hangzhou"&gt;杭州&lt;/option&gt;
+                &lt;/optgroup&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 多行文本 --&gt;
+        &lt;div&gt;
+            &lt;label for="message"&gt;留言&lt;/label&gt;
+            &lt;textarea id="message" name="message" rows="4" cols="50" 
+                      placeholder="请输入您的留言..."&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 文件上传 --&gt;
+        &lt;div&gt;
+            &lt;label for="avatar"&gt;头像&lt;/label&gt;
+            &lt;input type="file" id="avatar" name="avatar" 
+                   accept="image/*" multiple&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 滑块 --&gt;
+        &lt;div&gt;
+            &lt;label for="satisfaction"&gt;满意度 (1-10)&lt;/label&gt;
+            &lt;input type="range" id="satisfaction" name="satisfaction" 
+                   min="1" max="10" value="5"&gt;
+            &lt;output for="satisfaction"&gt;5&lt;/output&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 颜色选择 --&gt;
+        &lt;div&gt;
+            &lt;label for="favorite-color"&gt;喜欢的颜色&lt;/label&gt;
+            &lt;input type="color" id="favorite-color" name="favorite-color" value="#ff0000"&gt;
+        &lt;/div&gt;
+    &lt;/fieldset&gt;
+
+    &lt;!-- 提交按钮 --&gt;
+    &lt;div&gt;
+        &lt;button type="submit"&gt;提交表单&lt;/button&gt;
+        &lt;button type="reset"&gt;重置表单&lt;/button&gt;
+        &lt;button type="button" onclick="validateForm()"&gt;验证表单&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="semantic">
+                    <h2>🎯 语义化标签</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>📰 文章页面结构</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;文章标题&lt;/h1&gt;
+        &lt;div&gt;
+            &lt;address&gt;
+                作者：&lt;a href="mailto:author@example.com"&gt;张三&lt;/a&gt;
+            &lt;/address&gt;
+            &lt;time datetime="2024-01-15T10:30:00"&gt;2024年1月15日 10:30&lt;/time&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;引言&lt;/h2&gt;
+        &lt;p&gt;这是文章的引言部分...&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;主要内容&lt;/h2&gt;
+        &lt;p&gt;这是文章的主要内容...&lt;/p&gt;
+        
+        &lt;aside&gt;
+            &lt;h3&gt;相关信息&lt;/h3&gt;
+            &lt;p&gt;这是与主要内容相关的补充信息。&lt;/p&gt;
+        &lt;/aside&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;结论&lt;/h2&gt;
+        &lt;p&gt;这是文章的结论部分...&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;标签：
+            &lt;a href="/tag/html" rel="tag"&gt;HTML&lt;/a&gt;,
+            &lt;a href="/tag/web-development" rel="tag"&gt;Web开发&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+            &lt;a href="#comments"&gt;查看评论 (5)&lt;/a&gt; |
+            &lt;a href="#share"&gt;分享文章&lt;/a&gt;
+        &lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;
+
+&lt;!-- 评论区 --&gt;
+&lt;section id="comments"&gt;
+    &lt;h2&gt;评论&lt;/h2&gt;
+    &lt;article&gt;
+        &lt;header&gt;
+            &lt;h3&gt;李四&lt;/h3&gt;
+            &lt;time datetime="2024-01-15T14:20:00"&gt;2024年1月15日 14:20&lt;/time&gt;
+        &lt;/header&gt;
+        &lt;p&gt;很好的文章，学到了很多！&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/section&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="multimedia">
+                    <h2>🎵 多媒体</h2>
+                    
+                    <div class="example-grid">
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>🎥 视频播放器</span>
+                                <span class="difficulty-badge difficulty-intermediate">中级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 基础视频 --&gt;
+&lt;video controls width="640" height="360"&gt;
+    &lt;source src="video.mp4" type="video/mp4"&gt;
+    &lt;source src="video.webm" type="video/webm"&gt;
+    &lt;track kind="subtitles" src="subtitles.vtt" 
+           srclang="zh" label="中文字幕"&gt;
+    您的浏览器不支持视频播放。
+&lt;/video&gt;
+
+&lt;!-- 自动播放视频 --&gt;
+&lt;video autoplay muted loop poster="poster.jpg"&gt;
+    &lt;source src="background-video.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+&lt;!-- 响应式视频 --&gt;
+&lt;div style="position: relative; padding-bottom: 56.25%; height: 0;"&gt;
+    &lt;video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"&gt;
+        &lt;source src="responsive-video.mp4" type="video/mp4"&gt;
+    &lt;/video&gt;
+&lt;/div&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>🎵 音频播放器</span>
+                                <span class="difficulty-badge difficulty-intermediate">中级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>&lt;!-- 基础音频 --&gt;
+&lt;audio controls&gt;
+    &lt;source src="audio.mp3" type="audio/mpeg"&gt;
+    &lt;source src="audio.ogg" type="audio/ogg"&gt;
+    您的浏览器不支持音频播放。
+&lt;/audio&gt;
+
+&lt;!-- 音频播放列表 --&gt;
+&lt;div&gt;
+    &lt;h3&gt;播放列表&lt;/h3&gt;
+    &lt;audio id="audioPlayer" controls&gt;
+        &lt;source id="audioSource" src="" type="audio/mpeg"&gt;
+    &lt;/audio&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;button onclick="playAudio('song1.mp3')"&gt;歌曲1&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button onclick="playAudio('song2.mp3')"&gt;歌曲2&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button onclick="playAudio('song3.mp3')"&gt;歌曲3&lt;/button&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function playAudio(src) {
+    const audio = document.getElementById('audioPlayer');
+    const source = document.getElementById('audioSource');
+    source.src = src;
+    audio.load();
+    audio.play();
+}
+&lt;/script&gt;</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="interactive">
+                    <h2>🎮 交互元素</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🔽 折叠内容</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!-- 基础折叠 --&gt;
+&lt;details&gt;
+    &lt;summary&gt;点击展开详细信息&lt;/summary&gt;
+    &lt;p&gt;这里是隐藏的详细内容，点击上方可以展开或折叠。&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- 默认展开 --&gt;
+&lt;details open&gt;
+    &lt;summary&gt;默认展开的内容&lt;/summary&gt;
+    &lt;p&gt;这个内容默认是展开的。&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;!-- 嵌套折叠 --&gt;
+&lt;details&gt;
+    &lt;summary&gt;主要分类&lt;/summary&gt;
+    &lt;details&gt;
+        &lt;summary&gt;子分类1&lt;/summary&gt;
+        &lt;p&gt;子分类1的内容&lt;/p&gt;
+    &lt;/details&gt;
+    &lt;details&gt;
+        &lt;summary&gt;子分类2&lt;/summary&gt;
+        &lt;p&gt;子分类2的内容&lt;/p&gt;
+    &lt;/details&gt;
+&lt;/details&gt;
+
+&lt;!-- FAQ示例 --&gt;
+&lt;section&gt;
+    &lt;h2&gt;常见问题&lt;/h2&gt;
+    &lt;details&gt;
+        &lt;summary&gt;如何注册账户？&lt;/summary&gt;
+        &lt;p&gt;点击页面右上角的"注册"按钮，填写必要信息即可完成注册。&lt;/p&gt;
+    &lt;/details&gt;
+    &lt;details&gt;
+        &lt;summary&gt;忘记密码怎么办？&lt;/summary&gt;
+        &lt;p&gt;在登录页面点击"忘记密码"，输入邮箱地址，我们会发送重置链接。&lt;/p&gt;
+    &lt;/details&gt;
+&lt;/section&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="advanced">
+                    <h2>🚀 高级技巧</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🎯 自定义数据属性</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!-- 自定义数据属性 --&gt;
+&lt;div data-user-id="12345" 
+     data-user-role="admin" 
+     data-last-login="2024-01-15"
+     data-preferences='{"theme": "dark", "language": "zh"}'&gt;
+    用户信息卡片
+&lt;/div&gt;
+
+&lt;!-- 产品卡片 --&gt;
+&lt;div class="product-card" 
+     data-product-id="P001"
+     data-price="99.99"
+     data-category="electronics"
+     data-in-stock="true"&gt;
+    &lt;h3&gt;智能手机&lt;/h3&gt;
+    &lt;p&gt;价格：¥&lt;span data-price&gt;99.99&lt;/span&gt;&lt;/p&gt;
+    &lt;button onclick="addToCart(this)"&gt;加入购物车&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- 图片懒加载 --&gt;
+&lt;img data-src="large-image.jpg" 
+     src="placeholder.jpg" 
+     alt="懒加载图片"
+     class="lazy-load"&gt;
+
+&lt;!-- 工具提示 --&gt;
+&lt;span data-tooltip="这是一个工具提示" 
+      data-tooltip-position="top"&gt;
+    鼠标悬停查看提示
+&lt;/span&gt;
+
+&lt;script&gt;
+// 使用数据属性
+function addToCart(button) {
+    const card = button.closest('.product-card');
+    const productId = card.dataset.productId;
+    const price = card.dataset.price;
+    const inStock = card.dataset.inStock === 'true';
+    
+    if (inStock) {
+        console.log(`添加产品 ${productId} 到购物车，价格：${price}`);
+    } else {
+        alert('商品缺货');
+    }
+}
+
+// 懒加载实现
+const lazyImages = document.querySelectorAll('.lazy-load');
+const imageObserver = new IntersectionObserver((entries) =&gt; {
+    entries.forEach(entry =&gt; {
+        if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.remove('lazy-load');
+            imageObserver.unobserve(img);
+        }
+    });
+});
+
+lazyImages.forEach(img =&gt; imageObserver.observe(img));
+&lt;/script&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="templates">
+                    <h2>📋 完整模板</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🏢 企业官网模板</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;meta name="description" content="专业的企业服务提供商"&gt;
+    &lt;meta name="keywords" content="企业服务,解决方案,专业团队"&gt;
+    &lt;title&gt;企业名称 - 专业企业服务&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+    &lt;link rel="icon" href="favicon.ico"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header class="site-header"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="header-content"&gt;
+                &lt;div class="logo"&gt;
+                    &lt;img src="logo.svg" alt="企业标志" width="120" height="40"&gt;
+                &lt;/div&gt;
+                &lt;nav class="main-nav"&gt;
+                    &lt;ul&gt;
+                        &lt;li&gt;&lt;a href="#home"&gt;首页&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#services"&gt;服务&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#about"&gt;关于我们&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#team"&gt;团队&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#contact"&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/nav&gt;
+                &lt;button class="mobile-menu-toggle"&gt;☰&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section id="home" class="hero-section"&gt;
+            &lt;div class="container"&gt;
+                &lt;div class="hero-content"&gt;
+                    &lt;h1&gt;专业的企业解决方案&lt;/h1&gt;
+                    &lt;p&gt;我们为您提供最优质的企业服务，助力您的业务发展。&lt;/p&gt;
+                    &lt;div class="cta-buttons"&gt;
+                        &lt;a href="#contact" class="btn btn-primary"&gt;立即咨询&lt;/a&gt;
+                        &lt;a href="#services" class="btn btn-secondary"&gt;了解服务&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="hero-image"&gt;
+                    &lt;img src="hero-image.jpg" alt="企业服务展示"&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section id="services" class="services-section"&gt;
+            &lt;div class="container"&gt;
+                &lt;header class="section-header"&gt;
+                    &lt;h2&gt;我们的服务&lt;/h2&gt;
+                    &lt;p&gt;为企业提供全方位的专业服务&lt;/p&gt;
+                &lt;/header&gt;
+                &lt;div class="services-grid"&gt;
+                    &lt;article class="service-card"&gt;
+                        &lt;div class="service-icon"&gt;
+                            &lt;img src="service1-icon.svg" alt="咨询服务"&gt;
+                        &lt;/div&gt;
+                        &lt;h3&gt;企业咨询&lt;/h3&gt;
+                        &lt;p&gt;专业的企业管理咨询服务，帮助企业优化运营流程。&lt;/p&gt;
+                        &lt;a href="#" class="service-link"&gt;了解更多 →&lt;/a&gt;
+                    &lt;/article&gt;
+                    &lt;article class="service-card"&gt;
+                        &lt;div class="service-icon"&gt;
+                            &lt;img src="service2-icon.svg" alt="技术支持"&gt;
+                        &lt;/div&gt;
+                        &lt;h3&gt;技术支持&lt;/h3&gt;
+                        &lt;p&gt;7x24小时技术支持服务，确保您的业务稳定运行。&lt;/p&gt;
+                        &lt;a href="#" class="service-link"&gt;了解更多 →&lt;/a&gt;
+                    &lt;/article&gt;
+                    &lt;article class="service-card"&gt;
+                        &lt;div class="service-icon"&gt;
+                            &lt;img src="service3-icon.svg" alt="培训服务"&gt;
+                        &lt;/div&gt;
+                        &lt;h3&gt;培训服务&lt;/h3&gt;
+                        &lt;p&gt;定制化的员工培训方案，提升团队整体能力。&lt;/p&gt;
+                        &lt;a href="#" class="service-link"&gt;了解更多 →&lt;/a&gt;
+                    &lt;/article&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section id="about" class="about-section"&gt;
+            &lt;div class="container"&gt;
+                &lt;div class="about-content"&gt;
+                    &lt;div class="about-text"&gt;
+                        &lt;h2&gt;关于我们&lt;/h2&gt;
+                        &lt;p&gt;我们是一家专业的企业服务提供商，拥有多年的行业经验和专业团队。&lt;/p&gt;
+                        &lt;div class="stats"&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;strong&gt;500+&lt;/strong&gt;
+                                &lt;span&gt;服务客户&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;strong&gt;10+&lt;/strong&gt;
+                                &lt;span&gt;年经验&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;strong&gt;98%&lt;/strong&gt;
+                                &lt;span&gt;满意度&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="about-image"&gt;
+                        &lt;img src="about-image.jpg" alt="关于我们"&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section id="contact" class="contact-section"&gt;
+            &lt;div class="container"&gt;
+                &lt;header class="section-header"&gt;
+                    &lt;h2&gt;联系我们&lt;/h2&gt;
+                    &lt;p&gt;随时为您提供专业服务&lt;/p&gt;
+                &lt;/header&gt;
+                &lt;div class="contact-content"&gt;
+                    &lt;div class="contact-info"&gt;
+                        &lt;div class="contact-item"&gt;
+                            &lt;h3&gt;📍 地址&lt;/h3&gt;
+                            &lt;p&gt;北京市朝阳区某某大厦1001室&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="contact-item"&gt;
+                            &lt;h3&gt;📞 电话&lt;/h3&gt;
+                            &lt;p&gt;&lt;a href="tel:+86-400-123-4567"&gt;400-123-4567&lt;/a&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class="contact-item"&gt;
+                            &lt;h3&gt;✉️ 邮箱&lt;/h3&gt;
+                            &lt;p&gt;&lt;a href="mailto:contact@company.com"&gt;contact@company.com&lt;/a&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;form class="contact-form"&gt;
+                        &lt;div class="form-group"&gt;
+                            &lt;label for="name"&gt;姓名&lt;/label&gt;
+                            &lt;input type="text" id="name" name="name" required&gt;
+                        &lt;/div&gt;
+                        &lt;div class="form-group"&gt;
+                            &lt;label for="email"&gt;邮箱&lt;/label&gt;
+                            &lt;input type="email" id="email" name="email" required&gt;
+                        &lt;/div&gt;
+                        &lt;div class="form-group"&gt;
+                            &lt;label for="message"&gt;留言&lt;/label&gt;
+                            &lt;textarea id="message" name="message" rows="5" required&gt;&lt;/textarea&gt;
+                        &lt;/div&gt;
+                        &lt;button type="submit" class="btn btn-primary"&gt;发送消息&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer class="site-footer"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="footer-content"&gt;
+                &lt;div class="footer-section"&gt;
+                    &lt;h3&gt;企业名称&lt;/h3&gt;
+                    &lt;p&gt;专业的企业服务提供商&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class="footer-section"&gt;
+                    &lt;h3&gt;快速链接&lt;/h3&gt;
+                    &lt;ul&gt;
+                        &lt;li&gt;&lt;a href="#services"&gt;服务&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#about"&gt;关于我们&lt;/a&gt;&lt;/li&gt;
+                        &lt;li&gt;&lt;a href="#contact"&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+                &lt;div class="footer-section"&gt;
+                    &lt;h3&gt;关注我们&lt;/h3&gt;
+                    &lt;div class="social-links"&gt;
+                        &lt;a href="#" aria-label="微信"&gt;微信&lt;/a&gt;
+                        &lt;a href="#" aria-label="微博"&gt;微博&lt;/a&gt;
+                        &lt;a href="#" aria-label="LinkedIn"&gt;LinkedIn&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="footer-bottom"&gt;
+                &lt;p&gt;&copy; 2024 企业名称. 保留所有权利. | &lt;a href="/privacy"&gt;隐私政策&lt;/a&gt; | &lt;a href="/terms"&gt;服务条款&lt;/a&gt;&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/footer&gt;
+
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="html.html">📖 HTML 基础教程</a> |
+                        <a href="css.html">🎨 CSS 美化星云</a> |
+                        <a href="javascript.html">⚡ JavaScript 动力核心</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = 'var(--success-color)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

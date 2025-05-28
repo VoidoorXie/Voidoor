@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 代码游乐场 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+    <style>
+        .playground-container {
+            display: flex;
+            height: 100vh;
+            background: var(--background-color);
+        }
+        
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-background);
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-background);
+        }
+        
+        .panel-header {
+            padding: 16px 20px;
+            background: var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .language-selector {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--card-background);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        
+        .editor-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        .code-editor {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding: 20px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            resize: none;
+            tab-size: 2;
+        }
+        
+        .preview-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .toolbar {
+            padding: 12px 20px;
+            background: var(--light-gray);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .toolbar-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--card-background);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .toolbar-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .toolbar-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .console-panel {
+            height: 200px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            padding: 16px;
+            overflow-y: auto;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+        
+        .console-panel.show {
+            display: block;
+        }
+        
+        .console-line {
+            margin-bottom: 4px;
+            padding: 2px 0;
+        }
+        
+        .console-error {
+            color: #f48771;
+        }
+        
+        .console-warn {
+            color: #dcdcaa;
+        }
+        
+        .console-info {
+            color: #9cdcfe;
+        }
+        
+        .templates-panel {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            right: 20px;
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .templates-panel.show {
+            display: block;
+        }
+        
+        .template-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .template-item:hover {
+            background: var(--card-hover);
+        }
+        
+        .template-item:last-child {
+            border-bottom: none;
+        }
+        
+        .template-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
+        }
+        
+        .template-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 20px;
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .playground-container {
+                flex-direction: column;
+            }
+            
+            .editor-panel, .preview-panel {
+                height: 50vh;
+            }
+            
+            .console-panel {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← 返回银河系</a>
+    
+    <div class="playground-container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span>💻</span>
+                    <span>代码编辑器</span>
+                </div>
+                <select class="language-selector" id="languageSelector">
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="react">React</option>
+                </select>
+            </div>
+            
+            <div class="toolbar">
+                <button class="toolbar-btn" onclick="runCode()">
+                    <span>▶️</span>
+                    <span>运行</span>
+                </button>
+                <button class="toolbar-btn" onclick="clearCode()">
+                    <span>🗑️</span>
+                    <span>清空</span>
+                </button>
+                <button class="toolbar-btn" onclick="toggleTemplates()">
+                    <span>📋</span>
+                    <span>模板</span>
+                </button>
+                <button class="toolbar-btn" onclick="toggleConsole()">
+                    <span>🖥️</span>
+                    <span>控制台</span>
+                </button>
+                <button class="toolbar-btn" onclick="downloadCode()">
+                    <span>💾</span>
+                    <span>下载</span>
+                </button>
+            </div>
+            
+            <div class="templates-panel" id="templatesPanel">
+                <div class="template-item" onclick="loadTemplate('html-basic')">
+                    <div class="template-title">🏗️ HTML 基础模板</div>
+                    <div class="template-desc">包含基本HTML结构的起始模板</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('css-animation')">
+                    <div class="template-title">🎨 CSS 动画模板</div>
+                    <div class="template-desc">展示CSS动画效果的示例代码</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('js-interactive')">
+                    <div class="template-title">⚡ JavaScript 交互模板</div>
+                    <div class="template-desc">包含交互功能的JavaScript示例</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('react-component')">
+                    <div class="template-title">🚀 React 组件模板</div>
+                    <div class="template-desc">React函数组件的基础模板</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('galaxy-theme')">
+                    <div class="template-title">🌌 银河主题模板</div>
+                    <div class="template-desc">银河系风格的页面模板</div>
+                </div>
+            </div>
+            
+            <div class="editor-container">
+                <textarea class="code-editor" id="codeEditor" placeholder="在这里编写你的代码..."></textarea>
+            </div>
+            
+            <div class="console-panel" id="consolePanel">
+                <div id="consoleOutput"></div>
+            </div>
+        </div>
+        
+        <div class="preview-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span>👁️</span>
+                    <span>实时预览</span>
+                </div>
+                <button class="toolbar-btn" onclick="refreshPreview()">
+                    <span>🔄</span>
+                    <span>刷新</span>
+                </button>
+            </div>
+            
+            <iframe class="preview-frame" id="previewFrame"></iframe>
+        </div>
+    </div>
+    
+    <script src="js/galaxy-background.js"></script>
+    <script src="js/playground.js"></script>
+</body>
+</html> 

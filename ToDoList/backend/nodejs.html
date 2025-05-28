@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js 全面手册</title>
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Node.js 全面手册</div>
+            <ul class="sidebar-list">
+                <li><a href="#intro">简介</a></li>
+                <li><details open><summary>基础概念</summary><ul>
+                    <li><a href="#event-loop">事件循环</a></li>
+                    <li><a href="#modules">模块系统</a></li>
+                    <li><a href="#npm">NPM 包管理</a></li>
+                    <li><a href="#fs">文件系统</a></li>
+                </ul></details></li>
+                <li><details><summary>Express 框架</summary><ul>
+                    <li><a href="#express-basic">基础用法</a></li>
+                    <li><a href="#middleware">中间件</a></li>
+                    <li><a href="#routing">路由</a></li>
+                    <li><a href="#template">模板引擎</a></li>
+                </ul></details></li>
+                <li><details><summary>数据库集成</summary><ul>
+                    <li><a href="#mongodb">MongoDB</a></li>
+                    <li><a href="#mysql">MySQL</a></li>
+                    <li><a href="#redis">Redis</a></li>
+                </ul></details></li>
+                <li><details><summary>API 开发</summary><ul>
+                    <li><a href="#restful">RESTful API</a></li>
+                    <li><a href="#graphql">GraphQL</a></li>
+                    <li><a href="#auth">身份验证</a></li>
+                </ul></details></li>
+                <li><details><summary>性能与部署</summary><ul>
+                    <li><a href="#performance">性能优化</a></li>
+                    <li><a href="#cluster">集群</a></li>
+                    <li><a href="#deploy">部署</a></li>
+                </ul></details></li>
+                <li><a href="#best-practice">最佳实践</a></li>
+                <li><a href="#faq">常见问题</a></li>
+                <li><a href="#resources">相关资源</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="info-bar">
+            <input type="text" placeholder="搜索内容..." class="search-box">
+            <button onclick="window.scrollTo(0,0)">返回顶部</button>
+            <a href="#resources">相关资源</a>
+            <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+        </div>
+        <div class="container">
+            <div class="nav-breadcrumb">
+                <a href="../index.html">首页</a> &gt; 后端开发 &gt; Node.js
+            </div>
+            <h1 id="intro">Node.js 全面手册</h1>
+            <section>
+                <h2 id="event-loop">事件循环</h2>
+                <p>Node.js 基于事件驱动的非阻塞 I/O 模型，通过事件循环处理异步操作。</p>
+                <div class="code"><pre>// 事件循环示例
+console.log('开始');
+setTimeout(() => console.log('定时器'), 0);
+setImmediate(() => console.log('立即执行'));
+process.nextTick(() => console.log('下一个tick'));
+console.log('结束');
+// 输出顺序：开始 -> 结束 -> 下一个tick -> 立即执行 -> 定时器</pre></div>
+                <div class="tip">实际场景：理解事件循环有助于编写高性能的异步代码。</div>
+                <div class="note">常见错误：阻塞事件循环导致性能问题。</div>
+                <h3>最佳实践</h3>
+                <ul>
+                    <li>避免在主线程执行 CPU 密集型任务</li>
+                    <li>合理使用 Worker Threads 处理计算密集型任务</li>
+                </ul>
+            </section>
+            <section>
+                <h2 id="modules">模块系统</h2>
+                <p>Node.js 使用 CommonJS 模块系统，支持模块的导入和导出。</p>
+                <div class="code"><pre>// math.js - 导出模块
+exports.add = (a, b) => a + b;
+exports.multiply = (a, b) => a * b;
+
+// 或者使用 module.exports
+module.exports = {
+    add: (a, b) => a + b,
+    multiply: (a, b) => a * b
+};
+
+// app.js - 导入模块
+const math = require('./math');
+const { add, multiply } = require('./math');
+
+console.log(add(2, 3)); // 5</pre></div>
+                <div class="tip">实际场景：代码模块化、功能分离、代码复用。</div>
+            </section>
+
+            <section>
+                <h2 id="npm">NPM 包管理</h2>
+                <p>NPM 是 Node.js 的包管理器，用于安装和管理第三方模块。</p>
+                <div class="code"><pre># 初始化项目
+npm init -y
+
+# 安装依赖
+npm install express
+npm install --save-dev nodemon
+
+# 全局安装
+npm install -g pm2
+
+# package.json 脚本
+{
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest"
+  }
+}</pre></div>
+                <div class="tip">实际场景：依赖管理、项目配置、脚本自动化。</div>
+            </section>
+
+            <section>
+                <h2 id="fs">文件系统</h2>
+                <p>Node.js 提供了丰富的文件系统操作 API。</p>
+                <div class="code"><pre>const fs = require('fs').promises;
+const path = require('path');
+
+// 异步读取文件
+async function readFile(filename) {
+    try {
+        const data = await fs.readFile(filename, 'utf8');
+        return data;
+    } catch (error) {
+        console.error('读取文件失败:', error);
+    }
+}
+
+// 写入文件
+async function writeFile(filename, content) {
+    await fs.writeFile(filename, content, 'utf8');
+}
+
+// 检查文件是否存在
+async function fileExists(filename) {
+    try {
+        await fs.access(filename);
+        return true;
+    } catch {
+        return false;
+    }
+}</pre></div>
+                <div class="tip">实际场景：文件处理、日志记录、配置文件读取。</div>
+            </section>
+
+            <section>
+                <h2 id="express-basic">Express 基础用法</h2>
+                <p>Express 是 Node.js 最流行的 Web 框架，简化了 HTTP 服务器的开发。</p>
+                <div class="code"><pre>const express = require('express');
+const app = express();
+
+// 中间件
+app.use(express.json());
+app.use(express.static('public'));
+
+// 路由
+app.get('/', (req, res) => {
+    res.json({ message: 'Hello World!' });
+});
+
+app.post('/users', (req, res) => {
+    const { name, email } = req.body;
+    // 处理用户创建逻辑
+    res.status(201).json({ id: 1, name, email });
+});
+
+app.listen(3000, () => {
+    console.log('服务器运行在 http://localhost:3000');
+});</pre></div>
+                <div class="tip">实际场景：构建 RESTful API、Web 应用、微服务。</div>
+                <div class="note">常见错误：忘记使用中间件解析请求体。</div>
+            </section>
+
+            <section>
+                <h2 id="middleware">中间件</h2>
+                <p>Express 中间件是处理请求和响应的函数。</p>
+                <div class="code"><pre>// 自定义中间件
+const logger = (req, res, next) => {
+    console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+    next();
+};
+
+// 错误处理中间件
+const errorHandler = (err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: '服务器内部错误' });
+};
+
+// 使用中间件
+app.use(logger);
+app.use('/api', authMiddleware);
+app.use(errorHandler);</pre></div>
+                <div class="tip">实际场景：日志记录、身份验证、错误处理。</div>
+            </section>
+
+            <section>
+                <h2 id="routing">路由</h2>
+                <p>Express 路由用于定义应用程序如何响应客户端请求。</p>
+                <div class="code"><pre>const express = require('express');
+const router = express.Router();
+
+// 路由参数
+router.get('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    res.json({ userId });
+});
+
+// 查询参数
+router.get('/search', (req, res) => {
+    const { q, page = 1 } = req.query;
+    res.json({ query: q, page });
+});
+
+// 路由组
+router.route('/users')
+    .get(getAllUsers)
+    .post(createUser);
+
+app.use('/api', router);</pre></div>
+                <div class="tip">实际场景：API 设计、URL 参数处理、路由组织。</div>
+            </section>
+
+            <section>
+                <h2 id="template">模板引擎</h2>
+                <p>Express 支持多种模板引擎用于渲染动态内容。</p>
+                <div class="code"><pre>// 使用 EJS 模板引擎
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+// 渲染模板
+app.get('/profile/:id', async (req, res) => {
+    const user = await getUserById(req.params.id);
+    res.render('profile', { user, title: '用户资料' });
+});
+
+// views/profile.ejs
+/*
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>欢迎, <%= user.name %>!</h1>
+    <p>邮箱: <%= user.email %></p>
+</body>
+</html>
+*/</pre></div>
+                <div class="tip">实际场景：服务端渲染、动态页面、邮件模板。</div>
+            </section>
+
+            <section>
+                <h2 id="mongodb">MongoDB</h2>
+                <p>使用 Mongoose 连接和操作 MongoDB 数据库。</p>
+                <div class="code"><pre>const mongoose = require('mongoose');
+
+// 连接数据库
+mongoose.connect('mongodb://localhost:27017/myapp');
+
+// 定义模型
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model('User', userSchema);
+
+// 操作数据
+async function createUser(userData) {
+    const user = new User(userData);
+    return await user.save();
+}
+
+async function findUsers() {
+    return await User.find().sort({ createdAt: -1 });
+}</pre></div>
+                <div class="tip">实际场景：文档数据库、NoSQL 操作、数据建模。</div>
+            </section>
+
+            <section>
+                <h2 id="mysql">MySQL</h2>
+                <p>使用 mysql2 或 Sequelize 连接 MySQL 数据库。</p>
+                <div class="code"><pre>const mysql = require('mysql2/promise');
+
+// 创建连接池
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'myapp',
+    waitForConnections: true,
+    connectionLimit: 10
+});
+
+// 执行查询
+async function getUsers() {
+    const [rows] = await pool.execute('SELECT * FROM users');
+    return rows;
+}
+
+async function createUser(name, email) {
+    const [result] = await pool.execute(
+        'INSERT INTO users (name, email) VALUES (?, ?)',
+        [name, email]
+    );
+    return result.insertId;
+}</pre></div>
+                <div class="tip">实际场景：关系型数据库、SQL 查询、事务处理。</div>
+            </section>
+
+            <section>
+                <h2 id="redis">Redis</h2>
+                <p>使用 Redis 进行缓存和会话管理。</p>
+                <div class="code"><pre>const redis = require('redis');
+const client = redis.createClient();
+
+// 连接 Redis
+client.on('error', (err) => console.log('Redis Client Error', err));
+await client.connect();
+
+// 缓存操作
+async function setCache(key, value, expireTime = 3600) {
+    await client.setEx(key, expireTime, JSON.stringify(value));
+}
+
+async function getCache(key) {
+    const value = await client.get(key);
+    return value ? JSON.parse(value) : null;
+}
+
+// 会话存储
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+
+app.use(session({
+    store: new RedisStore({ client }),
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false
+}));</pre></div>
+                <div class="tip">实际场景：缓存、会话管理、消息队列。</div>
+            </section>
+
+            <section>
+                <h2 id="restful">RESTful API</h2>
+                <p>设计和实现符合 REST 规范的 API。</p>
+                <div class="code"><pre>const express = require('express');
+const router = express.Router();
+
+// GET /api/users - 获取所有用户
+router.get('/users', async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+// GET /api/users/:id - 获取单个用户
+router.get('/users/:id', async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: '用户不存在' });
+    res.json(user);
+});
+
+// POST /api/users - 创建用户
+router.post('/users', async (req, res) => {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json(user);
+});
+
+// PUT /api/users/:id - 更新用户
+router.put('/users/:id', async (req, res) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(user);
+});
+
+// DELETE /api/users/:id - 删除用户
+router.delete('/users/:id', async (req, res) => {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(204).send();
+});</pre></div>
+                <div class="tip">实际场景：API 设计、HTTP 状态码、资源操作。</div>
+            </section>
+
+            <section>
+                <h2 id="graphql">GraphQL</h2>
+                <p>使用 GraphQL 构建灵活的 API。</p>
+                <div class="code"><pre>const { ApolloServer, gql } = require('apollo-server-express');
+
+// 定义 Schema
+const typeDefs = gql`
+    type User {
+        id: ID!
+        name: String!
+        email: String!
+        posts: [Post!]!
+    }
+
+    type Post {
+        id: ID!
+        title: String!
+        content: String!
+        author: User!
+    }
+
+    type Query {
+        users: [User!]!
+        user(id: ID!): User
+        posts: [Post!]!
+    }
+
+    type Mutation {
+        createUser(name: String!, email: String!): User!
+        createPost(title: String!, content: String!, authorId: ID!): Post!
+    }
+`;
+
+// 定义 Resolvers
+const resolvers = {
+    Query: {
+        users: () => User.find(),
+        user: (_, { id }) => User.findById(id),
+        posts: () => Post.find()
+    },
+    Mutation: {
+        createUser: (_, { name, email }) => {
+            const user = new User({ name, email });
+            return user.save();
+        }
+    }
+};</pre></div>
+                <div class="tip">实际场景：灵活查询、类型安全、单一端点。</div>
+            </section>
+
+            <section>
+                <h2 id="auth">身份验证</h2>
+                <p>实现用户认证和授权机制。</p>
+                <div class="code"><pre>const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+// 用户注册
+async function register(req, res) {
+    const { name, email, password } = req.body;
+    
+    // 密码加密
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+    
+    res.status(201).json({ message: '注册成功' });
+}
+
+// 用户登录
+async function login(req, res) {
+    const { email, password } = req.body;
+    
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ error: '用户不存在' });
+    
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) return res.status(401).json({ error: '密码错误' });
+    
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
+}
+
+// 认证中间件
+function authenticateToken(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    
+    if (!token) return res.status(401).json({ error: '缺少访问令牌' });
+    
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ error: '令牌无效' });
+        req.user = user;
+        next();
+    });
+}</pre></div>
+                <div class="tip">实际场景：用户登录、权限控制、安全认证。</div>
+            </section>
+
+            <section>
+                <h2 id="performance">性能优化</h2>
+                <p>优化 Node.js 应用的性能。</p>
+                <div class="code"><pre>// 启用 gzip 压缩
+const compression = require('compression');
+app.use(compression());
+
+// 设置缓存头
+app.use('/static', express.static('public', {
+    maxAge: '1d',
+    etag: false
+}));
+
+// 连接池优化
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    acquireTimeout: 60000,
+    timeout: 60000
+});
+
+// 内存缓存
+const NodeCache = require('node-cache');
+const cache = new NodeCache({ stdTTL: 600 });
+
+function getCachedData(key, fetchFunction) {
+    let data = cache.get(key);
+    if (!data) {
+        data = fetchFunction();
+        cache.set(key, data);
+    }
+    return data;
+}</pre></div>
+                <div class="tip">实际场景：响应优化、缓存策略、资源管理。</div>
+            </section>
+
+            <section>
+                <h2 id="cluster">集群</h2>
+                <p>使用集群模式提高应用性能。</p>
+                <div class="code"><pre>const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+
+if (cluster.isMaster) {
+    console.log(`主进程 ${process.pid} 正在运行`);
+    
+    // 衍生工作进程
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+    
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`工作进程 ${worker.process.pid} 已退出`);
+        cluster.fork(); // 重启工作进程
+    });
+} else {
+    // 工作进程运行应用
+    const app = require('./app');
+    app.listen(3000, () => {
+        console.log(`工作进程 ${process.pid} 启动`);
+    });
+}</pre></div>
+                <div class="tip">实际场景：多核利用、负载分担、高可用性。</div>
+            </section>
+
+            <section>
+                <h2 id="deploy">部署</h2>
+                <p>将 Node.js 应用部署到生产环境。</p>
+                <div class="code"><pre># 使用 PM2 部署
+npm install -g pm2
+
+# ecosystem.config.js
+module.exports = {
+    apps: [{
+        name: 'myapp',
+        script: './app.js',
+        instances: 'max',
+        exec_mode: 'cluster',
+        env: {
+            NODE_ENV: 'development'
+        },
+        env_production: {
+            NODE_ENV: 'production',
+            PORT: 3000
+        }
+    }]
+};
+
+# 启动应用
+pm2 start ecosystem.config.js --env production
+pm2 save
+pm2 startup</pre></div>
+                <div class="tip">实际场景：生产部署、进程管理、监控日志。</div>
+            </section>
+
+            <section>
+                <h2 id="best-practice">最佳实践</h2>
+                <ul>
+                    <li>使用环境变量管理配置</li>
+                    <li>实施错误处理和日志记录</li>
+                    <li>使用 ESLint 和 Prettier 保持代码质量</li>
+                    <li>编写单元测试和集成测试</li>
+                    <li>使用 HTTPS 和安全中间件</li>
+                    <li>监控应用性能和错误</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 id="faq">常见问题</h2>
+                <ul>
+                    <li>Q: 如何处理异步操作？<br>A: 使用 async/await、Promise 或回调函数。</li>
+                    <li>Q: 内存泄漏如何排查？<br>A: 使用 Node.js 内置工具和第三方监控工具。</li>
+                    <li>Q: 如何提高 API 性能？<br>A: 使用缓存、数据库优化、CDN 等技术。</li>
+                </ul>
+            </section>
+            <section>
+                <h2 id="resources">相关资源</h2>
+                <ul>
+                    <li><a href="https://nodejs.org/" target="_blank">Node.js 官方网站</a></li>
+                    <li><a href="https://expressjs.com/" target="_blank">Express 官方文档</a></li>
+                    <li><a href="https://www.npmjs.com/" target="_blank">NPM 官方网站</a></li>
+                </ul>
+            </section>
+        </div>
+        <div class="footer-resources">
+            <strong>推荐工具：</strong> <a href="https://nodemon.io/" target="_blank">Nodemon</a> | <a href="https://pm2.keymetrics.io/" target="_blank">PM2</a> | <a href="https://www.postman.com/" target="_blank">Postman</a>
+        </div>
+    </div>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 

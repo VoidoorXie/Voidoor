@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ JavaScript 代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #f7df1e, #f0db4f);
+            color: #333;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: #f7df1e;
+            color: #333;
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: #f7df1e;
+            color: #333;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .output-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #f7df1e;
+        }
+        
+        .output-title {
+            color: #f7df1e;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">⚡ JavaScript 代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#basics">基础语法</a></li>
+                    <li><a href="#variables">变量与类型</a></li>
+                    <li><a href="#functions">函数详解</a></li>
+                    <li><a href="#objects">对象与数组</a></li>
+                    <li><a href="#dom">DOM 操作</a></li>
+                    <li><a href="#events">事件处理</a></li>
+                    <li><a href="#async">异步编程</a></li>
+                    <li><a href="#es6">ES6+ 特性</a></li>
+                    <li><a href="#patterns">设计模式</a></li>
+                    <li><a href="#utils">实用工具</a></li>
+                    <li><a href="#projects">实战项目</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索JavaScript代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <a href="javascript.html">📖 JavaScript教程</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>⚡ JavaScript 代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    完整的JavaScript代码示例库，从基础语法到高级应用，助力编程学习
+                </p>
+
+                <section id="basics">
+                    <h2>📝 基础语法</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>💬 注释与输出</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag">基础</span>
+                                <span class="tag">注释</span>
+                                <span class="tag">输出</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 单行注释
+console.log("Hello, World!");
+
+/*
+ * 多行注释
+ * 可以写很多行
+ */
+
+/**
+ * 文档注释 - JSDoc格式
+ * @param {string} name - 用户名
+ * @param {number} age - 年龄
+ * @returns {string} 问候语
+ */
+function greet(name, age) {
+    return `Hello, ${name}! You are ${age} years old.`;
+}
+
+// 各种输出方式
+console.log("普通日志");
+console.info("信息日志");
+console.warn("警告日志");
+console.error("错误日志");
+console.table([{name: "张三", age: 25}, {name: "李四", age: 30}]);
+
+// 页面输出
+document.write("直接写入页面");
+alert("弹出警告框");
+confirm("确认对话框");
+prompt("输入对话框", "默认值");</pre>
+                                </div>
+                            </div>
+                            <div class="output-box">
+                                <div class="output-title">输出结果：</div>
+                                Hello, World!<br>
+                                普通日志<br>
+                                信息日志<br>
+                                警告日志<br>
+                                错误日志
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🔤 标识符与关键字</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 有效的标识符
+let userName = "张三";
+let _private = "私有变量";
+let $element = document.getElementById("app");
+let age2 = 25;
+let 中文变量 = "支持中文";
+
+// 驼峰命名法
+let firstName = "三";
+let lastName = "张";
+let fullName = firstName + lastName;
+
+// 常量命名（全大写）
+const MAX_SIZE = 100;
+const API_URL = "https://api.example.com";
+const DEFAULT_CONFIG = {
+    timeout: 5000,
+    retries: 3
+};
+
+// 类名（帕斯卡命名法）
+class UserManager {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+// 函数名（驼峰命名法）
+function calculateTotal(price, tax) {
+    return price * (1 + tax);
+}
+
+// 私有方法约定（下划线开头）
+class MyClass {
+    _privateMethod() {
+        return "这是私有方法";
+    }
+    
+    publicMethod() {
+        return this._privateMethod();
+    }
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="variables">
+                    <h2>📦 变量与数据类型</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🏷️ 变量声明</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// var - 函数作用域，可重复声明，存在变量提升
+var name = "张三";
+var name = "李四"; // 可以重复声明
+console.log(name); // "李四"
+
+// let - 块作用域，不可重复声明
+let age = 25;
+// let age = 30; // 错误：不能重复声明
+age = 30; // 可以重新赋值
+
+// const - 块作用域，常量，不可重新赋值
+const PI = 3.14159;
+// PI = 3.14; // 错误：不能重新赋值
+
+// const 对象可以修改属性
+const person = { name: "张三", age: 25 };
+person.age = 26; // 可以修改属性
+person.city = "北京"; // 可以添加属性
+// person = {}; // 错误：不能重新赋值
+
+// 解构赋值
+let [a, b, c] = [1, 2, 3];
+let [first, ...rest] = [1, 2, 3, 4, 5];
+let [x, y, z = 0] = [1, 2]; // 默认值
+
+let {name: userName, age: userAge} = person;
+let {city = "未知"} = person; // 默认值
+
+// 交换变量
+[a, b] = [b, a];
+console.log(a, b); // 2, 1</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🎭 数据类型详解</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 基本数据类型
+let num = 42;                    // Number
+let str = "Hello";               // String
+let bool = true;                 // Boolean
+let undef = undefined;           // Undefined
+let nul = null;                  // Null
+let sym = Symbol("id");          // Symbol (ES6)
+let big = 123n;                  // BigInt (ES2020)
+
+// 数字类型
+let integer = 42;
+let float = 3.14;
+let scientific = 1.23e-4;
+let binary = 0b1010;            // 二进制
+let octal = 0o755;              // 八进制
+let hex = 0xFF;                 // 十六进制
+let infinity = Infinity;
+let negInfinity = -Infinity;
+let notANumber = NaN;
+
+// 字符串类型
+let singleQuote = 'Hello';
+let doubleQuote = "World";
+let template = `Hello, ${name}!`;
+let multiline = `
+    这是一个
+    多行字符串
+`;
+
+// 字符串方法
+let text = "JavaScript";
+console.log(text.length);           // 10
+console.log(text.toUpperCase());    // "JAVASCRIPT"
+console.log(text.toLowerCase());    // "javascript"
+console.log(text.charAt(0));       // "J"
+console.log(text.indexOf("Script")); // 4
+console.log(text.slice(0, 4));     // "Java"
+console.log(text.split(""));       // ["J","a","v","a","S","c","r","i","p","t"]
+
+// 类型检查
+console.log(typeof num);            // "number"
+console.log(typeof str);            // "string"
+console.log(typeof bool);           // "boolean"
+console.log(typeof undef);          // "undefined"
+console.log(typeof nul);            // "object" (这是一个历史bug)
+console.log(typeof sym);            // "symbol"
+console.log(typeof big);            // "bigint"
+
+// 更精确的类型检查
+console.log(Object.prototype.toString.call(nul));     // "[object Null]"
+console.log(Array.isArray([]));                       // true
+console.log(Number.isInteger(42));                    // true
+console.log(Number.isNaN(NaN));                       // true</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🔄 类型转换</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 显式类型转换
+let num = 42;
+let str = "123";
+let bool = true;
+
+// 转换为字符串
+String(num);        // "42"
+num.toString();     // "42"
+num + "";           // "42"
+
+// 转换为数字
+Number(str);        // 123
+parseInt(str);      // 123
+parseFloat("3.14"); // 3.14
++str;               // 123
+str * 1;            // 123
+
+// 转换为布尔值
+Boolean(num);       // true
+!!num;              // true
+
+// 隐式类型转换
+console.log("5" + 3);      // "53" (字符串拼接)
+console.log("5" - 3);      // 2 (数字运算)
+console.log("5" * 3);      // 15 (数字运算)
+console.log("5" / 3);      // 1.6666... (数字运算)
+
+// 比较运算中的类型转换
+console.log("5" == 5);     // true (相等比较，会转换类型)
+console.log("5" === 5);    // false (严格相等，不转换类型)
+console.log(null == undefined);  // true
+console.log(null === undefined); // false
+
+// 假值 (falsy values)
+console.log(Boolean(false));     // false
+console.log(Boolean(0));         // false
+console.log(Boolean(-0));        // false
+console.log(Boolean(0n));        // false
+console.log(Boolean(""));        // false
+console.log(Boolean(null));      // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean(NaN));       // false
+
+// 真值 (truthy values) - 除了假值以外的所有值
+console.log(Boolean(1));         // true
+console.log(Boolean("0"));       // true
+console.log(Boolean("false"));   // true
+console.log(Boolean([]));        // true
+console.log(Boolean({}));        // true
+console.log(Boolean(function(){})); // true</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="functions">
+                    <h2>🔧 函数详解</h2>
+                    
+                    <div class="example-grid">
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>📝 函数声明</span>
+                                <span class="difficulty-badge difficulty-beginner">初级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>// 函数声明
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+// 函数表达式
+const greet2 = function(name) {
+    return "Hello, " + name + "!";
+};
+
+// 箭头函数
+const greet3 = (name) => {
+    return "Hello, " + name + "!";
+};
+
+// 简化的箭头函数
+const greet4 = name => "Hello, " + name + "!";
+
+// 立即执行函数 (IIFE)
+(function() {
+    console.log("立即执行！");
+})();
+
+// 带参数的IIFE
+(function(name) {
+    console.log("Hello, " + name);
+})("World");
+
+// 匿名函数
+setTimeout(function() {
+    console.log("3秒后执行");
+}, 3000);
+
+// 函数作为参数
+function processData(data, callback) {
+    let result = data.map(item => item * 2);
+    callback(result);
+}
+
+processData([1, 2, 3], function(result) {
+    console.log(result); // [2, 4, 6]
+});</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-section">
+                            <div class="code-header">
+                                <span>⚙️ 参数处理</span>
+                                <span class="difficulty-badge difficulty-intermediate">中级</span>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-container">
+                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                    <div class="code">
+                                        <pre>// 默认参数
+function greet(name = "朋友", greeting = "Hello") {
+    return `${greeting}, ${name}!`;
+}
+
+// 剩余参数
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
+}
+
+console.log(sum(1, 2, 3, 4, 5)); // 15
+
+// 解构参数
+function createUser({name, age, email = "未提供"}) {
+    return {
+        name,
+        age,
+        email,
+        id: Date.now()
+    };
+}
+
+const user = createUser({
+    name: "张三",
+    age: 25
+});
+
+// arguments 对象（传统方式）
+function oldSum() {
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        total += arguments[i];
+    }
+    return total;
+}
+
+// 函数重载模拟
+function createElement(tag, content, attributes) {
+    if (typeof content === 'object' && !attributes) {
+        // createElement('div', {class: 'container'})
+        attributes = content;
+        content = '';
+    }
+    
+    const element = document.createElement(tag);
+    if (content) element.textContent = content;
+    if (attributes) {
+        Object.keys(attributes).forEach(key => {
+            element.setAttribute(key, attributes[key]);
+        });
+    }
+    return element;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>🔄 高阶函数</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// 返回函数的函数
+function createMultiplier(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+
+// 柯里化 (Currying)
+function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn.apply(this, args);
+        } else {
+            return function(...args2) {
+                return curried.apply(this, args.concat(args2));
+            };
+        }
+    };
+}
+
+const add = (a, b, c) => a + b + c;
+const curriedAdd = curry(add);
+console.log(curriedAdd(1)(2)(3)); // 6
+console.log(curriedAdd(1, 2)(3)); // 6
+
+// 函数组合
+const compose = (...fns) => (value) => fns.reduceRight((acc, fn) => fn(acc), value);
+
+const addOne = x => x + 1;
+const double2 = x => x * 2;
+const square = x => x * x;
+
+const transform = compose(square, double2, addOne);
+console.log(transform(3)); // ((3 + 1) * 2)² = 64
+
+// 防抖函数
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// 节流函数
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// 记忆化函数
+function memoize(fn) {
+    const cache = {};
+    return function(...args) {
+        const key = JSON.stringify(args);
+        if (cache[key]) {
+            return cache[key];
+        }
+        const result = fn.apply(this, args);
+        cache[key] = result;
+        return result;
+    };
+}
+
+const fibonacci = memoize(function(n) {
+    if (n < 2) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+});</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="javascript.html">📖 JavaScript 基础教程</a> |
+                        <a href="html-guide.html">🏗️ HTML 代码大全</a> |
+                        <a href="css-guide.html">🎨 CSS 代码大全</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = '#f7df1e';
+                button.style.color = '#333';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ 开发工具代码大全 - 全栈开发银河系</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+    <style>
+        .code-section {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 16px 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .code-header.git {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        .code-header.ide {
+            background: linear-gradient(135deg, #3742fa, #2f3542);
+        }
+        
+        .code-header.testing {
+            background: linear-gradient(135deg, #2ed573, #1e90ff);
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .difficulty-beginner {
+            background: var(--success-light);
+            color: var(--success-color);
+        }
+        
+        .difficulty-intermediate {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+        
+        .difficulty-advanced {
+            background: var(--error-light);
+            color: var(--error-color);
+        }
+        
+        .preview-box {
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .tag {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag.git {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .tag.ide {
+            background: #3742fa;
+            color: white;
+        }
+        
+        .tag.testing {
+            background: #2ed573;
+            color: white;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .terminal-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--info-color);
+        }
+        
+        .terminal-title {
+            color: var(--info-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .config-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .config-title {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">🛠️ 开发工具代码大全</div>
+                <ul class="sidebar-list">
+                    <li><a href="#git">Git 版本控制</a></li>
+                    <li><a href="#git-workflow">Git 工作流</a></li>
+                    <li><a href="#git-hooks">Git Hooks</a></li>
+                    <li><a href="#vscode">VS Code 配置</a></li>
+                    <li><a href="#eslint">ESLint 配置</a></li>
+                    <li><a href="#prettier">Prettier 配置</a></li>
+                    <li><a href="#jest">Jest 测试</a></li>
+                    <li><a href="#cypress">Cypress E2E</a></li>
+                    <li><a href="#webpack">Webpack 配置</a></li>
+                    <li><a href="#babel">Babel 配置</a></li>
+                    <li><a href="#npm-scripts">NPM Scripts</a></li>
+                    <li><a href="#package-json">Package.json</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-bar">
+                <input type="text" class="search-box" placeholder="🔍 搜索开发工具代码...">
+                <a href="../index.html">🏠 返回首页</a>
+                <button onclick="toggleSidebar()">📋 目录</button>
+                <button onclick="toggleTheme()">🌙 主题</button>
+                <button onclick="window.scrollTo(0,0)">⬆️ 顶部</button>
+            </div>
+
+            <div class="container">
+                <h1>🛠️ 开发工具代码大全</h1>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px;">
+                    完整的开发工具配置和使用指南，提升开发效率的必备工具集
+                </p>
+
+                <section id="git">
+                    <h2>🌿 Git 版本控制</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header git">
+                            <span>🚀 Git 常用命令大全</span>
+                            <span class="difficulty-badge difficulty-beginner">初级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag git">Git</span>
+                                <span class="tag">版本控制</span>
+                                <span class="tag">命令行</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># Git 基础配置
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+git config --global init.defaultBranch main
+git config --global core.editor "code --wait"
+git config --global core.autocrlf input  # Linux/Mac
+git config --global core.autocrlf true   # Windows
+
+# 查看配置
+git config --list
+git config --global --list
+git config user.name
+
+# 仓库初始化和克隆
+git init
+git clone https://github.com/user/repo.git
+git clone https://github.com/user/repo.git my-project
+git clone --depth 1 https://github.com/user/repo.git  # 浅克隆
+
+# 文件状态和暂存
+git status
+git status -s  # 简短格式
+git add .
+git add *.js
+git add src/
+git add -A  # 添加所有文件
+git add -u  # 添加已跟踪的文件
+
+# 撤销暂存
+git reset HEAD file.txt
+git reset HEAD .
+git restore --staged file.txt  # Git 2.23+
+
+# 提交
+git commit -m "feat: add user authentication"
+git commit -am "fix: resolve login issue"  # 添加并提交
+git commit --amend -m "fix: correct commit message"
+git commit --no-verify  # 跳过 pre-commit hooks
+
+# 查看历史
+git log
+git log --oneline
+git log --graph --oneline --all
+git log --author="John Doe"
+git log --since="2023-01-01"
+git log --until="2023-12-31"
+git log --grep="fix"
+git log -p  # 显示差异
+git log --stat  # 显示统计信息
+
+# 查看差异
+git diff
+git diff --staged
+git diff HEAD~1
+git diff branch1..branch2
+git diff --name-only
+
+# 分支操作
+git branch
+git branch -a  # 显示所有分支
+git branch -r  # 显示远程分支
+git branch feature/login
+git branch -d feature/login  # 删除分支
+git branch -D feature/login  # 强制删除
+git branch -m old-name new-name  # 重命名分支
+
+# 切换分支
+git checkout main
+git checkout -b feature/signup  # 创建并切换
+git switch main  # Git 2.23+
+git switch -c feature/signup  # Git 2.23+
+
+# 合并分支
+git merge feature/login
+git merge --no-ff feature/login  # 禁用快进合并
+git merge --squash feature/login  # 压缩合并
+
+# 变基操作
+git rebase main
+git rebase -i HEAD~3  # 交互式变基
+git rebase --continue
+git rebase --abort
+
+# 远程仓库
+git remote -v
+git remote add origin https://github.com/user/repo.git
+git remote set-url origin https://github.com/user/new-repo.git
+git remote remove origin
+
+# 推送和拉取
+git push origin main
+git push -u origin feature/login  # 设置上游分支
+git push --force-with-lease  # 安全的强制推送
+git pull origin main
+git pull --rebase origin main
+git fetch origin
+git fetch --all
+
+# 标签操作
+git tag
+git tag v1.0.0
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git tag -d v1.0.0  # 删除本地标签
+git push origin v1.0.0  # 推送标签
+git push origin --tags  # 推送所有标签
+git push origin :refs/tags/v1.0.0  # 删除远程标签
+
+# 储藏操作
+git stash
+git stash save "work in progress"
+git stash list
+git stash apply
+git stash apply stash@{2}
+git stash pop
+git stash drop stash@{1}
+git stash clear
+
+# 重置操作
+git reset --soft HEAD~1  # 软重置
+git reset --mixed HEAD~1  # 混合重置（默认）
+git reset --hard HEAD~1  # 硬重置
+git reset --hard origin/main  # 重置到远程状态
+
+# 撤销操作
+git revert HEAD  # 撤销最后一次提交
+git revert HEAD~2  # 撤销倒数第三次提交
+git checkout -- file.txt  # 撤销工作区修改
+git restore file.txt  # Git 2.23+
+
+# 查找和搜索
+git grep "function"
+git grep -n "TODO"  # 显示行号
+git log --grep="bug"
+git log -S "function_name"  # 搜索代码变更
+
+# 子模块操作
+git submodule add https://github.com/user/lib.git lib
+git submodule init
+git submodule update
+git submodule update --remote
+git submodule foreach git pull origin main
+
+# 清理操作
+git clean -n  # 预览要删除的文件
+git clean -f  # 删除未跟踪的文件
+git clean -fd  # 删除未跟踪的文件和目录
+git gc  # 垃圾回收
+git prune  # 清理不可达对象
+
+# 别名设置
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.unstage 'reset HEAD --'
+git config --global alias.last 'log -1 HEAD'
+git config --global alias.visual '!gitk'</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">常用工作流示例：</div>
+                                $ git checkout -b feature/new-feature<br>
+                                $ git add .<br>
+                                $ git commit -m "feat: implement new feature"<br>
+                                $ git push -u origin feature/new-feature
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-header git">
+                            <span>🔧 Git 配置文件</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre># .gitconfig 全局配置文件
+[user]
+    name = Your Name
+    email = your.email@example.com
+
+[core]
+    editor = code --wait
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+    pager = delta
+
+[init]
+    defaultBranch = main
+
+[push]
+    default = simple
+    followTags = true
+
+[pull]
+    rebase = true
+
+[merge]
+    tool = vscode
+    conflictstyle = diff3
+
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[diff]
+    tool = vscode
+    colorMoved = default
+
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[alias]
+    # 状态和日志
+    st = status
+    s = status -s
+    l = log --oneline
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    
+    # 分支操作
+    co = checkout
+    br = branch
+    sw = switch
+    
+    # 提交操作
+    ci = commit
+    ca = commit -a
+    cm = commit -m
+    cam = commit -am
+    
+    # 差异和合并
+    df = diff
+    dc = diff --cached
+    mt = mergetool
+    
+    # 远程操作
+    ps = push
+    pl = pull
+    f = fetch
+    
+    # 撤销操作
+    unstage = reset HEAD --
+    undo = reset --soft HEAD~1
+    
+    # 其他有用的别名
+    last = log -1 HEAD
+    visual = !gitk
+    type = cat-file -t
+    dump = cat-file -p
+    
+    # 高级别名
+    find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
+    show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[credential]
+    helper = store
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[rerere]
+    enabled = true
+
+[help]
+    autocorrect = 1</pre>
+                                </div>
+                            </div>
+                            <div class="config-box">
+                                <div class="config-title">📁 .gitignore 全局配置：</div>
+                                <pre># OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="vscode">
+                    <h2>💻 VS Code 配置</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header ide">
+                            <span>⚙️ VS Code 设置配置</span>
+                            <span class="difficulty-badge difficulty-intermediate">中级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag ide">VS Code</span>
+                                <span class="tag">配置</span>
+                                <span class="tag">IDE</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// settings.json - VS Code 用户设置
+{
+  // 编辑器设置
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 1.5,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": true,
+  "editor.minimap.maxColumn": 120,
+  "editor.rulers": [80, 120],
+  "editor.renderWhitespace": "boundary",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.suggestSelection": "first",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+
+  // 格式化设置
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+
+  // 文件设置
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.min.js": true,
+    "**/*.min.css": true
+  },
+
+  // 工作台设置
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.closeOnFileDelete": true,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 10,
+  "workbench.tree.indent": 20,
+  "workbench.activityBar.visible": true,
+  "workbench.statusBar.visible": true,
+
+  // 终端设置
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.fontFamily": "'Fira Code', 'Cascadia Code', monospace",
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorBlinking": true,
+
+  // 搜索设置
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.min.js": true,
+    "**/*.min.css": true
+  },
+  "search.useIgnoreFiles": true,
+  "search.smartCase": true,
+
+  // Git 设置
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.autofetchPeriod": 180,
+  "git.defaultCloneDirectory": "~/Projects",
+  "git.openRepositoryInParentFolders": "never",
+
+  // 扩展设置
+  "extensions.autoUpdate": true,
+  "extensions.ignoreRecommendations": false,
+
+  // 语言特定设置
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false
+  },
+
+  // TypeScript 设置
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  // JavaScript 设置
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+
+  // Emmet 设置
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+
+  // 调试设置
+  "debug.console.fontSize": 13,
+  "debug.inlineValues": true,
+  "debug.showBreakpointsInOverviewRuler": true,
+
+  // 性能设置
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/dist/**": true,
+    "**/build/**": true
+  },
+
+  // 安全设置
+  "security.workspace.trust.untrustedFiles": "prompt",
+  "security.workspace.trust.banner": "always",
+
+  // 其他设置
+  "breadcrumbs.enabled": true,
+  "outline.showVariables": false,
+  "problems.decorations.enabled": true,
+  "scm.diffDecorations": "all",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.compactFolders": false
+}</pre>
+                                </div>
+                            </div>
+                            <div class="config-box">
+                                <div class="config-title">🔌 推荐扩展列表：</div>
+                                <pre># 必备扩展
+- Auto Rename Tag
+- Bracket Pair Colorizer 2
+- Code Spell Checker
+- ESLint
+- GitLens
+- Live Server
+- Material Icon Theme
+- One Dark Pro
+- Prettier
+- Thunder Client
+
+# 前端开发
+- ES7+ React/Redux/React-Native snippets
+- HTML CSS Support
+- IntelliSense for CSS class names
+- JavaScript (ES6) code snippets
+- TypeScript Importer
+- Vetur (Vue.js)
+
+# 后端开发
+- REST Client
+- Docker
+- YAML
+- Python
+- Go
+
+# 工具类
+- Better Comments
+- Bookmarks
+- Error Lens
+- File Utils
+- Path Intellisense
+- TODO Highlight</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="jest">
+                    <h2>🧪 Jest 测试配置</h2>
+                    
+                    <div class="code-section">
+                        <div class="code-header testing">
+                            <span>⚡ Jest 完整配置</span>
+                            <span class="difficulty-badge difficulty-advanced">高级</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="tag-list">
+                                <span class="tag testing">Jest</span>
+                                <span class="tag">测试</span>
+                                <span class="tag">单元测试</span>
+                            </div>
+                            <div class="code-container">
+                                <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                                <div class="code">
+                                    <pre>// jest.config.js - Jest 配置文件
+module.exports = {
+  // 测试环境
+  testEnvironment: 'jsdom', // 或 'node'
+  
+  // 根目录
+  rootDir: '.',
+  
+  // 测试文件匹配模式
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/**/*.{test,spec}.{js,jsx,ts,tsx}',
+    '<rootDir>/tests/**/*.{js,jsx,ts,tsx}'
+  ],
+  
+  // 忽略的测试文件
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/build/',
+    '/dist/',
+    '/coverage/'
+  ],
+  
+  // 模块文件扩展名
+  moduleFileExtensions: [
+    'js',
+    'jsx',
+    'ts',
+    'tsx',
+    'json',
+    'node'
+  ],
+  
+  // 模块名映射
+  moduleNameMapping: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@services/(.*)$': '<rootDir>/src/services/$1',
+    '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^@store/(.*)$': '<rootDir>/src/store/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/__mocks__/fileMock.js'
+  },
+  
+  // 转换配置
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', {
+      presets: [
+        ['@babel/preset-env', { targets: { node: 'current' } }],
+        ['@babel/preset-react', { runtime: 'automatic' }],
+        '@babel/preset-typescript'
+      ]
+    }]
+  },
+  
+  // 忽略转换的模块
+  transformIgnorePatterns: [
+    '/node_modules/(?!(axios|@testing-library)/)'
+  ],
+  
+  // 设置文件
+  setupFilesAfterEnv: [
+    '<rootDir>/src/setupTests.js'
+  ],
+  
+  // 覆盖率配置
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/index.js',
+    '!src/serviceWorker.js',
+    '!src/reportWebVitals.js',
+    '!src/**/*.stories.{js,jsx,ts,tsx}',
+    '!src/**/__tests__/**',
+    '!src/**/*.test.{js,jsx,ts,tsx}',
+    '!src/**/*.spec.{js,jsx,ts,tsx}'
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: [
+    'text',
+    'lcov',
+    'html',
+    'json-summary'
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  },
+  
+  // 全局变量
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json'
+    }
+  },
+  
+  // 清除模拟
+  clearMocks: true,
+  restoreMocks: true,
+  
+  // 详细输出
+  verbose: true,
+  
+  // 监视模式配置
+  watchman: true,
+  watchPathIgnorePatterns: [
+    '/node_modules/',
+    '/build/',
+    '/dist/'
+  ],
+  
+  // 测试超时
+  testTimeout: 10000,
+  
+  // 报告器
+  reporters: [
+    'default',
+    ['jest-junit', {
+      outputDirectory: 'coverage',
+      outputName: 'junit.xml'
+    }]
+  ],
+  
+  // 快照序列化器
+  snapshotSerializers: [
+    'enzyme-to-json/serializer'
+  ],
+  
+  // 模拟模块
+  moduleDirectories: [
+    'node_modules',
+    '<rootDir>/src'
+  ]
+};
+
+// setupTests.js - 测试设置文件
+import '@testing-library/jest-dom';
+import { configure } from '@testing-library/react';
+import { server } from './mocks/server';
+
+// 配置 Testing Library
+configure({ testIdAttribute: 'data-testid' });
+
+// 设置 MSW
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+// 全局模拟
+global.fetch = require('jest-fetch-mock');
+
+// 模拟 localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
+// 模拟 sessionStorage
+const sessionStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.sessionStorage = sessionStorageMock;
+
+// 模拟 window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
+// 模拟 IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  observe() {
+    return null;
+  }
+  disconnect() {
+    return null;
+  }
+  unobserve() {
+    return null;
+  }
+};
+
+// 测试工具函数示例
+// utils/test-utils.js
+import React from 'react';
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import { store } from '../store';
+import { theme } from '../theme';
+
+const AllTheProviders = ({ children }) => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          {children}
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
+const customRender = (ui, options) =>
+  render(ui, { wrapper: AllTheProviders, ...options });
+
+// 重新导出所有内容
+export * from '@testing-library/react';
+export { customRender as render };
+
+// 测试示例
+// Button.test.jsx
+import React from 'react';
+import { render, screen, fireEvent } from '../utils/test-utils';
+import Button from './Button';
+
+describe('Button Component', () => {
+  test('renders button with text', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+  });
+
+  test('calls onClick handler when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  test('applies correct variant styles', () => {
+    render(<Button variant="primary">Primary Button</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('btn-primary');
+  });
+
+  test('is disabled when disabled prop is true', () => {
+    render(<Button disabled>Disabled Button</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+  });
+});</pre>
+                                </div>
+                            </div>
+                            <div class="terminal-output">
+                                <div class="terminal-title">运行测试命令：</div>
+                                npm test                    # 运行所有测试<br>
+                                npm test -- --watch        # 监视模式<br>
+                                npm test -- --coverage     # 生成覆盖率报告<br>
+                                npm test Button.test.js    # 运行特定测试
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="footer-resources">
+                    <h3>🔗 相关资源</h3>
+                    <p>
+                        <a href="git.html">🌿 Git 教程</a> |
+                        <a href="ide.html">💻 IDE 教程</a> |
+                        <a href="testing.html">🧪 测试教程</a> |
+                        <a href="../playground.html">🎮 代码游乐场</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/galaxy-background.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling.querySelector('pre');
+            const text = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.style.background = 'var(--success-color)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

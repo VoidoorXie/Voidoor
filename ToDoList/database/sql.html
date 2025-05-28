@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL 数据库全面手册</title>
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">SQL 数据库手册</div>
+        <ul class="sidebar-list">
+          <li><a href="#intro">简介</a></li>
+          <li><details open><summary>基础语法</summary><ul>
+            <li><a href="#basic-syntax">基本语法</a></li>
+            <li><a href="#data-types">数据类型</a></li>
+            <li><a href="#create-table">创建表</a></li>
+            <li><a href="#constraints">约束</a></li>
+          </ul></details></li>
+          <li><details><summary>查询操作</summary><ul>
+            <li><a href="#select">SELECT 查询</a></li>
+            <li><a href="#where">WHERE 条件</a></li>
+            <li><a href="#joins">表连接</a></li>
+            <li><a href="#subqueries">子查询</a></li>
+          </ul></details></li>
+          <li><details><summary>数据操作</summary><ul>
+            <li><a href="#insert">INSERT 插入</a></li>
+            <li><a href="#update">UPDATE 更新</a></li>
+            <li><a href="#delete">DELETE 删除</a></li>
+          </ul></details></li>
+          <li><details><summary>高级特性</summary><ul>
+            <li><a href="#indexes">索引</a></li>
+            <li><a href="#transactions">事务</a></li>
+            <li><a href="#views">视图</a></li>
+            <li><a href="#procedures">存储过程</a></li>
+          </ul></details></li>
+          <li><details><summary>数据库管理</summary><ul>
+            <li><a href="#mysql">MySQL</a></li>
+            <li><a href="#postgresql">PostgreSQL</a></li>
+            <li><a href="#optimization">性能优化</a></li>
+          </ul></details></li>
+          <li><a href="#best-practice">最佳实践</a></li>
+          <li><a href="#faq">常见问题</a></li>
+          <li><a href="#resources">相关资源</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-content">
+        <div class="info-bar">
+            <input type="text" placeholder="搜索内容..." class="search-box">
+            <button onclick="window.scrollTo(0,0)">返回顶部</button>
+            <a href="#resources">相关资源</a>
+            <a href="https://github.com/yourrepo/issues" target="_blank">反馈建议</a>
+        </div>
+        <div class="container">
+            <div class="nav-breadcrumb">
+                <a href="../index.html">首页</a> &gt; 数据库 &gt; SQL 数据库
+            </div>
+
+            <h1 id="intro">SQL 数据库全面手册</h1>
+
+            <section id="basic-syntax">
+                <h2>基本语法</h2>
+                <p>SQL（Structured Query Language）是用于管理关系型数据库的标准语言。</p>
+                <div class="code"><pre>-- SQL 基本语法结构
+SELECT column1, column2
+FROM table_name
+WHERE condition
+ORDER BY column1 ASC;
+
+-- 注释语法
+-- 单行注释
+/* 多行注释 */</pre></div>
+                <div class="tip">实际场景：数据查询、报表生成、数据分析。</div>
+            </section>
+
+            <section id="data-types">
+                <h2>数据类型</h2>
+                <p>不同数据库系统支持的数据类型略有差异。</p>
+                <div class="code"><pre>-- 常用数据类型
+INT, BIGINT          -- 整数
+DECIMAL(10,2)        -- 精确小数
+VARCHAR(255)         -- 可变长字符串
+TEXT                 -- 长文本
+DATE, DATETIME       -- 日期时间
+BOOLEAN              -- 布尔值
+JSON                 -- JSON 数据（MySQL 5.7+）</pre></div>
+                <div class="tip">实际场景：表结构设计、数据存储优化。</div>
+            </section>
+
+            <section id="create-table">
+                <h2>创建表</h2>
+                <p>CREATE TABLE 语句用于创建新的数据表。</p>
+                <div class="code"><pre>-- 创建用户表
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 创建文章表
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    content TEXT,
+    user_id INT,
+    status ENUM('draft', 'published') DEFAULT 'draft',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);</pre></div>
+                <div class="tip">实际场景：数据库设计、表结构规划。</div>
+            </section>
+
+            <section id="constraints">
+                <h2>约束</h2>
+                <p>约束用于限制表中数据的类型和范围。</p>
+                <div class="code"><pre>-- 主键约束
+PRIMARY KEY (id)
+
+-- 外键约束
+FOREIGN KEY (user_id) REFERENCES users(id)
+
+-- 唯一约束
+UNIQUE (email)
+
+-- 非空约束
+NOT NULL
+
+-- 检查约束
+CHECK (age >= 18)
+
+-- 默认值
+DEFAULT 'active'</pre></div>
+                <div class="tip">实际场景：数据完整性、业务规则实现。</div>
+            </section>
+
+            <section id="select">
+                <h2>SELECT 查询</h2>
+                <p>SELECT 语句用于从数据库中查询数据。</p>
+                <div class="code"><pre>-- 基本查询
+SELECT * FROM users;
+SELECT username, email FROM users;
+
+-- 排序
+SELECT * FROM users ORDER BY created_at DESC;
+
+-- 限制结果数量
+SELECT * FROM users LIMIT 10;
+SELECT * FROM users LIMIT 10 OFFSET 20;
+
+-- 去重
+SELECT DISTINCT role FROM users;
+
+-- 聚合函数
+SELECT COUNT(*) FROM users;
+SELECT AVG(age) FROM users;
+SELECT MAX(created_at) FROM users;</pre></div>
+                <div class="tip">实际场景：数据检索、报表统计、数据分析。</div>
+            </section>
+
+            <section id="where">
+                <h2>WHERE 条件</h2>
+                <p>WHERE 子句用于过滤查询结果。</p>
+                <div class="code"><pre>-- 基本条件
+SELECT * FROM users WHERE role = 'admin';
+SELECT * FROM users WHERE age > 18;
+
+-- 多条件
+SELECT * FROM users WHERE role = 'admin' AND age > 25;
+SELECT * FROM users WHERE role = 'admin' OR role = 'moderator';
+
+-- 模糊查询
+SELECT * FROM users WHERE username LIKE 'john%';
+SELECT * FROM users WHERE email LIKE '%@gmail.com';
+
+-- 范围查询
+SELECT * FROM users WHERE age BETWEEN 18 AND 65;
+SELECT * FROM users WHERE role IN ('admin', 'moderator');
+
+-- 空值查询
+SELECT * FROM users WHERE phone IS NULL;
+SELECT * FROM users WHERE phone IS NOT NULL;</pre></div>
+                <div class="tip">实际场景：数据筛选、条件查询、业务逻辑实现。</div>
+            </section>
+
+            <section id="joins">
+                <h2>表连接</h2>
+                <p>JOIN 用于连接多个表的数据。</p>
+                <div class="code"><pre>-- 内连接
+SELECT u.username, p.title
+FROM users u
+INNER JOIN posts p ON u.id = p.user_id;
+
+-- 左连接
+SELECT u.username, p.title
+FROM users u
+LEFT JOIN posts p ON u.id = p.user_id;
+
+-- 右连接
+SELECT u.username, p.title
+FROM users u
+RIGHT JOIN posts p ON u.id = p.user_id;
+
+-- 全外连接
+SELECT u.username, p.title
+FROM users u
+FULL OUTER JOIN posts p ON u.id = p.user_id;</pre></div>
+                <div class="tip">实际场景：关联查询、数据整合、复杂报表。</div>
+            </section>
+
+            <section id="subqueries">
+                <h2>子查询</h2>
+                <p>子查询是嵌套在其他查询中的查询语句。</p>
+                <div class="code"><pre>-- 标量子查询
+SELECT username, 
+       (SELECT COUNT(*) FROM posts WHERE user_id = users.id) as post_count
+FROM users;
+
+-- 列表子查询
+SELECT * FROM users 
+WHERE id IN (SELECT user_id FROM posts WHERE status = 'published');
+
+-- 存在性子查询
+SELECT * FROM users u
+WHERE EXISTS (SELECT 1 FROM posts p WHERE p.user_id = u.id);
+
+-- 相关子查询
+SELECT username, email
+FROM users u1
+WHERE salary > (SELECT AVG(salary) FROM users u2 WHERE u2.department = u1.department);
+
+-- WITH 子句（公用表表达式）
+WITH active_users AS (
+    SELECT * FROM users WHERE status = 'active'
+),
+user_stats AS (
+    SELECT user_id, COUNT(*) as post_count
+    FROM posts 
+    GROUP BY user_id
+)
+SELECT au.username, COALESCE(us.post_count, 0) as posts
+FROM active_users au
+LEFT JOIN user_stats us ON au.id = us.user_id;</pre></div>
+                <div class="tip">实际场景：复杂查询、数据统计、条件过滤。</div>
+                <div class="note">注意：过度嵌套的子查询可能影响性能，考虑使用JOIN替代。</div>
+            </section>
+
+            <section id="insert">
+                <h2>INSERT 插入</h2>
+                <p>INSERT 语句用于向表中插入新数据。</p>
+                <div class="code"><pre>-- 插入单条记录
+INSERT INTO users (username, email, password)
+VALUES ('john', 'john@example.com', 'hashed_password');
+
+-- 插入多条记录
+INSERT INTO users (username, email, password) VALUES
+('alice', 'alice@example.com', 'password1'),
+('bob', 'bob@example.com', 'password2');
+
+-- 从查询结果插入
+INSERT INTO backup_users (username, email)
+SELECT username, email FROM users WHERE role = 'user';</pre></div>
+                <div class="tip">实际场景：数据录入、批量导入、数据迁移。</div>
+            </section>
+
+            <section id="update">
+                <h2>UPDATE 更新</h2>
+                <p>UPDATE 语句用于修改表中的现有数据。</p>
+                <div class="code"><pre>-- 更新单个字段
+UPDATE users SET role = 'admin' WHERE username = 'john';
+
+-- 更新多个字段
+UPDATE users 
+SET role = 'admin', updated_at = NOW() 
+WHERE username = 'john';
+
+-- 条件更新
+UPDATE users 
+SET status = 'inactive' 
+WHERE last_login < DATE_SUB(NOW(), INTERVAL 1 YEAR);</pre></div>
+                <div class="tip">实际场景：数据维护、状态更新、批量修改。</div>
+            </section>
+
+            <section id="delete">
+                <h2>DELETE 删除</h2>
+                <p>DELETE 语句用于删除表中的数据。</p>
+                <div class="code"><pre>-- 删除特定记录
+DELETE FROM users WHERE username = 'john';
+
+-- 条件删除
+DELETE FROM users WHERE status = 'inactive';
+
+-- 删除所有记录（保留表结构）
+DELETE FROM users;
+
+-- 截断表（更快的删除方式）
+TRUNCATE TABLE users;</pre></div>
+                <div class="tip">实际场景：数据清理、记录删除、表维护。</div>
+            </section>
+
+            <section id="indexes">
+                <h2>索引</h2>
+                <p>索引用于提高查询性能。</p>
+                <div class="code"><pre>-- 创建索引
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_posts_user_id ON posts(user_id);
+
+-- 复合索引
+CREATE INDEX idx_posts_user_status ON posts(user_id, status);
+
+-- 唯一索引
+CREATE UNIQUE INDEX idx_users_username ON users(username);
+
+-- 删除索引
+DROP INDEX idx_users_email;</pre></div>
+                <div class="tip">实际场景：查询优化、性能提升、数据库调优。</div>
+            </section>
+
+            <section id="transactions">
+                <h2>事务</h2>
+                <p>事务确保数据操作的原子性、一致性、隔离性和持久性。</p>
+                <div class="code"><pre>-- 事务示例
+START TRANSACTION;
+    INSERT INTO users (username, email, password) 
+    VALUES ('alice', 'alice@example.com', 'password');
+    
+    SET @user_id = LAST_INSERT_ID();
+    
+    INSERT INTO posts (user_id, title, content) 
+    VALUES (@user_id, 'First Post', 'Hello World');
+COMMIT;
+
+-- 回滚事务
+START TRANSACTION;
+    UPDATE users SET role = 'admin' WHERE id = 1;
+    -- 发生错误时回滚
+ROLLBACK;
+
+-- 事务隔离级别
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;</pre></div>
+                <div class="tip">实际场景：数据一致性、错误恢复、批量操作。</div>
+                <div class="info">ACID特性：原子性(Atomicity)、一致性(Consistency)、隔离性(Isolation)、持久性(Durability)。</div>
+            </section>
+
+            <section id="views">
+                <h2>视图</h2>
+                <p>视图是基于查询结果的虚拟表，简化复杂查询并提供数据安全性。</p>
+                <div class="code"><pre>-- 创建视图
+CREATE VIEW user_posts_view AS
+SELECT 
+    u.id,
+    u.username,
+    u.email,
+    COUNT(p.id) as post_count,
+    MAX(p.created_at) as last_post_date
+FROM users u
+LEFT JOIN posts p ON u.id = p.user_id
+GROUP BY u.id, u.username, u.email;
+
+-- 使用视图
+SELECT * FROM user_posts_view WHERE post_count > 5;
+
+-- 可更新视图
+CREATE VIEW active_users AS
+SELECT id, username, email, status
+FROM users 
+WHERE status = 'active'
+WITH CHECK OPTION;
+
+-- 更新视图数据
+UPDATE active_users SET email = 'new@example.com' WHERE id = 1;
+
+-- 删除视图
+DROP VIEW user_posts_view;</pre></div>
+                <div class="tip">实际场景：数据抽象、权限控制、简化复杂查询。</div>
+            </section>
+
+            <section id="procedures">
+                <h2>存储过程</h2>
+                <p>存储过程是预编译的SQL语句集合，提高性能并封装业务逻辑。</p>
+                <div class="code"><pre>-- MySQL 存储过程
+DELIMITER //
+CREATE PROCEDURE GetUserStats(IN user_id INT)
+BEGIN
+    DECLARE post_count INT DEFAULT 0;
+    DECLARE avg_views DECIMAL(10,2) DEFAULT 0;
+    
+    -- 获取文章数量
+    SELECT COUNT(*) INTO post_count 
+    FROM posts WHERE posts.user_id = user_id;
+    
+    -- 获取平均浏览量
+    SELECT AVG(views) INTO avg_views 
+    FROM posts WHERE posts.user_id = user_id;
+    
+    -- 返回结果
+    SELECT 
+        user_id as id,
+        post_count,
+        avg_views,
+        CASE 
+            WHEN post_count > 10 THEN 'Active'
+            WHEN post_count > 5 THEN 'Regular'
+            ELSE 'New'
+        END as user_level;
+END //
+DELIMITER ;
+
+-- 调用存储过程
+CALL GetUserStats(1);
+
+-- 带输出参数的存储过程
+DELIMITER //
+CREATE PROCEDURE UpdateUserRole(
+    IN p_user_id INT,
+    IN p_new_role VARCHAR(20),
+    OUT p_result VARCHAR(100)
+)
+BEGIN
+    DECLARE user_exists INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO user_exists 
+    FROM users WHERE id = p_user_id;
+    
+    IF user_exists > 0 THEN
+        UPDATE users SET role = p_new_role WHERE id = p_user_id;
+        SET p_result = 'Role updated successfully';
+    ELSE
+        SET p_result = 'User not found';
+    END IF;
+END //
+DELIMITER ;
+
+-- 调用带输出参数的存储过程
+CALL UpdateUserRole(1, 'admin', @result);
+SELECT @result;</pre></div>
+                <div class="tip">实际场景：复杂业务逻辑、性能优化、数据处理。</div>
+                <div class="note">存储过程的可移植性较差，不同数据库语法有差异。</div>
+            </section>
+
+            <section id="mysql">
+                <h2>MySQL</h2>
+                <p>MySQL 是最流行的开源关系型数据库。</p>
+                <div class="code"><pre>-- MySQL 特有语法
+-- 自增主键
+id INT AUTO_INCREMENT PRIMARY KEY
+
+-- 枚举类型
+role ENUM('admin', 'user', 'moderator')
+
+-- 时间戳自动更新
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+-- 存储引擎
+CREATE TABLE users (...) ENGINE=InnoDB;
+
+-- 字符集
+CREATE DATABASE myapp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</pre></div>
+                <div class="tip">实际场景：Web 应用、中小型项目、快速开发。</div>
+            </section>
+
+            <section id="postgresql">
+                <h2>PostgreSQL</h2>
+                <p>PostgreSQL 是功能强大的开源对象关系数据库。</p>
+                <div class="code"><pre>-- PostgreSQL 特有语法
+-- 序列主键
+id SERIAL PRIMARY KEY
+
+-- 数组类型
+tags TEXT[]
+
+-- JSON 类型
+metadata JSONB
+
+-- 窗口函数
+SELECT username, 
+       ROW_NUMBER() OVER (ORDER BY created_at) as row_num
+FROM users;
+
+-- 递归查询
+WITH RECURSIVE category_tree AS (
+    SELECT id, name, parent_id, 1 as level
+    FROM categories WHERE parent_id IS NULL
+    UNION ALL
+    SELECT c.id, c.name, c.parent_id, ct.level + 1
+    FROM categories c
+    JOIN category_tree ct ON c.parent_id = ct.id
+)
+SELECT * FROM category_tree;</pre></div>
+                <div class="tip">实际场景：复杂查询、大型应用、数据分析。</div>
+            </section>
+
+            <section id="optimization">
+                <h2>性能优化</h2>
+                <p>数据库性能优化的常用技巧。</p>
+                <div class="code"><pre>-- 查询优化
+-- 使用 EXPLAIN 分析查询计划
+EXPLAIN SELECT * FROM users WHERE email = 'john@example.com';
+
+-- 避免 SELECT *
+SELECT id, username, email FROM users;
+
+-- 使用索引
+CREATE INDEX idx_users_email ON users(email);
+
+-- 分页优化
+SELECT * FROM users ORDER BY id LIMIT 20 OFFSET 100;
+
+-- 连接优化
+SELECT u.username, p.title
+FROM users u
+INNER JOIN posts p ON u.id = p.user_id
+WHERE u.status = 'active';</pre></div>
+                <div class="tip">实际场景：性能调优、查询优化、系统扩展。</div>
+            </section>
+
+            <section id="best-practice">
+                <h2>最佳实践</h2>
+                <ul>
+                    <li>使用有意义的表名和字段名</li>
+                    <li>为经常查询的字段创建索引</li>
+                    <li>使用外键约束保证数据完整性</li>
+                    <li>定期备份数据库</li>
+                    <li>使用事务处理关键操作</li>
+                    <li>避免在生产环境直接执行 DDL 操作</li>
+                </ul>
+            </section>
+
+            <section id="faq">
+                <h2>常见问题</h2>
+                <ul>
+                    <li>Q: 如何选择合适的数据类型？<br>A: 根据数据范围和精度要求选择，避免过度设计。</li>
+                    <li>Q: 索引越多越好吗？<br>A: 不是，索引会影响写入性能，需要平衡。</li>
+                    <li>Q: 如何处理大表查询？<br>A: 使用分页、索引优化、分区表等技术。</li>
+                </ul>
+            </section>
+
+            <section id="resources">
+                <h2>相关资源</h2>
+                <ul>
+                    <li><a href="https://dev.mysql.com/doc/" target="_blank">MySQL 官方文档</a></li>
+                    <li><a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL 官方文档</a></li>
+                    <li><a href="https://www.w3schools.com/sql/" target="_blank">W3Schools SQL 教程</a></li>
+                </ul>
+            </section>
+        </div>
+        <div class="footer-resources">
+            <strong>推荐工具：</strong> <a href="https://www.phpmyadmin.net/" target="_blank">phpMyAdmin</a> | <a href="https://dbeaver.io/" target="_blank">DBeaver</a> | <a href="https://www.navicat.com/" target="_blank">Navicat</a>
+        </div>
+    </div>
+    <script src="../js/navigation.js"></script>
+</body>
+</html> 
